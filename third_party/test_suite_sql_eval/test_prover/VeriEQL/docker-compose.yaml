@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  verieql:
+    container_name: verieql
+    build: .
+    tty: true
+  db:
+    container_name: verieql-mysql
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'VeriEQL@2024'
+    command: --lower_case_table_names=1

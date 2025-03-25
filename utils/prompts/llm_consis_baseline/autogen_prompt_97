@@ -1,0 +1,8 @@
+Assume the role of a database management system specialist. Your task is to evaluate the schema definition and a natural language query to determine which SQL statement from the provided options correctly addresses the query. The schema details are as follows:
+%s
+
+The query in natural language is:
+%s
+
+Available SQL choices:
+%s

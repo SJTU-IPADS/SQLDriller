@@ -1,0 +1,7399 @@
+[
+  {
+    "column_names": [
+      [
+        -1,
+        "*"
+      ],
+      [
+        0,
+        "fiscal period"
+      ],
+      [
+        0,
+        "fiscal year"
+      ],
+      [
+        0,
+        "fiscal period description"
+      ],
+      [
+        0,
+        "calendar period"
+      ],
+      [
+        0,
+        "calendar period description"
+      ],
+      [
+        0,
+        "calendar year"
+      ],
+      [
+        0,
+        "start date"
+      ],
+      [
+        0,
+        "end date"
+      ],
+      [
+        0,
+        "calendar date"
+      ],
+      [
+        0,
+        "day of week"
+      ],
+      [
+        0,
+        "financial aid year"
+      ],
+      [
+        0,
+        "financial aid year desc"
+      ],
+      [
+        0,
+        "academic year"
+      ],
+      [
+        0,
+        "academic term code"
+      ],
+      [
+        0,
+        "academic term description"
+      ],
+      [
+        1,
+        "library reserve catalog key"
+      ],
+      [
+        1,
+        "catalog title"
+      ],
+      [
+        1,
+        "catalog author name"
+      ],
+      [
+        1,
+        "catalog year"
+      ],
+      [
+        1,
+        "catalog publisher"
+      ],
+      [
+        1,
+        "catalog call number"
+      ],
+      [
+        1,
+        "catalog isbn"
+      ],
+      [
+        1,
+        "catalog system number"
+      ],
+      [
+        1,
+        "catalog record create date"
+      ],
+      [
+        1,
+        "catalog record update date"
+      ],
+      [
+        1,
+        "record counter"
+      ],
+      [
+        1,
+        "warehouse load date"
+      ],
+      [
+        2,
+        "fclt organization key"
+      ],
+      [
+        2,
+        "organization id"
+      ],
+      [
+        2,
+        "organization"
+      ],
+      [
+        2,
+        "organization name"
+      ],
+      [
+        2,
+        "fclt org parent key"
+      ],
+      [
+        2,
+        "org parent"
+      ],
+      [
+        2,
+        "fclt major org key"
+      ],
+      [
+        2,
+        "major org"
+      ],
+      [
+        2,
+        "organization level"
+      ],
+      [
+        2,
+        "organization number"
+      ],
+      [
+        2,
+        "organization sort"
+      ],
+      [
+        2,
+        "assignable"
+      ],
+      [
+        2,
+        "course"
+      ],
+      [
+        2,
+        "description"
+      ],
+      [
+        2,
+        "warehouse load date"
+      ],
+      [
+        2,
+        "dlc key"
+      ],
+      [
+        2,
+        "dlc name"
+      ],
+      [
+        2,
+        "hr department code old"
+      ],
+      [
+        2,
+        "hr org unit id"
+      ],
+      [
+        2,
+        "hr department name"
+      ],
+      [
+        3,
+        "sis course description key"
+      ],
+      [
+        3,
+        "course"
+      ],
+      [
+        3,
+        "course description"
+      ],
+      [
+        3,
+        "course description long"
+      ],
+      [
+        3,
+        "department"
+      ],
+      [
+        3,
+        "department name"
+      ],
+      [
+        3,
+        "dept name in commencement bk"
+      ],
+      [
+        3,
+        "school name"
+      ],
+      [
+        3,
+        "school name in commencement bk"
+      ],
+      [
+        3,
+        "from term"
+      ],
+      [
+        3,
+        "from term description"
+      ],
+      [
+        3,
+        "thru term"
+      ],
+      [
+        3,
+        "thru term description"
+      ],
+      [
+        3,
+        "course option"
+      ],
+      [
+        3,
+        "course level"
+      ],
+      [
+        3,
+        "cip program code"
+      ],
+      [
+        3,
+        "is degree granting"
+      ],
+      [
+        3,
+        "default ultimate degree"
+      ],
+      [
+        3,
+        "gradaute level"
+      ],
+      [
+        3,
+        "graduate level"
+      ],
+      [
+        3,
+        "last activity date"
+      ],
+      [
+        3,
+        "warehouse load date"
+      ],
+      [
+        4,
+        "building key"
+      ],
+      [
+        4,
+        "floor key"
+      ],
+      [
+        4,
+        "space unit key"
+      ],
+      [
+        4,
+        "space usage key"
+      ],
+      [
+        4,
+        "building room"
+      ],
+      [
+        4,
+        "building room name"
+      ],
+      [
+        4,
+        "room number"
+      ],
+      [
+        4,
+        "room square footage"
+      ],
+      [
+        4,
+        "room counter"
+      ],
+      [
+        4,
+        "building component"
+      ],
+      [
+        4,
+        "warehouse load date"
+      ],
+      [
+        5,
+        "tip subject offered key"
+      ],
+      [
+        5,
+        "tip material key"
+      ],
+      [
+        5,
+        "tip material status key"
+      ],
+      [
+        5,
+        "term code"
+      ],
+      [
+        5,
+        "subject id"
+      ],
+      [
+        5,
+        "isbn"
+      ],
+      [
+        5,
+        "record count"
+      ],
+      [
+        5,
+        "warehouse load date"
+      ],
+      [
+        6,
+        "postal code"
+      ],
+      [
+        6,
+        "warehouse load date"
+      ],
+      [
+        6,
+        "fclt building address key"
+      ],
+      [
+        6,
+        "fclt building key"
+      ],
+      [
+        6,
+        "building number"
+      ],
+      [
+        6,
+        "address purpose"
+      ],
+      [
+        6,
+        "address city id"
+      ],
+      [
+        6,
+        "is e911 address"
+      ],
+      [
+        6,
+        "street number"
+      ],
+      [
+        6,
+        "street number suffix"
+      ],
+      [
+        6,
+        "pre directional"
+      ],
+      [
+        6,
+        "street name"
+      ],
+      [
+        6,
+        "street suffix"
+      ],
+      [
+        6,
+        "post directional"
+      ],
+      [
+        6,
+        "city"
+      ],
+      [
+        6,
+        "state"
+      ],
+      [
+        7,
+        "library subject offered key"
+      ],
+      [
+        7,
+        "term code"
+      ],
+      [
+        7,
+        "master course number"
+      ],
+      [
+        7,
+        "master course number sort"
+      ],
+      [
+        7,
+        "master course number desc"
+      ],
+      [
+        7,
+        "master subject id"
+      ],
+      [
+        7,
+        "master subject id sort"
+      ],
+      [
+        7,
+        "course number"
+      ],
+      [
+        7,
+        "course number sort"
+      ],
+      [
+        7,
+        "course number desc"
+      ],
+      [
+        7,
+        "subject id"
+      ],
+      [
+        7,
+        "subject id sort"
+      ],
+      [
+        7,
+        "subject title"
+      ],
+      [
+        7,
+        "offer dept code"
+      ],
+      [
+        7,
+        "offer dept name"
+      ],
+      [
+        7,
+        "offer school name"
+      ],
+      [
+        7,
+        "responsible faculty name"
+      ],
+      [
+        7,
+        "responsible faculty mit id"
+      ],
+      [
+        7,
+        "num enrolled students"
+      ],
+      [
+        7,
+        "warehouse load date"
+      ],
+      [
+        8,
+        "subject key"
+      ],
+      [
+        8,
+        "subject offered summary key"
+      ],
+      [
+        8,
+        "master subject key"
+      ],
+      [
+        8,
+        "composite subject key"
+      ],
+      [
+        8,
+        "term code"
+      ],
+      [
+        8,
+        "master course number"
+      ],
+      [
+        8,
+        "master course number sort"
+      ],
+      [
+        8,
+        "master course number desc"
+      ],
+      [
+        8,
+        "master subject id"
+      ],
+      [
+        8,
+        "master subject id sort"
+      ],
+      [
+        8,
+        "course number"
+      ],
+      [
+        8,
+        "course number sort"
+      ],
+      [
+        8,
+        "course number desc"
+      ],
+      [
+        8,
+        "subject id"
+      ],
+      [
+        8,
+        "subject id sort"
+      ],
+      [
+        8,
+        "subject title"
+      ],
+      [
+        8,
+        "section id"
+      ],
+      [
+        8,
+        "is master section"
+      ],
+      [
+        8,
+        "is lecture section"
+      ],
+      [
+        8,
+        "is lab section"
+      ],
+      [
+        8,
+        "is recitation section"
+      ],
+      [
+        8,
+        "is design section"
+      ],
+      [
+        8,
+        "offer dept code"
+      ],
+      [
+        8,
+        "offer dept name"
+      ],
+      [
+        8,
+        "offer school name"
+      ],
+      [
+        8,
+        "responsible faculty name"
+      ],
+      [
+        8,
+        "responsible faculty mit id"
+      ],
+      [
+        8,
+        "meet time"
+      ],
+      [
+        8,
+        "meet place"
+      ],
+      [
+        8,
+        "cluster type"
+      ],
+      [
+        8,
+        "cluster type desc"
+      ],
+      [
+        8,
+        "cluster list"
+      ],
+      [
+        8,
+        "hgn code"
+      ],
+      [
+        8,
+        "hgn code desc"
+      ],
+      [
+        8,
+        "form type"
+      ],
+      [
+        8,
+        "form type desc"
+      ],
+      [
+        8,
+        "subject enrollment number"
+      ],
+      [
+        8,
+        "section enrollment number"
+      ],
+      [
+        8,
+        "cluster enrollment number"
+      ],
+      [
+        8,
+        "evaluate this subject"
+      ],
+      [
+        8,
+        "is ose subject"
+      ],
+      [
+        8,
+        "is created by data warehouse"
+      ],
+      [
+        8,
+        "subject grouping key"
+      ],
+      [
+        8,
+        "warehouse load date"
+      ],
+      [
+        8,
+        "num enrolled students"
+      ],
+      [
+        8,
+        "subject summary key"
+      ],
+      [
+        8,
+        "is repeatable subject"
+      ],
+      [
+        9,
+        "warehouse load date"
+      ],
+      [
+        9,
+        "fac room key"
+      ],
+      [
+        9,
+        "building key"
+      ],
+      [
+        9,
+        "floor"
+      ],
+      [
+        9,
+        "floor key"
+      ],
+      [
+        9,
+        "room"
+      ],
+      [
+        9,
+        "space id"
+      ],
+      [
+        9,
+        "major use key"
+      ],
+      [
+        9,
+        "major use desc"
+      ],
+      [
+        9,
+        "use key"
+      ],
+      [
+        9,
+        "use desc"
+      ],
+      [
+        9,
+        "minor use key"
+      ],
+      [
+        9,
+        "minor use desc"
+      ],
+      [
+        9,
+        "organization key"
+      ],
+      [
+        9,
+        "organization name"
+      ],
+      [
+        9,
+        "minor organization key"
+      ],
+      [
+        9,
+        "minor organization"
+      ],
+      [
+        9,
+        "area"
+      ],
+      [
+        9,
+        "room full name"
+      ],
+      [
+        9,
+        "dept code"
+      ],
+      [
+        9,
+        "access level"
+      ],
+      [
+        9,
+        "latitude wgs"
+      ],
+      [
+        9,
+        "longitude wgs"
+      ],
+      [
+        9,
+        "northing spcs"
+      ],
+      [
+        9,
+        "easting spcs"
+      ],
+      [
+        10,
+        "iap subject person key"
+      ],
+      [
+        10,
+        "person role"
+      ],
+      [
+        10,
+        "person mit affiliation"
+      ],
+      [
+        10,
+        "person name"
+      ],
+      [
+        10,
+        "person location"
+      ],
+      [
+        10,
+        "person email"
+      ],
+      [
+        10,
+        "person organization"
+      ],
+      [
+        10,
+        "person title"
+      ],
+      [
+        10,
+        "warehouse load date"
+      ],
+      [
+        11,
+        "iap subject category key"
+      ],
+      [
+        11,
+        "iap category name"
+      ],
+      [
+        11,
+        "iap category desc"
+      ],
+      [
+        11,
+        "warehouse load date"
+      ],
+      [
+        12,
+        "hierarchy type"
+      ],
+      [
+        12,
+        "dlc key"
+      ],
+      [
+        12,
+        "dlc code"
+      ],
+      [
+        12,
+        "dlc name"
+      ],
+      [
+        12,
+        "master dept hier level 1 code"
+      ],
+      [
+        12,
+        "master dept hier level 1 name"
+      ],
+      [
+        12,
+        "master dept hier level 2 code"
+      ],
+      [
+        12,
+        "master dept hier level 2 name"
+      ],
+      [
+        12,
+        "master dept hier level 3 code"
+      ],
+      [
+        12,
+        "master dept hier level 3 name"
+      ],
+      [
+        12,
+        "master dept hier level 4 code"
+      ],
+      [
+        12,
+        "master dept hier level 4 name"
+      ],
+      [
+        12,
+        "master dept hier level 5 code"
+      ],
+      [
+        12,
+        "master dept hier level 5 name"
+      ],
+      [
+        13,
+        "hass attribute"
+      ],
+      [
+        13,
+        "description on form"
+      ],
+      [
+        13,
+        "description in bulletin"
+      ],
+      [
+        13,
+        "cis attribute group"
+      ],
+      [
+        13,
+        "cis attribute group note"
+      ],
+      [
+        13,
+        "icon gif name"
+      ],
+      [
+        13,
+        "icon height"
+      ],
+      [
+        13,
+        "icon width"
+      ],
+      [
+        13,
+        "last activity date"
+      ],
+      [
+        13,
+        "last update user"
+      ],
+      [
+        13,
+        "warehouse load date"
+      ],
+      [
+        14,
+        "fclt building hist key"
+      ],
+      [
+        14,
+        "fiscal period"
+      ],
+      [
+        14,
+        "fclt building key"
+      ],
+      [
+        14,
+        "building number"
+      ],
+      [
+        14,
+        "parent building number"
+      ],
+      [
+        14,
+        "parent building name"
+      ],
+      [
+        14,
+        "parent building name long"
+      ],
+      [
+        14,
+        "building name long"
+      ],
+      [
+        14,
+        "ext gross area"
+      ],
+      [
+        14,
+        "assignable area"
+      ],
+      [
+        14,
+        "non assignable area"
+      ],
+      [
+        14,
+        "site"
+      ],
+      [
+        14,
+        "campus sector"
+      ],
+      [
+        14,
+        "access level code"
+      ],
+      [
+        14,
+        "access level name"
+      ],
+      [
+        14,
+        "building type"
+      ],
+      [
+        14,
+        "ownership type"
+      ],
+      [
+        14,
+        "building use"
+      ],
+      [
+        14,
+        "occupancy class"
+      ],
+      [
+        14,
+        "building height"
+      ],
+      [
+        14,
+        "cost center code"
+      ],
+      [
+        14,
+        "cost collector key"
+      ],
+      [
+        14,
+        "latitude wgs"
+      ],
+      [
+        14,
+        "longitude wgs"
+      ],
+      [
+        14,
+        "easting x spcs"
+      ],
+      [
+        14,
+        "northing y spcs"
+      ],
+      [
+        14,
+        "building sort"
+      ],
+      [
+        14,
+        "building named for"
+      ],
+      [
+        14,
+        "building name"
+      ],
+      [
+        14,
+        "date built"
+      ],
+      [
+        14,
+        "date acquired"
+      ],
+      [
+        14,
+        "date occupied"
+      ],
+      [
+        14,
+        "warehouse load date"
+      ],
+      [
+        14,
+        "num of rooms"
+      ],
+      [
+        15,
+        "warehouse load date"
+      ],
+      [
+        15,
+        "building address key"
+      ],
+      [
+        15,
+        "building key"
+      ],
+      [
+        15,
+        "address purpose"
+      ],
+      [
+        15,
+        "address city id"
+      ],
+      [
+        15,
+        "is e911 address"
+      ],
+      [
+        15,
+        "street number"
+      ],
+      [
+        15,
+        "street number suffix"
+      ],
+      [
+        15,
+        "pre directional"
+      ],
+      [
+        15,
+        "street name"
+      ],
+      [
+        15,
+        "street suffix"
+      ],
+      [
+        15,
+        "post directional"
+      ],
+      [
+        15,
+        "city"
+      ],
+      [
+        15,
+        "state"
+      ],
+      [
+        15,
+        "postal code"
+      ],
+      [
+        16,
+        "date acquired"
+      ],
+      [
+        16,
+        "date occupied"
+      ],
+      [
+        16,
+        "warehouse load date"
+      ],
+      [
+        16,
+        "num of rooms"
+      ],
+      [
+        16,
+        "fac building key"
+      ],
+      [
+        16,
+        "building number"
+      ],
+      [
+        16,
+        "parent building number"
+      ],
+      [
+        16,
+        "parent building name"
+      ],
+      [
+        16,
+        "parent building name long"
+      ],
+      [
+        16,
+        "building name long"
+      ],
+      [
+        16,
+        "ext gross area"
+      ],
+      [
+        16,
+        "assignable area"
+      ],
+      [
+        16,
+        "non assignable area"
+      ],
+      [
+        16,
+        "site"
+      ],
+      [
+        16,
+        "campus sector"
+      ],
+      [
+        16,
+        "access level code"
+      ],
+      [
+        16,
+        "access level name"
+      ],
+      [
+        16,
+        "building type"
+      ],
+      [
+        16,
+        "ownership type"
+      ],
+      [
+        16,
+        "building use"
+      ],
+      [
+        16,
+        "occupancy class"
+      ],
+      [
+        16,
+        "building height"
+      ],
+      [
+        16,
+        "cost center code"
+      ],
+      [
+        16,
+        "cost collector key"
+      ],
+      [
+        16,
+        "latitude wgs"
+      ],
+      [
+        16,
+        "longitude wgs"
+      ],
+      [
+        16,
+        "easting x spcs"
+      ],
+      [
+        16,
+        "northing y spcs"
+      ],
+      [
+        16,
+        "building sort"
+      ],
+      [
+        16,
+        "building named for"
+      ],
+      [
+        16,
+        "building name"
+      ],
+      [
+        16,
+        "date built"
+      ],
+      [
+        17,
+        "library course instructor key"
+      ],
+      [
+        17,
+        "course name"
+      ],
+      [
+        17,
+        "instructor name"
+      ],
+      [
+        17,
+        "department"
+      ],
+      [
+        17,
+        "date from"
+      ],
+      [
+        17,
+        "date to"
+      ],
+      [
+        17,
+        "unit code"
+      ],
+      [
+        17,
+        "unit"
+      ],
+      [
+        17,
+        "warehouse load date"
+      ],
+      [
+        18,
+        "mit id"
+      ],
+      [
+        18,
+        "dept count"
+      ],
+      [
+        18,
+        "dept names"
+      ],
+      [
+        18,
+        "num of supervisees"
+      ],
+      [
+        18,
+        "sqft"
+      ],
+      [
+        18,
+        "research volume"
+      ],
+      [
+        18,
+        "sqft per supervisee"
+      ],
+      [
+        18,
+        "sqft per res vol"
+      ],
+      [
+        18,
+        "res vol per sqft"
+      ],
+      [
+        19,
+        "fclt organization key"
+      ],
+      [
+        19,
+        "dlc key"
+      ],
+      [
+        20,
+        "academic year"
+      ],
+      [
+        20,
+        "term code"
+      ],
+      [
+        20,
+        "subject id"
+      ],
+      [
+        20,
+        "subject code"
+      ],
+      [
+        20,
+        "subject number"
+      ],
+      [
+        20,
+        "source subject id"
+      ],
+      [
+        20,
+        "print subject id"
+      ],
+      [
+        20,
+        "is printed in bulletin"
+      ],
+      [
+        20,
+        "department code"
+      ],
+      [
+        20,
+        "department name"
+      ],
+      [
+        20,
+        "effective term code"
+      ],
+      [
+        20,
+        "subject short title"
+      ],
+      [
+        20,
+        "subject title"
+      ],
+      [
+        20,
+        "is variable units"
+      ],
+      [
+        20,
+        "lecture units"
+      ],
+      [
+        20,
+        "lab units"
+      ],
+      [
+        20,
+        "preparation units"
+      ],
+      [
+        20,
+        "total units"
+      ],
+      [
+        20,
+        "design units"
+      ],
+      [
+        20,
+        "grade type"
+      ],
+      [
+        20,
+        "grade type desc"
+      ],
+      [
+        20,
+        "grade rule"
+      ],
+      [
+        20,
+        "grade rule desc"
+      ],
+      [
+        20,
+        "hgn code"
+      ],
+      [
+        20,
+        "hgn desc"
+      ],
+      [
+        20,
+        "hgn except"
+      ],
+      [
+        20,
+        "gir attribute"
+      ],
+      [
+        20,
+        "gir attribute desc"
+      ],
+      [
+        20,
+        "comm req attribute"
+      ],
+      [
+        20,
+        "comm req attribute desc"
+      ],
+      [
+        20,
+        "tuition attribute"
+      ],
+      [
+        20,
+        "tuition attribute desc"
+      ],
+      [
+        20,
+        "write req attribute"
+      ],
+      [
+        20,
+        "write req attribute desc"
+      ],
+      [
+        20,
+        "supervisor attribute"
+      ],
+      [
+        20,
+        "supervisor attribute desc"
+      ],
+      [
+        20,
+        "prerequisites"
+      ],
+      [
+        20,
+        "subject description"
+      ],
+      [
+        20,
+        "joint subjects"
+      ],
+      [
+        20,
+        "school wide electives"
+      ],
+      [
+        20,
+        "meets with subjects"
+      ],
+      [
+        20,
+        "equivalent subjects"
+      ],
+      [
+        20,
+        "is offered this year"
+      ],
+      [
+        20,
+        "is offered fall term"
+      ],
+      [
+        20,
+        "is offered iap"
+      ],
+      [
+        20,
+        "is offered spring term"
+      ],
+      [
+        20,
+        "is offered summer term"
+      ],
+      [
+        20,
+        "fall instructors"
+      ],
+      [
+        20,
+        "spring instructors"
+      ],
+      [
+        20,
+        "status change"
+      ],
+      [
+        20,
+        "last activity date"
+      ],
+      [
+        20,
+        "warehouse load date"
+      ],
+      [
+        20,
+        "master subject id"
+      ],
+      [
+        20,
+        "hass attribute"
+      ],
+      [
+        20,
+        "hass attribute desc"
+      ],
+      [
+        20,
+        "term duration"
+      ],
+      [
+        20,
+        "global regions"
+      ],
+      [
+        20,
+        "global countries"
+      ],
+      [
+        20,
+        "on line page number"
+      ],
+      [
+        20,
+        "section id"
+      ],
+      [
+        20,
+        "is master section"
+      ],
+      [
+        20,
+        "is lecture section"
+      ],
+      [
+        20,
+        "is lab section"
+      ],
+      [
+        20,
+        "is recitation section"
+      ],
+      [
+        20,
+        "is design section"
+      ],
+      [
+        20,
+        "responsible faculty name"
+      ],
+      [
+        20,
+        "responsible faculty mit id"
+      ],
+      [
+        20,
+        "meet time"
+      ],
+      [
+        20,
+        "meet place"
+      ],
+      [
+        21,
+        "library material status key"
+      ],
+      [
+        21,
+        "library material status code"
+      ],
+      [
+        21,
+        "library material status"
+      ],
+      [
+        21,
+        "warehouse load date"
+      ],
+      [
+        22,
+        "fclt room key"
+      ],
+      [
+        22,
+        "building room"
+      ],
+      [
+        22,
+        "fclt building key"
+      ],
+      [
+        22,
+        "floor"
+      ],
+      [
+        22,
+        "fclt floor key"
+      ],
+      [
+        22,
+        "room"
+      ],
+      [
+        22,
+        "space id"
+      ],
+      [
+        22,
+        "fclt major use key"
+      ],
+      [
+        22,
+        "major use desc"
+      ],
+      [
+        22,
+        "fclt use key"
+      ],
+      [
+        22,
+        "use desc"
+      ],
+      [
+        22,
+        "fclt minor use key"
+      ],
+      [
+        22,
+        "minor use desc"
+      ],
+      [
+        22,
+        "fclt organization key"
+      ],
+      [
+        22,
+        "organization name"
+      ],
+      [
+        22,
+        "fclt minor organization key"
+      ],
+      [
+        22,
+        "minor organization"
+      ],
+      [
+        22,
+        "area"
+      ],
+      [
+        22,
+        "room full name"
+      ],
+      [
+        22,
+        "dept code"
+      ],
+      [
+        22,
+        "access level"
+      ],
+      [
+        22,
+        "latitude wgs"
+      ],
+      [
+        22,
+        "longitude wgs"
+      ],
+      [
+        22,
+        "northing spcs"
+      ],
+      [
+        22,
+        "easting spcs"
+      ],
+      [
+        22,
+        "warehouse load date"
+      ],
+      [
+        23,
+        "warehouse load date"
+      ],
+      [
+        23,
+        "building key"
+      ],
+      [
+        23,
+        "floor"
+      ],
+      [
+        23,
+        "floor key"
+      ],
+      [
+        23,
+        "ext gross area"
+      ],
+      [
+        23,
+        "assignable area"
+      ],
+      [
+        23,
+        "non assignable area"
+      ],
+      [
+        23,
+        "floor sort sequence"
+      ],
+      [
+        23,
+        "level id"
+      ],
+      [
+        23,
+        "building wings id"
+      ],
+      [
+        23,
+        "access level"
+      ],
+      [
+        24,
+        "academic terms key"
+      ],
+      [
+        24,
+        "term code"
+      ],
+      [
+        24,
+        "term description"
+      ],
+      [
+        24,
+        "term selector"
+      ],
+      [
+        24,
+        "term start date"
+      ],
+      [
+        24,
+        "term end date"
+      ],
+      [
+        24,
+        "academic year"
+      ],
+      [
+        24,
+        "academic year desc"
+      ],
+      [
+        24,
+        "is current term"
+      ],
+      [
+        24,
+        "term status indicator"
+      ],
+      [
+        24,
+        "financial aid year"
+      ],
+      [
+        24,
+        "degree year"
+      ],
+      [
+        24,
+        "last day of final exam"
+      ],
+      [
+        24,
+        "pre registration start day"
+      ],
+      [
+        24,
+        "registration day"
+      ],
+      [
+        24,
+        "first day of classes"
+      ],
+      [
+        24,
+        "last day of classes"
+      ],
+      [
+        24,
+        "graduate award start date"
+      ],
+      [
+        24,
+        "graduate award end date"
+      ],
+      [
+        24,
+        "warehouse load date"
+      ],
+      [
+        25,
+        "tip subject offered key"
+      ],
+      [
+        25,
+        "term code"
+      ],
+      [
+        25,
+        "is no course material"
+      ],
+      [
+        25,
+        "master course number"
+      ],
+      [
+        25,
+        "master course number sort"
+      ],
+      [
+        25,
+        "master course number desc"
+      ],
+      [
+        25,
+        "master subject id"
+      ],
+      [
+        25,
+        "master subject id sort"
+      ],
+      [
+        25,
+        "course number"
+      ],
+      [
+        25,
+        "course number sort"
+      ],
+      [
+        25,
+        "course number desc"
+      ],
+      [
+        25,
+        "subject id"
+      ],
+      [
+        25,
+        "subject id sort"
+      ],
+      [
+        25,
+        "subject title"
+      ],
+      [
+        25,
+        "offer dept code"
+      ],
+      [
+        25,
+        "offer dept name"
+      ],
+      [
+        25,
+        "offer school name"
+      ],
+      [
+        25,
+        "responsible faculty name"
+      ],
+      [
+        25,
+        "responsible faculty mit id"
+      ],
+      [
+        25,
+        "num enrolled students"
+      ],
+      [
+        25,
+        "warehouse load date"
+      ],
+      [
+        26,
+        "warehouse load date"
+      ],
+      [
+        26,
+        "sis admin department code"
+      ],
+      [
+        26,
+        "sis admin department name"
+      ],
+      [
+        26,
+        "department phone area code"
+      ],
+      [
+        26,
+        "department phone number"
+      ],
+      [
+        26,
+        "clearing cost collector"
+      ],
+      [
+        26,
+        "last activity date"
+      ],
+      [
+        27,
+        "course number"
+      ],
+      [
+        27,
+        "subject code"
+      ],
+      [
+        27,
+        "subject code desc"
+      ],
+      [
+        27,
+        "department code"
+      ],
+      [
+        27,
+        "department name"
+      ],
+      [
+        27,
+        "school code"
+      ],
+      [
+        27,
+        "school name"
+      ],
+      [
+        27,
+        "warehouse load date"
+      ],
+      [
+        28,
+        "department code"
+      ],
+      [
+        28,
+        "department name"
+      ],
+      [
+        28,
+        "department full name"
+      ],
+      [
+        28,
+        "school code"
+      ],
+      [
+        28,
+        "school name"
+      ],
+      [
+        29,
+        "organization key"
+      ],
+      [
+        29,
+        "organization id"
+      ],
+      [
+        29,
+        "organization"
+      ],
+      [
+        29,
+        "organization name"
+      ],
+      [
+        29,
+        "org parent key"
+      ],
+      [
+        29,
+        "org parent"
+      ],
+      [
+        29,
+        "major org key"
+      ],
+      [
+        29,
+        "major org"
+      ],
+      [
+        29,
+        "organization level"
+      ],
+      [
+        29,
+        "organization number"
+      ],
+      [
+        29,
+        "organization sort"
+      ],
+      [
+        29,
+        "assignable"
+      ],
+      [
+        29,
+        "course"
+      ],
+      [
+        29,
+        "description"
+      ],
+      [
+        29,
+        "warehouse load date"
+      ],
+      [
+        29,
+        "d code"
+      ],
+      [
+        29,
+        "hr department code old"
+      ],
+      [
+        29,
+        "hr org unit id"
+      ],
+      [
+        29,
+        "hr department name"
+      ],
+      [
+        30,
+        "iap subject category key"
+      ],
+      [
+        30,
+        "iap subject sponsor key"
+      ],
+      [
+        30,
+        "iap subject session key"
+      ],
+      [
+        30,
+        "iap subject person key"
+      ],
+      [
+        30,
+        "activity title"
+      ],
+      [
+        30,
+        "activity description"
+      ],
+      [
+        30,
+        "term code"
+      ],
+      [
+        30,
+        "enrollment type"
+      ],
+      [
+        30,
+        "max enrollment"
+      ],
+      [
+        30,
+        "attendance"
+      ],
+      [
+        30,
+        "prerequisites"
+      ],
+      [
+        30,
+        "fee"
+      ],
+      [
+        30,
+        "fee reason"
+      ],
+      [
+        30,
+        "prereg deadline"
+      ],
+      [
+        30,
+        "create date"
+      ],
+      [
+        30,
+        "last activity date"
+      ],
+      [
+        30,
+        "is multiple session"
+      ],
+      [
+        30,
+        "is cancelled"
+      ],
+      [
+        30,
+        "warehouse load date"
+      ],
+      [
+        31,
+        "is offered fall term"
+      ],
+      [
+        31,
+        "is offered iap"
+      ],
+      [
+        31,
+        "is offered spring term"
+      ],
+      [
+        31,
+        "is offered summer term"
+      ],
+      [
+        31,
+        "fall instructors"
+      ],
+      [
+        31,
+        "spring instructors"
+      ],
+      [
+        31,
+        "status change"
+      ],
+      [
+        31,
+        "last activity date"
+      ],
+      [
+        31,
+        "warehouse load date"
+      ],
+      [
+        31,
+        "master subject id"
+      ],
+      [
+        31,
+        "hass attribute"
+      ],
+      [
+        31,
+        "hass attribute desc"
+      ],
+      [
+        31,
+        "term duration"
+      ],
+      [
+        31,
+        "global regions"
+      ],
+      [
+        31,
+        "global countries"
+      ],
+      [
+        31,
+        "on line page number"
+      ],
+      [
+        31,
+        "academic year"
+      ],
+      [
+        31,
+        "subject id"
+      ],
+      [
+        31,
+        "subject code"
+      ],
+      [
+        31,
+        "subject number"
+      ],
+      [
+        31,
+        "source subject id"
+      ],
+      [
+        31,
+        "print subject id"
+      ],
+      [
+        31,
+        "is printed in bulletin"
+      ],
+      [
+        31,
+        "department code"
+      ],
+      [
+        31,
+        "department name"
+      ],
+      [
+        31,
+        "effective term code"
+      ],
+      [
+        31,
+        "subject short title"
+      ],
+      [
+        31,
+        "subject title"
+      ],
+      [
+        31,
+        "is variable units"
+      ],
+      [
+        31,
+        "lecture units"
+      ],
+      [
+        31,
+        "lab units"
+      ],
+      [
+        31,
+        "preparation units"
+      ],
+      [
+        31,
+        "total units"
+      ],
+      [
+        31,
+        "design units"
+      ],
+      [
+        31,
+        "grade type"
+      ],
+      [
+        31,
+        "grade type desc"
+      ],
+      [
+        31,
+        "grade rule"
+      ],
+      [
+        31,
+        "grade rule desc"
+      ],
+      [
+        31,
+        "hgn code"
+      ],
+      [
+        31,
+        "hgn desc"
+      ],
+      [
+        31,
+        "hgn except"
+      ],
+      [
+        31,
+        "gir attribute"
+      ],
+      [
+        31,
+        "gir attribute desc"
+      ],
+      [
+        31,
+        "comm req attribute"
+      ],
+      [
+        31,
+        "comm req attribute desc"
+      ],
+      [
+        31,
+        "tuition attribute"
+      ],
+      [
+        31,
+        "tuition attribute desc"
+      ],
+      [
+        31,
+        "write req attribute"
+      ],
+      [
+        31,
+        "write req attribute desc"
+      ],
+      [
+        31,
+        "supervisor attribute"
+      ],
+      [
+        31,
+        "supervisor attribute desc"
+      ],
+      [
+        31,
+        "prerequisites"
+      ],
+      [
+        31,
+        "subject description"
+      ],
+      [
+        31,
+        "joint subjects"
+      ],
+      [
+        31,
+        "school wide electives"
+      ],
+      [
+        31,
+        "meets with subjects"
+      ],
+      [
+        31,
+        "equivalent subjects"
+      ],
+      [
+        31,
+        "is offered this year"
+      ],
+      [
+        32,
+        "iap subject sponsor key"
+      ],
+      [
+        32,
+        "sponsor name"
+      ],
+      [
+        32,
+        "sponsor type"
+      ],
+      [
+        32,
+        "warehouse load date"
+      ],
+      [
+        33,
+        "program code"
+      ],
+      [
+        33,
+        "program title"
+      ],
+      [
+        33,
+        "category code"
+      ],
+      [
+        33,
+        "category title"
+      ],
+      [
+        33,
+        "four digit code"
+      ],
+      [
+        33,
+        "four digit title"
+      ],
+      [
+        33,
+        "note"
+      ],
+      [
+        33,
+        "warehouse load date"
+      ],
+      [
+        33,
+        "version"
+      ],
+      [
+        34,
+        "department code"
+      ],
+      [
+        34,
+        "department name"
+      ],
+      [
+        34,
+        "department full name"
+      ],
+      [
+        34,
+        "school code"
+      ],
+      [
+        34,
+        "school name"
+      ],
+      [
+        34,
+        "dept budget code"
+      ],
+      [
+        34,
+        "is degree granting"
+      ],
+      [
+        34,
+        "dept name in commencement bk"
+      ],
+      [
+        34,
+        "school name in commencement bk"
+      ],
+      [
+        34,
+        "department name history"
+      ],
+      [
+        34,
+        "department last activity date"
+      ],
+      [
+        34,
+        "dlc key"
+      ],
+      [
+        34,
+        "warehouse load date"
+      ],
+      [
+        35,
+        "library course instructor key"
+      ],
+      [
+        35,
+        "library reserve catalog key"
+      ],
+      [
+        35,
+        "library subject offered key"
+      ],
+      [
+        35,
+        "library material status key"
+      ],
+      [
+        35,
+        "term code"
+      ],
+      [
+        35,
+        "subject id"
+      ],
+      [
+        35,
+        "warehouse load date"
+      ],
+      [
+        36,
+        "academic terms key"
+      ],
+      [
+        36,
+        "term code"
+      ],
+      [
+        36,
+        "term description"
+      ],
+      [
+        36,
+        "term selector"
+      ],
+      [
+        36,
+        "term start date"
+      ],
+      [
+        36,
+        "term end date"
+      ],
+      [
+        36,
+        "academic year"
+      ],
+      [
+        36,
+        "academic year desc"
+      ],
+      [
+        36,
+        "is current term"
+      ],
+      [
+        36,
+        "is regular term"
+      ],
+      [
+        36,
+        "term status indicator"
+      ],
+      [
+        36,
+        "term status"
+      ],
+      [
+        36,
+        "financial aid year"
+      ],
+      [
+        36,
+        "degree year"
+      ],
+      [
+        36,
+        "last day of final exam"
+      ],
+      [
+        36,
+        "pre registration start day"
+      ],
+      [
+        36,
+        "registration day"
+      ],
+      [
+        36,
+        "first day of classes"
+      ],
+      [
+        36,
+        "last day of classes"
+      ],
+      [
+        36,
+        "add date"
+      ],
+      [
+        36,
+        "drop date"
+      ],
+      [
+        36,
+        "graduate award start date"
+      ],
+      [
+        36,
+        "graduate award end date"
+      ],
+      [
+        36,
+        "warehouse load date"
+      ],
+      [
+        37,
+        "building key"
+      ],
+      [
+        37,
+        "building number"
+      ],
+      [
+        37,
+        "building name"
+      ],
+      [
+        37,
+        "building street address"
+      ],
+      [
+        37,
+        "building mailing address"
+      ],
+      [
+        37,
+        "bldg gross square footage"
+      ],
+      [
+        37,
+        "bldg assignable square footage"
+      ],
+      [
+        37,
+        "building counter"
+      ],
+      [
+        37,
+        "warehouse load date"
+      ],
+      [
+        38,
+        "fclt building key"
+      ],
+      [
+        38,
+        "building number"
+      ],
+      [
+        38,
+        "parent building number"
+      ],
+      [
+        38,
+        "parent building name"
+      ],
+      [
+        38,
+        "parent building name long"
+      ],
+      [
+        38,
+        "building name long"
+      ],
+      [
+        38,
+        "ext gross area"
+      ],
+      [
+        38,
+        "assignable area"
+      ],
+      [
+        38,
+        "non assignable area"
+      ],
+      [
+        38,
+        "site"
+      ],
+      [
+        38,
+        "campus sector"
+      ],
+      [
+        38,
+        "access level code"
+      ],
+      [
+        38,
+        "access level name"
+      ],
+      [
+        38,
+        "building type"
+      ],
+      [
+        38,
+        "ownership type"
+      ],
+      [
+        38,
+        "building use"
+      ],
+      [
+        38,
+        "occupancy class"
+      ],
+      [
+        38,
+        "building height"
+      ],
+      [
+        38,
+        "cost center code"
+      ],
+      [
+        38,
+        "cost collector key"
+      ],
+      [
+        38,
+        "latitude wgs"
+      ],
+      [
+        38,
+        "longitude wgs"
+      ],
+      [
+        38,
+        "easting x spcs"
+      ],
+      [
+        38,
+        "northing y spcs"
+      ],
+      [
+        38,
+        "building sort"
+      ],
+      [
+        38,
+        "building named for"
+      ],
+      [
+        38,
+        "building name"
+      ],
+      [
+        38,
+        "date built"
+      ],
+      [
+        38,
+        "date acquired"
+      ],
+      [
+        38,
+        "date occupied"
+      ],
+      [
+        38,
+        "warehouse load date"
+      ],
+      [
+        38,
+        "num of rooms"
+      ],
+      [
+        39,
+        "term parameter"
+      ],
+      [
+        39,
+        "term indicator"
+      ],
+      [
+        39,
+        "term code"
+      ],
+      [
+        39,
+        "term description"
+      ],
+      [
+        39,
+        "term start date"
+      ],
+      [
+        39,
+        "term end date"
+      ],
+      [
+        39,
+        "term last day before next term"
+      ],
+      [
+        39,
+        "is current term"
+      ],
+      [
+        40,
+        "tip material status key"
+      ],
+      [
+        40,
+        "tip material status code"
+      ],
+      [
+        40,
+        "tip material status"
+      ],
+      [
+        40,
+        "warehouse load date"
+      ],
+      [
+        41,
+        "iap subject session key"
+      ],
+      [
+        41,
+        "session sequence"
+      ],
+      [
+        41,
+        "session title"
+      ],
+      [
+        41,
+        "session description"
+      ],
+      [
+        41,
+        "session location"
+      ],
+      [
+        41,
+        "session date"
+      ],
+      [
+        41,
+        "session start time"
+      ],
+      [
+        41,
+        "session end time"
+      ],
+      [
+        41,
+        "has session info"
+      ],
+      [
+        41,
+        "warehouse load date"
+      ],
+      [
+        42,
+        "mit id"
+      ],
+      [
+        42,
+        "last name"
+      ],
+      [
+        42,
+        "first name"
+      ],
+      [
+        42,
+        "middle name"
+      ],
+      [
+        42,
+        "full name"
+      ],
+      [
+        42,
+        "directory full name"
+      ],
+      [
+        42,
+        "office location"
+      ],
+      [
+        42,
+        "office phone"
+      ],
+      [
+        42,
+        "directory title"
+      ],
+      [
+        42,
+        "primary title"
+      ],
+      [
+        42,
+        "department number"
+      ],
+      [
+        42,
+        "department name"
+      ],
+      [
+        42,
+        "krb name"
+      ],
+      [
+        42,
+        "krb name uppercase"
+      ],
+      [
+        42,
+        "email address"
+      ],
+      [
+        42,
+        "personal url"
+      ],
+      [
+        42,
+        "name known by"
+      ],
+      [
+        42,
+        "email address uppercase"
+      ],
+      [
+        42,
+        "full name uppercase"
+      ],
+      [
+        42,
+        "preferred first name upper"
+      ],
+      [
+        42,
+        "preferred last name upper"
+      ],
+      [
+        43,
+        "first name"
+      ],
+      [
+        43,
+        "middle name"
+      ],
+      [
+        43,
+        "last name"
+      ],
+      [
+        43,
+        "full name"
+      ],
+      [
+        43,
+        "office location"
+      ],
+      [
+        43,
+        "office phone"
+      ],
+      [
+        43,
+        "email address"
+      ],
+      [
+        43,
+        "department"
+      ],
+      [
+        43,
+        "department name"
+      ],
+      [
+        43,
+        "student year"
+      ],
+      [
+        43,
+        "full name uppercase"
+      ],
+      [
+        43,
+        "warehouse load date"
+      ],
+      [
+        44,
+        "fclt organization key"
+      ],
+      [
+        44,
+        "space unit key"
+      ],
+      [
+        44,
+        "space unit code"
+      ],
+      [
+        44,
+        "space unit"
+      ],
+      [
+        44,
+        "dlc key"
+      ],
+      [
+        44,
+        "warehouse load date"
+      ],
+      [
+        45,
+        "floor key"
+      ],
+      [
+        45,
+        "floor"
+      ],
+      [
+        45,
+        "floor name"
+      ],
+      [
+        45,
+        "warehouse load date"
+      ],
+      [
+        46,
+        "tip material key"
+      ],
+      [
+        46,
+        "isbn"
+      ],
+      [
+        46,
+        "title"
+      ],
+      [
+        46,
+        "author"
+      ],
+      [
+        46,
+        "edition"
+      ],
+      [
+        46,
+        "publisher"
+      ],
+      [
+        46,
+        "year"
+      ],
+      [
+        46,
+        "new shelf price"
+      ],
+      [
+        46,
+        "used shelf price"
+      ],
+      [
+        46,
+        "rental new price"
+      ],
+      [
+        46,
+        "rental used price"
+      ],
+      [
+        46,
+        "material info source"
+      ],
+      [
+        47,
+        "space usage key"
+      ],
+      [
+        47,
+        "space usage"
+      ],
+      [
+        47,
+        "warehouse load date"
+      ]
+    ],
+    "column_names_original": [
+      [
+        -1,
+        "*"
+      ],
+      [
+        0,
+        "FISCAL_PERIOD"
+      ],
+      [
+        0,
+        "FISCAL_YEAR"
+      ],
+      [
+        0,
+        "FISCAL_PERIOD_DESCRIPTION"
+      ],
+      [
+        0,
+        "CALENDAR_PERIOD"
+      ],
+      [
+        0,
+        "CALENDAR_PERIOD_DESCRIPTION"
+      ],
+      [
+        0,
+        "CALENDAR_YEAR"
+      ],
+      [
+        0,
+        "START_DATE"
+      ],
+      [
+        0,
+        "END_DATE"
+      ],
+      [
+        0,
+        "CALENDAR_DATE"
+      ],
+      [
+        0,
+        "DAY_OF_WEEK"
+      ],
+      [
+        0,
+        "FINANCIAL_AID_YEAR"
+      ],
+      [
+        0,
+        "FINANCIAL_AID_YEAR_DESC"
+      ],
+      [
+        0,
+        "ACADEMIC_YEAR"
+      ],
+      [
+        0,
+        "ACADEMIC_TERM_CODE"
+      ],
+      [
+        0,
+        "ACADEMIC_TERM_DESCRIPTION"
+      ],
+      [
+        1,
+        "LIBRARY_RESERVE_CATALOG_KEY"
+      ],
+      [
+        1,
+        "CATALOG_TITLE"
+      ],
+      [
+        1,
+        "CATALOG_AUTHOR_NAME"
+      ],
+      [
+        1,
+        "CATALOG_YEAR"
+      ],
+      [
+        1,
+        "CATALOG_PUBLISHER"
+      ],
+      [
+        1,
+        "CATALOG_CALL_NUMBER"
+      ],
+      [
+        1,
+        "CATALOG_ISBN"
+      ],
+      [
+        1,
+        "CATALOG_SYSTEM_NUMBER"
+      ],
+      [
+        1,
+        "CATALOG_RECORD_CREATE_DATE"
+      ],
+      [
+        1,
+        "CATALOG_RECORD_UPDATE_DATE"
+      ],
+      [
+        1,
+        "RECORD_COUNTER"
+      ],
+      [
+        1,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        2,
+        "FCLT_ORGANIZATION_KEY"
+      ],
+      [
+        2,
+        "ORGANIZATION_ID"
+      ],
+      [
+        2,
+        "ORGANIZATION"
+      ],
+      [
+        2,
+        "ORGANIZATION_NAME"
+      ],
+      [
+        2,
+        "FCLT_ORG_PARENT_KEY"
+      ],
+      [
+        2,
+        "ORG_PARENT"
+      ],
+      [
+        2,
+        "FCLT_MAJOR_ORG_KEY"
+      ],
+      [
+        2,
+        "MAJOR_ORG"
+      ],
+      [
+        2,
+        "ORGANIZATION_LEVEL"
+      ],
+      [
+        2,
+        "ORGANIZATION_NUMBER"
+      ],
+      [
+        2,
+        "ORGANIZATION_SORT"
+      ],
+      [
+        2,
+        "ASSIGNABLE"
+      ],
+      [
+        2,
+        "COURSE"
+      ],
+      [
+        2,
+        "DESCRIPTION"
+      ],
+      [
+        2,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        2,
+        "DLC_KEY"
+      ],
+      [
+        2,
+        "DLC_NAME"
+      ],
+      [
+        2,
+        "HR_DEPARTMENT_CODE_OLD"
+      ],
+      [
+        2,
+        "HR_ORG_UNIT_ID"
+      ],
+      [
+        2,
+        "HR_DEPARTMENT_NAME"
+      ],
+      [
+        3,
+        "SIS_COURSE_DESCRIPTION_KEY"
+      ],
+      [
+        3,
+        "COURSE"
+      ],
+      [
+        3,
+        "COURSE_DESCRIPTION"
+      ],
+      [
+        3,
+        "COURSE_DESCRIPTION_LONG"
+      ],
+      [
+        3,
+        "DEPARTMENT"
+      ],
+      [
+        3,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        3,
+        "DEPT_NAME_IN_COMMENCEMENT_BK"
+      ],
+      [
+        3,
+        "SCHOOL_NAME"
+      ],
+      [
+        3,
+        "SCHOOL_NAME_IN_COMMENCEMENT_BK"
+      ],
+      [
+        3,
+        "FROM_TERM"
+      ],
+      [
+        3,
+        "FROM_TERM_DESCRIPTION"
+      ],
+      [
+        3,
+        "THRU_TERM"
+      ],
+      [
+        3,
+        "THRU_TERM_DESCRIPTION"
+      ],
+      [
+        3,
+        "COURSE_OPTION"
+      ],
+      [
+        3,
+        "COURSE_LEVEL"
+      ],
+      [
+        3,
+        "CIP_PROGRAM_CODE"
+      ],
+      [
+        3,
+        "IS_DEGREE_GRANTING"
+      ],
+      [
+        3,
+        "DEFAULT_ULTIMATE_DEGREE"
+      ],
+      [
+        3,
+        "GRADAUTE_LEVEL"
+      ],
+      [
+        3,
+        "GRADUATE_LEVEL"
+      ],
+      [
+        3,
+        "LAST_ACTIVITY_DATE"
+      ],
+      [
+        3,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        4,
+        "BUILDING_KEY"
+      ],
+      [
+        4,
+        "FLOOR_KEY"
+      ],
+      [
+        4,
+        "SPACE_UNIT_KEY"
+      ],
+      [
+        4,
+        "SPACE_USAGE_KEY"
+      ],
+      [
+        4,
+        "BUILDING_ROOM"
+      ],
+      [
+        4,
+        "BUILDING_ROOM_NAME"
+      ],
+      [
+        4,
+        "ROOM_NUMBER"
+      ],
+      [
+        4,
+        "ROOM_SQUARE_FOOTAGE"
+      ],
+      [
+        4,
+        "ROOM_COUNTER"
+      ],
+      [
+        4,
+        "BUILDING_COMPONENT"
+      ],
+      [
+        4,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        5,
+        "TIP_SUBJECT_OFFERED_KEY"
+      ],
+      [
+        5,
+        "TIP_MATERIAL_KEY"
+      ],
+      [
+        5,
+        "TIP_MATERIAL_STATUS_KEY"
+      ],
+      [
+        5,
+        "TERM_CODE"
+      ],
+      [
+        5,
+        "SUBJECT_ID"
+      ],
+      [
+        5,
+        "ISBN"
+      ],
+      [
+        5,
+        "RECORD_COUNT"
+      ],
+      [
+        5,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        6,
+        "POSTAL_CODE"
+      ],
+      [
+        6,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        6,
+        "FCLT_BUILDING_ADDRESS_KEY"
+      ],
+      [
+        6,
+        "FCLT_BUILDING_KEY"
+      ],
+      [
+        6,
+        "BUILDING_NUMBER"
+      ],
+      [
+        6,
+        "ADDRESS_PURPOSE"
+      ],
+      [
+        6,
+        "ADDRESS_CITY_ID"
+      ],
+      [
+        6,
+        "IS_E911_ADDRESS"
+      ],
+      [
+        6,
+        "STREET_NUMBER"
+      ],
+      [
+        6,
+        "STREET_NUMBER_SUFFIX"
+      ],
+      [
+        6,
+        "PRE_DIRECTIONAL"
+      ],
+      [
+        6,
+        "STREET_NAME"
+      ],
+      [
+        6,
+        "STREET_SUFFIX"
+      ],
+      [
+        6,
+        "POST_DIRECTIONAL"
+      ],
+      [
+        6,
+        "CITY"
+      ],
+      [
+        6,
+        "STATE"
+      ],
+      [
+        7,
+        "LIBRARY_SUBJECT_OFFERED_KEY"
+      ],
+      [
+        7,
+        "TERM_CODE"
+      ],
+      [
+        7,
+        "MASTER_COURSE_NUMBER"
+      ],
+      [
+        7,
+        "MASTER_COURSE_NUMBER_SORT"
+      ],
+      [
+        7,
+        "MASTER_COURSE_NUMBER_DESC"
+      ],
+      [
+        7,
+        "MASTER_SUBJECT_ID"
+      ],
+      [
+        7,
+        "MASTER_SUBJECT_ID_SORT"
+      ],
+      [
+        7,
+        "COURSE_NUMBER"
+      ],
+      [
+        7,
+        "COURSE_NUMBER_SORT"
+      ],
+      [
+        7,
+        "COURSE_NUMBER_DESC"
+      ],
+      [
+        7,
+        "SUBJECT_ID"
+      ],
+      [
+        7,
+        "SUBJECT_ID_SORT"
+      ],
+      [
+        7,
+        "SUBJECT_TITLE"
+      ],
+      [
+        7,
+        "OFFER_DEPT_CODE"
+      ],
+      [
+        7,
+        "OFFER_DEPT_NAME"
+      ],
+      [
+        7,
+        "OFFER_SCHOOL_NAME"
+      ],
+      [
+        7,
+        "RESPONSIBLE_FACULTY_NAME"
+      ],
+      [
+        7,
+        "RESPONSIBLE_FACULTY_MIT_ID"
+      ],
+      [
+        7,
+        "NUM_ENROLLED_STUDENTS"
+      ],
+      [
+        7,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        8,
+        "SUBJECT_KEY"
+      ],
+      [
+        8,
+        "SUBJECT_OFFERED_SUMMARY_KEY"
+      ],
+      [
+        8,
+        "MASTER_SUBJECT_KEY"
+      ],
+      [
+        8,
+        "COMPOSITE_SUBJECT_KEY"
+      ],
+      [
+        8,
+        "TERM_CODE"
+      ],
+      [
+        8,
+        "MASTER_COURSE_NUMBER"
+      ],
+      [
+        8,
+        "MASTER_COURSE_NUMBER_SORT"
+      ],
+      [
+        8,
+        "MASTER_COURSE_NUMBER_DESC"
+      ],
+      [
+        8,
+        "MASTER_SUBJECT_ID"
+      ],
+      [
+        8,
+        "MASTER_SUBJECT_ID_SORT"
+      ],
+      [
+        8,
+        "COURSE_NUMBER"
+      ],
+      [
+        8,
+        "COURSE_NUMBER_SORT"
+      ],
+      [
+        8,
+        "COURSE_NUMBER_DESC"
+      ],
+      [
+        8,
+        "SUBJECT_ID"
+      ],
+      [
+        8,
+        "SUBJECT_ID_SORT"
+      ],
+      [
+        8,
+        "SUBJECT_TITLE"
+      ],
+      [
+        8,
+        "SECTION_ID"
+      ],
+      [
+        8,
+        "IS_MASTER_SECTION"
+      ],
+      [
+        8,
+        "IS_LECTURE_SECTION"
+      ],
+      [
+        8,
+        "IS_LAB_SECTION"
+      ],
+      [
+        8,
+        "IS_RECITATION_SECTION"
+      ],
+      [
+        8,
+        "IS_DESIGN_SECTION"
+      ],
+      [
+        8,
+        "OFFER_DEPT_CODE"
+      ],
+      [
+        8,
+        "OFFER_DEPT_NAME"
+      ],
+      [
+        8,
+        "OFFER_SCHOOL_NAME"
+      ],
+      [
+        8,
+        "RESPONSIBLE_FACULTY_NAME"
+      ],
+      [
+        8,
+        "RESPONSIBLE_FACULTY_MIT_ID"
+      ],
+      [
+        8,
+        "MEET_TIME"
+      ],
+      [
+        8,
+        "MEET_PLACE"
+      ],
+      [
+        8,
+        "CLUSTER_TYPE"
+      ],
+      [
+        8,
+        "CLUSTER_TYPE_DESC"
+      ],
+      [
+        8,
+        "CLUSTER_LIST"
+      ],
+      [
+        8,
+        "HGN_CODE"
+      ],
+      [
+        8,
+        "HGN_CODE_DESC"
+      ],
+      [
+        8,
+        "FORM_TYPE"
+      ],
+      [
+        8,
+        "FORM_TYPE_DESC"
+      ],
+      [
+        8,
+        "SUBJECT_ENROLLMENT_NUMBER"
+      ],
+      [
+        8,
+        "SECTION_ENROLLMENT_NUMBER"
+      ],
+      [
+        8,
+        "CLUSTER_ENROLLMENT_NUMBER"
+      ],
+      [
+        8,
+        "EVALUATE_THIS_SUBJECT"
+      ],
+      [
+        8,
+        "IS_OSE_SUBJECT"
+      ],
+      [
+        8,
+        "IS_CREATED_BY_DATA_WAREHOUSE"
+      ],
+      [
+        8,
+        "SUBJECT_GROUPING_KEY"
+      ],
+      [
+        8,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        8,
+        "NUM_ENROLLED_STUDENTS"
+      ],
+      [
+        8,
+        "SUBJECT_SUMMARY_KEY"
+      ],
+      [
+        8,
+        "IS_REPEATABLE_SUBJECT"
+      ],
+      [
+        9,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        9,
+        "FAC_ROOM_KEY"
+      ],
+      [
+        9,
+        "BUILDING_KEY"
+      ],
+      [
+        9,
+        "FLOOR"
+      ],
+      [
+        9,
+        "FLOOR_KEY"
+      ],
+      [
+        9,
+        "ROOM"
+      ],
+      [
+        9,
+        "SPACE_ID"
+      ],
+      [
+        9,
+        "MAJOR_USE_KEY"
+      ],
+      [
+        9,
+        "MAJOR_USE_DESC"
+      ],
+      [
+        9,
+        "USE_KEY"
+      ],
+      [
+        9,
+        "USE_DESC"
+      ],
+      [
+        9,
+        "MINOR_USE_KEY"
+      ],
+      [
+        9,
+        "MINOR_USE_DESC"
+      ],
+      [
+        9,
+        "ORGANIZATION_KEY"
+      ],
+      [
+        9,
+        "ORGANIZATION_NAME"
+      ],
+      [
+        9,
+        "MINOR_ORGANIZATION_KEY"
+      ],
+      [
+        9,
+        "MINOR_ORGANIZATION"
+      ],
+      [
+        9,
+        "AREA"
+      ],
+      [
+        9,
+        "ROOM_FULL_NAME"
+      ],
+      [
+        9,
+        "DEPT_CODE"
+      ],
+      [
+        9,
+        "ACCESS_LEVEL"
+      ],
+      [
+        9,
+        "LATITUDE_WGS"
+      ],
+      [
+        9,
+        "LONGITUDE_WGS"
+      ],
+      [
+        9,
+        "NORTHING_SPCS"
+      ],
+      [
+        9,
+        "EASTING_SPCS"
+      ],
+      [
+        10,
+        "IAP_SUBJECT_PERSON_KEY"
+      ],
+      [
+        10,
+        "PERSON_ROLE"
+      ],
+      [
+        10,
+        "PERSON_MIT_AFFILIATION"
+      ],
+      [
+        10,
+        "PERSON_NAME"
+      ],
+      [
+        10,
+        "PERSON_LOCATION"
+      ],
+      [
+        10,
+        "PERSON_EMAIL"
+      ],
+      [
+        10,
+        "PERSON_ORGANIZATION"
+      ],
+      [
+        10,
+        "PERSON_TITLE"
+      ],
+      [
+        10,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        11,
+        "IAP_SUBJECT_CATEGORY_KEY"
+      ],
+      [
+        11,
+        "IAP_CATEGORY_NAME"
+      ],
+      [
+        11,
+        "IAP_CATEGORY_DESC"
+      ],
+      [
+        11,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        12,
+        "HIERARCHY_TYPE"
+      ],
+      [
+        12,
+        "DLC_KEY"
+      ],
+      [
+        12,
+        "DLC_CODE"
+      ],
+      [
+        12,
+        "DLC_NAME"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_1_CODE"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_1_NAME"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_2_CODE"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_2_NAME"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_3_CODE"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_3_NAME"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_4_CODE"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_4_NAME"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_5_CODE"
+      ],
+      [
+        12,
+        "MASTER_DEPT_HIER_LEVEL_5_NAME"
+      ],
+      [
+        13,
+        "HASS_ATTRIBUTE"
+      ],
+      [
+        13,
+        "DESCRIPTION_ON_FORM"
+      ],
+      [
+        13,
+        "DESCRIPTION_IN_BULLETIN"
+      ],
+      [
+        13,
+        "CIS_ATTRIBUTE_GROUP"
+      ],
+      [
+        13,
+        "CIS_ATTRIBUTE_GROUP_NOTE"
+      ],
+      [
+        13,
+        "ICON_GIF_NAME"
+      ],
+      [
+        13,
+        "ICON_HEIGHT"
+      ],
+      [
+        13,
+        "ICON_WIDTH"
+      ],
+      [
+        13,
+        "LAST_ACTIVITY_DATE"
+      ],
+      [
+        13,
+        "LAST_UPDATE_USER"
+      ],
+      [
+        13,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        14,
+        "FCLT_BUILDING_HIST_KEY"
+      ],
+      [
+        14,
+        "FISCAL_PERIOD"
+      ],
+      [
+        14,
+        "FCLT_BUILDING_KEY"
+      ],
+      [
+        14,
+        "BUILDING_NUMBER"
+      ],
+      [
+        14,
+        "PARENT_BUILDING_NUMBER"
+      ],
+      [
+        14,
+        "PARENT_BUILDING_NAME"
+      ],
+      [
+        14,
+        "PARENT_BUILDING_NAME_LONG"
+      ],
+      [
+        14,
+        "BUILDING_NAME_LONG"
+      ],
+      [
+        14,
+        "EXT_GROSS_AREA"
+      ],
+      [
+        14,
+        "ASSIGNABLE_AREA"
+      ],
+      [
+        14,
+        "NON_ASSIGNABLE_AREA"
+      ],
+      [
+        14,
+        "SITE"
+      ],
+      [
+        14,
+        "CAMPUS_SECTOR"
+      ],
+      [
+        14,
+        "ACCESS_LEVEL_CODE"
+      ],
+      [
+        14,
+        "ACCESS_LEVEL_NAME"
+      ],
+      [
+        14,
+        "BUILDING_TYPE"
+      ],
+      [
+        14,
+        "OWNERSHIP_TYPE"
+      ],
+      [
+        14,
+        "BUILDING_USE"
+      ],
+      [
+        14,
+        "OCCUPANCY_CLASS"
+      ],
+      [
+        14,
+        "BUILDING_HEIGHT"
+      ],
+      [
+        14,
+        "COST_CENTER_CODE"
+      ],
+      [
+        14,
+        "COST_COLLECTOR_KEY"
+      ],
+      [
+        14,
+        "LATITUDE_WGS"
+      ],
+      [
+        14,
+        "LONGITUDE_WGS"
+      ],
+      [
+        14,
+        "EASTING_X_SPCS"
+      ],
+      [
+        14,
+        "NORTHING_Y_SPCS"
+      ],
+      [
+        14,
+        "BUILDING_SORT"
+      ],
+      [
+        14,
+        "BUILDING_NAMED_FOR"
+      ],
+      [
+        14,
+        "BUILDING_NAME"
+      ],
+      [
+        14,
+        "DATE_BUILT"
+      ],
+      [
+        14,
+        "DATE_ACQUIRED"
+      ],
+      [
+        14,
+        "DATE_OCCUPIED"
+      ],
+      [
+        14,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        14,
+        "NUM_OF_ROOMS"
+      ],
+      [
+        15,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        15,
+        "BUILDING_ADDRESS_KEY"
+      ],
+      [
+        15,
+        "BUILDING_KEY"
+      ],
+      [
+        15,
+        "ADDRESS_PURPOSE"
+      ],
+      [
+        15,
+        "ADDRESS_CITY_ID"
+      ],
+      [
+        15,
+        "IS_E911_ADDRESS"
+      ],
+      [
+        15,
+        "STREET_NUMBER"
+      ],
+      [
+        15,
+        "STREET_NUMBER_SUFFIX"
+      ],
+      [
+        15,
+        "PRE_DIRECTIONAL"
+      ],
+      [
+        15,
+        "STREET_NAME"
+      ],
+      [
+        15,
+        "STREET_SUFFIX"
+      ],
+      [
+        15,
+        "POST_DIRECTIONAL"
+      ],
+      [
+        15,
+        "CITY"
+      ],
+      [
+        15,
+        "STATE"
+      ],
+      [
+        15,
+        "POSTAL_CODE"
+      ],
+      [
+        16,
+        "DATE_ACQUIRED"
+      ],
+      [
+        16,
+        "DATE_OCCUPIED"
+      ],
+      [
+        16,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        16,
+        "NUM_OF_ROOMS"
+      ],
+      [
+        16,
+        "FAC_BUILDING_KEY"
+      ],
+      [
+        16,
+        "BUILDING_NUMBER"
+      ],
+      [
+        16,
+        "PARENT_BUILDING_NUMBER"
+      ],
+      [
+        16,
+        "PARENT_BUILDING_NAME"
+      ],
+      [
+        16,
+        "PARENT_BUILDING_NAME_LONG"
+      ],
+      [
+        16,
+        "BUILDING_NAME_LONG"
+      ],
+      [
+        16,
+        "EXT_GROSS_AREA"
+      ],
+      [
+        16,
+        "ASSIGNABLE_AREA"
+      ],
+      [
+        16,
+        "NON_ASSIGNABLE_AREA"
+      ],
+      [
+        16,
+        "SITE"
+      ],
+      [
+        16,
+        "CAMPUS_SECTOR"
+      ],
+      [
+        16,
+        "ACCESS_LEVEL_CODE"
+      ],
+      [
+        16,
+        "ACCESS_LEVEL_NAME"
+      ],
+      [
+        16,
+        "BUILDING_TYPE"
+      ],
+      [
+        16,
+        "OWNERSHIP_TYPE"
+      ],
+      [
+        16,
+        "BUILDING_USE"
+      ],
+      [
+        16,
+        "OCCUPANCY_CLASS"
+      ],
+      [
+        16,
+        "BUILDING_HEIGHT"
+      ],
+      [
+        16,
+        "COST_CENTER_CODE"
+      ],
+      [
+        16,
+        "COST_COLLECTOR_KEY"
+      ],
+      [
+        16,
+        "LATITUDE_WGS"
+      ],
+      [
+        16,
+        "LONGITUDE_WGS"
+      ],
+      [
+        16,
+        "EASTING_X_SPCS"
+      ],
+      [
+        16,
+        "NORTHING_Y_SPCS"
+      ],
+      [
+        16,
+        "BUILDING_SORT"
+      ],
+      [
+        16,
+        "BUILDING_NAMED_FOR"
+      ],
+      [
+        16,
+        "BUILDING_NAME"
+      ],
+      [
+        16,
+        "DATE_BUILT"
+      ],
+      [
+        17,
+        "LIBRARY_COURSE_INSTRUCTOR_KEY"
+      ],
+      [
+        17,
+        "COURSE_NAME"
+      ],
+      [
+        17,
+        "INSTRUCTOR_NAME"
+      ],
+      [
+        17,
+        "DEPARTMENT"
+      ],
+      [
+        17,
+        "DATE_FROM"
+      ],
+      [
+        17,
+        "DATE_TO"
+      ],
+      [
+        17,
+        "UNIT_CODE"
+      ],
+      [
+        17,
+        "UNIT"
+      ],
+      [
+        17,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        18,
+        "MIT_ID"
+      ],
+      [
+        18,
+        "DEPT_COUNT"
+      ],
+      [
+        18,
+        "DEPT_NAMES"
+      ],
+      [
+        18,
+        "NUM_OF_SUPERVISEES"
+      ],
+      [
+        18,
+        "SQFT"
+      ],
+      [
+        18,
+        "RESEARCH_VOLUME"
+      ],
+      [
+        18,
+        "SQFT_PER_SUPERVISEE"
+      ],
+      [
+        18,
+        "SQFT_PER_RES_VOL"
+      ],
+      [
+        18,
+        "RES_VOL_PER_SQFT"
+      ],
+      [
+        19,
+        "FCLT_ORGANIZATION_KEY"
+      ],
+      [
+        19,
+        "DLC_KEY"
+      ],
+      [
+        20,
+        "ACADEMIC_YEAR"
+      ],
+      [
+        20,
+        "TERM_CODE"
+      ],
+      [
+        20,
+        "SUBJECT_ID"
+      ],
+      [
+        20,
+        "SUBJECT_CODE"
+      ],
+      [
+        20,
+        "SUBJECT_NUMBER"
+      ],
+      [
+        20,
+        "SOURCE_SUBJECT_ID"
+      ],
+      [
+        20,
+        "PRINT_SUBJECT_ID"
+      ],
+      [
+        20,
+        "IS_PRINTED_IN_BULLETIN"
+      ],
+      [
+        20,
+        "DEPARTMENT_CODE"
+      ],
+      [
+        20,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        20,
+        "EFFECTIVE_TERM_CODE"
+      ],
+      [
+        20,
+        "SUBJECT_SHORT_TITLE"
+      ],
+      [
+        20,
+        "SUBJECT_TITLE"
+      ],
+      [
+        20,
+        "IS_VARIABLE_UNITS"
+      ],
+      [
+        20,
+        "LECTURE_UNITS"
+      ],
+      [
+        20,
+        "LAB_UNITS"
+      ],
+      [
+        20,
+        "PREPARATION_UNITS"
+      ],
+      [
+        20,
+        "TOTAL_UNITS"
+      ],
+      [
+        20,
+        "DESIGN_UNITS"
+      ],
+      [
+        20,
+        "GRADE_TYPE"
+      ],
+      [
+        20,
+        "GRADE_TYPE_DESC"
+      ],
+      [
+        20,
+        "GRADE_RULE"
+      ],
+      [
+        20,
+        "GRADE_RULE_DESC"
+      ],
+      [
+        20,
+        "HGN_CODE"
+      ],
+      [
+        20,
+        "HGN_DESC"
+      ],
+      [
+        20,
+        "HGN_EXCEPT"
+      ],
+      [
+        20,
+        "GIR_ATTRIBUTE"
+      ],
+      [
+        20,
+        "GIR_ATTRIBUTE_DESC"
+      ],
+      [
+        20,
+        "COMM_REQ_ATTRIBUTE"
+      ],
+      [
+        20,
+        "COMM_REQ_ATTRIBUTE_DESC"
+      ],
+      [
+        20,
+        "TUITION_ATTRIBUTE"
+      ],
+      [
+        20,
+        "TUITION_ATTRIBUTE_DESC"
+      ],
+      [
+        20,
+        "WRITE_REQ_ATTRIBUTE"
+      ],
+      [
+        20,
+        "WRITE_REQ_ATTRIBUTE_DESC"
+      ],
+      [
+        20,
+        "SUPERVISOR_ATTRIBUTE"
+      ],
+      [
+        20,
+        "SUPERVISOR_ATTRIBUTE_DESC"
+      ],
+      [
+        20,
+        "PREREQUISITES"
+      ],
+      [
+        20,
+        "SUBJECT_DESCRIPTION"
+      ],
+      [
+        20,
+        "JOINT_SUBJECTS"
+      ],
+      [
+        20,
+        "SCHOOL_WIDE_ELECTIVES"
+      ],
+      [
+        20,
+        "MEETS_WITH_SUBJECTS"
+      ],
+      [
+        20,
+        "EQUIVALENT_SUBJECTS"
+      ],
+      [
+        20,
+        "IS_OFFERED_THIS_YEAR"
+      ],
+      [
+        20,
+        "IS_OFFERED_FALL_TERM"
+      ],
+      [
+        20,
+        "IS_OFFERED_IAP"
+      ],
+      [
+        20,
+        "IS_OFFERED_SPRING_TERM"
+      ],
+      [
+        20,
+        "IS_OFFERED_SUMMER_TERM"
+      ],
+      [
+        20,
+        "FALL_INSTRUCTORS"
+      ],
+      [
+        20,
+        "SPRING_INSTRUCTORS"
+      ],
+      [
+        20,
+        "STATUS_CHANGE"
+      ],
+      [
+        20,
+        "LAST_ACTIVITY_DATE"
+      ],
+      [
+        20,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        20,
+        "MASTER_SUBJECT_ID"
+      ],
+      [
+        20,
+        "HASS_ATTRIBUTE"
+      ],
+      [
+        20,
+        "HASS_ATTRIBUTE_DESC"
+      ],
+      [
+        20,
+        "TERM_DURATION"
+      ],
+      [
+        20,
+        "GLOBAL_REGIONS"
+      ],
+      [
+        20,
+        "GLOBAL_COUNTRIES"
+      ],
+      [
+        20,
+        "ON_LINE_PAGE_NUMBER"
+      ],
+      [
+        20,
+        "SECTION_ID"
+      ],
+      [
+        20,
+        "IS_MASTER_SECTION"
+      ],
+      [
+        20,
+        "IS_LECTURE_SECTION"
+      ],
+      [
+        20,
+        "IS_LAB_SECTION"
+      ],
+      [
+        20,
+        "IS_RECITATION_SECTION"
+      ],
+      [
+        20,
+        "IS_DESIGN_SECTION"
+      ],
+      [
+        20,
+        "RESPONSIBLE_FACULTY_NAME"
+      ],
+      [
+        20,
+        "RESPONSIBLE_FACULTY_MIT_ID"
+      ],
+      [
+        20,
+        "MEET_TIME"
+      ],
+      [
+        20,
+        "MEET_PLACE"
+      ],
+      [
+        21,
+        "LIBRARY_MATERIAL_STATUS_KEY"
+      ],
+      [
+        21,
+        "LIBRARY_MATERIAL_STATUS_CODE"
+      ],
+      [
+        21,
+        "LIBRARY_MATERIAL_STATUS"
+      ],
+      [
+        21,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        22,
+        "FCLT_ROOM_KEY"
+      ],
+      [
+        22,
+        "BUILDING_ROOM"
+      ],
+      [
+        22,
+        "FCLT_BUILDING_KEY"
+      ],
+      [
+        22,
+        "FLOOR"
+      ],
+      [
+        22,
+        "FCLT_FLOOR_KEY"
+      ],
+      [
+        22,
+        "ROOM"
+      ],
+      [
+        22,
+        "SPACE_ID"
+      ],
+      [
+        22,
+        "FCLT_MAJOR_USE_KEY"
+      ],
+      [
+        22,
+        "MAJOR_USE_DESC"
+      ],
+      [
+        22,
+        "FCLT_USE_KEY"
+      ],
+      [
+        22,
+        "USE_DESC"
+      ],
+      [
+        22,
+        "FCLT_MINOR_USE_KEY"
+      ],
+      [
+        22,
+        "MINOR_USE_DESC"
+      ],
+      [
+        22,
+        "FCLT_ORGANIZATION_KEY"
+      ],
+      [
+        22,
+        "ORGANIZATION_NAME"
+      ],
+      [
+        22,
+        "FCLT_MINOR_ORGANIZATION_KEY"
+      ],
+      [
+        22,
+        "MINOR_ORGANIZATION"
+      ],
+      [
+        22,
+        "AREA"
+      ],
+      [
+        22,
+        "ROOM_FULL_NAME"
+      ],
+      [
+        22,
+        "DEPT_CODE"
+      ],
+      [
+        22,
+        "ACCESS_LEVEL"
+      ],
+      [
+        22,
+        "LATITUDE_WGS"
+      ],
+      [
+        22,
+        "LONGITUDE_WGS"
+      ],
+      [
+        22,
+        "NORTHING_SPCS"
+      ],
+      [
+        22,
+        "EASTING_SPCS"
+      ],
+      [
+        22,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        23,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        23,
+        "BUILDING_KEY"
+      ],
+      [
+        23,
+        "FLOOR"
+      ],
+      [
+        23,
+        "FLOOR_KEY"
+      ],
+      [
+        23,
+        "EXT_GROSS_AREA"
+      ],
+      [
+        23,
+        "ASSIGNABLE_AREA"
+      ],
+      [
+        23,
+        "NON_ASSIGNABLE_AREA"
+      ],
+      [
+        23,
+        "FLOOR_SORT_SEQUENCE"
+      ],
+      [
+        23,
+        "LEVEL_ID"
+      ],
+      [
+        23,
+        "BUILDING_WINGS_ID"
+      ],
+      [
+        23,
+        "ACCESS_LEVEL"
+      ],
+      [
+        24,
+        "ACADEMIC_TERMS_KEY"
+      ],
+      [
+        24,
+        "TERM_CODE"
+      ],
+      [
+        24,
+        "TERM_DESCRIPTION"
+      ],
+      [
+        24,
+        "TERM_SELECTOR"
+      ],
+      [
+        24,
+        "TERM_START_DATE"
+      ],
+      [
+        24,
+        "TERM_END_DATE"
+      ],
+      [
+        24,
+        "ACADEMIC_YEAR"
+      ],
+      [
+        24,
+        "ACADEMIC_YEAR_DESC"
+      ],
+      [
+        24,
+        "IS_CURRENT_TERM"
+      ],
+      [
+        24,
+        "TERM_STATUS_INDICATOR"
+      ],
+      [
+        24,
+        "FINANCIAL_AID_YEAR"
+      ],
+      [
+        24,
+        "DEGREE_YEAR"
+      ],
+      [
+        24,
+        "LAST_DAY_OF_FINAL_EXAM"
+      ],
+      [
+        24,
+        "PRE_REGISTRATION_START_DAY"
+      ],
+      [
+        24,
+        "REGISTRATION_DAY"
+      ],
+      [
+        24,
+        "FIRST_DAY_OF_CLASSES"
+      ],
+      [
+        24,
+        "LAST_DAY_OF_CLASSES"
+      ],
+      [
+        24,
+        "GRADUATE_AWARD_START_DATE"
+      ],
+      [
+        24,
+        "GRADUATE_AWARD_END_DATE"
+      ],
+      [
+        24,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        25,
+        "TIP_SUBJECT_OFFERED_KEY"
+      ],
+      [
+        25,
+        "TERM_CODE"
+      ],
+      [
+        25,
+        "IS_NO_COURSE_MATERIAL"
+      ],
+      [
+        25,
+        "MASTER_COURSE_NUMBER"
+      ],
+      [
+        25,
+        "MASTER_COURSE_NUMBER_SORT"
+      ],
+      [
+        25,
+        "MASTER_COURSE_NUMBER_DESC"
+      ],
+      [
+        25,
+        "MASTER_SUBJECT_ID"
+      ],
+      [
+        25,
+        "MASTER_SUBJECT_ID_SORT"
+      ],
+      [
+        25,
+        "COURSE_NUMBER"
+      ],
+      [
+        25,
+        "COURSE_NUMBER_SORT"
+      ],
+      [
+        25,
+        "COURSE_NUMBER_DESC"
+      ],
+      [
+        25,
+        "SUBJECT_ID"
+      ],
+      [
+        25,
+        "SUBJECT_ID_SORT"
+      ],
+      [
+        25,
+        "SUBJECT_TITLE"
+      ],
+      [
+        25,
+        "OFFER_DEPT_CODE"
+      ],
+      [
+        25,
+        "OFFER_DEPT_NAME"
+      ],
+      [
+        25,
+        "OFFER_SCHOOL_NAME"
+      ],
+      [
+        25,
+        "RESPONSIBLE_FACULTY_NAME"
+      ],
+      [
+        25,
+        "RESPONSIBLE_FACULTY_MIT_ID"
+      ],
+      [
+        25,
+        "NUM_ENROLLED_STUDENTS"
+      ],
+      [
+        25,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        26,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        26,
+        "SIS_ADMIN_DEPARTMENT_CODE"
+      ],
+      [
+        26,
+        "SIS_ADMIN_DEPARTMENT_NAME"
+      ],
+      [
+        26,
+        "DEPARTMENT_PHONE_AREA_CODE"
+      ],
+      [
+        26,
+        "DEPARTMENT_PHONE_NUMBER"
+      ],
+      [
+        26,
+        "CLEARING_COST_COLLECTOR"
+      ],
+      [
+        26,
+        "LAST_ACTIVITY_DATE"
+      ],
+      [
+        27,
+        "COURSE_NUMBER"
+      ],
+      [
+        27,
+        "SUBJECT_CODE"
+      ],
+      [
+        27,
+        "SUBJECT_CODE_DESC"
+      ],
+      [
+        27,
+        "DEPARTMENT_CODE"
+      ],
+      [
+        27,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        27,
+        "SCHOOL_CODE"
+      ],
+      [
+        27,
+        "SCHOOL_NAME"
+      ],
+      [
+        27,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        28,
+        "DEPARTMENT_CODE"
+      ],
+      [
+        28,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        28,
+        "DEPARTMENT_FULL_NAME"
+      ],
+      [
+        28,
+        "SCHOOL_CODE"
+      ],
+      [
+        28,
+        "SCHOOL_NAME"
+      ],
+      [
+        29,
+        "ORGANIZATION_KEY"
+      ],
+      [
+        29,
+        "ORGANIZATION_ID"
+      ],
+      [
+        29,
+        "ORGANIZATION"
+      ],
+      [
+        29,
+        "ORGANIZATION_NAME"
+      ],
+      [
+        29,
+        "ORG_PARENT_KEY"
+      ],
+      [
+        29,
+        "ORG_PARENT"
+      ],
+      [
+        29,
+        "MAJOR_ORG_KEY"
+      ],
+      [
+        29,
+        "MAJOR_ORG"
+      ],
+      [
+        29,
+        "ORGANIZATION_LEVEL"
+      ],
+      [
+        29,
+        "ORGANIZATION_NUMBER"
+      ],
+      [
+        29,
+        "ORGANIZATION_SORT"
+      ],
+      [
+        29,
+        "ASSIGNABLE"
+      ],
+      [
+        29,
+        "COURSE"
+      ],
+      [
+        29,
+        "DESCRIPTION"
+      ],
+      [
+        29,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        29,
+        "D_CODE"
+      ],
+      [
+        29,
+        "HR_DEPARTMENT_CODE_OLD"
+      ],
+      [
+        29,
+        "HR_ORG_UNIT_ID"
+      ],
+      [
+        29,
+        "HR_DEPARTMENT_NAME"
+      ],
+      [
+        30,
+        "IAP_SUBJECT_CATEGORY_KEY"
+      ],
+      [
+        30,
+        "IAP_SUBJECT_SPONSOR_KEY"
+      ],
+      [
+        30,
+        "IAP_SUBJECT_SESSION_KEY"
+      ],
+      [
+        30,
+        "IAP_SUBJECT_PERSON_KEY"
+      ],
+      [
+        30,
+        "ACTIVITY_TITLE"
+      ],
+      [
+        30,
+        "ACTIVITY_DESCRIPTION"
+      ],
+      [
+        30,
+        "TERM_CODE"
+      ],
+      [
+        30,
+        "ENROLLMENT_TYPE"
+      ],
+      [
+        30,
+        "MAX_ENROLLMENT"
+      ],
+      [
+        30,
+        "ATTENDANCE"
+      ],
+      [
+        30,
+        "PREREQUISITES"
+      ],
+      [
+        30,
+        "FEE"
+      ],
+      [
+        30,
+        "FEE_REASON"
+      ],
+      [
+        30,
+        "PREREG_DEADLINE"
+      ],
+      [
+        30,
+        "CREATE_DATE"
+      ],
+      [
+        30,
+        "LAST_ACTIVITY_DATE"
+      ],
+      [
+        30,
+        "IS_MULTIPLE_SESSION"
+      ],
+      [
+        30,
+        "IS_CANCELLED"
+      ],
+      [
+        30,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        31,
+        "IS_OFFERED_FALL_TERM"
+      ],
+      [
+        31,
+        "IS_OFFERED_IAP"
+      ],
+      [
+        31,
+        "IS_OFFERED_SPRING_TERM"
+      ],
+      [
+        31,
+        "IS_OFFERED_SUMMER_TERM"
+      ],
+      [
+        31,
+        "FALL_INSTRUCTORS"
+      ],
+      [
+        31,
+        "SPRING_INSTRUCTORS"
+      ],
+      [
+        31,
+        "STATUS_CHANGE"
+      ],
+      [
+        31,
+        "LAST_ACTIVITY_DATE"
+      ],
+      [
+        31,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        31,
+        "MASTER_SUBJECT_ID"
+      ],
+      [
+        31,
+        "HASS_ATTRIBUTE"
+      ],
+      [
+        31,
+        "HASS_ATTRIBUTE_DESC"
+      ],
+      [
+        31,
+        "TERM_DURATION"
+      ],
+      [
+        31,
+        "GLOBAL_REGIONS"
+      ],
+      [
+        31,
+        "GLOBAL_COUNTRIES"
+      ],
+      [
+        31,
+        "ON_LINE_PAGE_NUMBER"
+      ],
+      [
+        31,
+        "ACADEMIC_YEAR"
+      ],
+      [
+        31,
+        "SUBJECT_ID"
+      ],
+      [
+        31,
+        "SUBJECT_CODE"
+      ],
+      [
+        31,
+        "SUBJECT_NUMBER"
+      ],
+      [
+        31,
+        "SOURCE_SUBJECT_ID"
+      ],
+      [
+        31,
+        "PRINT_SUBJECT_ID"
+      ],
+      [
+        31,
+        "IS_PRINTED_IN_BULLETIN"
+      ],
+      [
+        31,
+        "DEPARTMENT_CODE"
+      ],
+      [
+        31,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        31,
+        "EFFECTIVE_TERM_CODE"
+      ],
+      [
+        31,
+        "SUBJECT_SHORT_TITLE"
+      ],
+      [
+        31,
+        "SUBJECT_TITLE"
+      ],
+      [
+        31,
+        "IS_VARIABLE_UNITS"
+      ],
+      [
+        31,
+        "LECTURE_UNITS"
+      ],
+      [
+        31,
+        "LAB_UNITS"
+      ],
+      [
+        31,
+        "PREPARATION_UNITS"
+      ],
+      [
+        31,
+        "TOTAL_UNITS"
+      ],
+      [
+        31,
+        "DESIGN_UNITS"
+      ],
+      [
+        31,
+        "GRADE_TYPE"
+      ],
+      [
+        31,
+        "GRADE_TYPE_DESC"
+      ],
+      [
+        31,
+        "GRADE_RULE"
+      ],
+      [
+        31,
+        "GRADE_RULE_DESC"
+      ],
+      [
+        31,
+        "HGN_CODE"
+      ],
+      [
+        31,
+        "HGN_DESC"
+      ],
+      [
+        31,
+        "HGN_EXCEPT"
+      ],
+      [
+        31,
+        "GIR_ATTRIBUTE"
+      ],
+      [
+        31,
+        "GIR_ATTRIBUTE_DESC"
+      ],
+      [
+        31,
+        "COMM_REQ_ATTRIBUTE"
+      ],
+      [
+        31,
+        "COMM_REQ_ATTRIBUTE_DESC"
+      ],
+      [
+        31,
+        "TUITION_ATTRIBUTE"
+      ],
+      [
+        31,
+        "TUITION_ATTRIBUTE_DESC"
+      ],
+      [
+        31,
+        "WRITE_REQ_ATTRIBUTE"
+      ],
+      [
+        31,
+        "WRITE_REQ_ATTRIBUTE_DESC"
+      ],
+      [
+        31,
+        "SUPERVISOR_ATTRIBUTE"
+      ],
+      [
+        31,
+        "SUPERVISOR_ATTRIBUTE_DESC"
+      ],
+      [
+        31,
+        "PREREQUISITES"
+      ],
+      [
+        31,
+        "SUBJECT_DESCRIPTION"
+      ],
+      [
+        31,
+        "JOINT_SUBJECTS"
+      ],
+      [
+        31,
+        "SCHOOL_WIDE_ELECTIVES"
+      ],
+      [
+        31,
+        "MEETS_WITH_SUBJECTS"
+      ],
+      [
+        31,
+        "EQUIVALENT_SUBJECTS"
+      ],
+      [
+        31,
+        "IS_OFFERED_THIS_YEAR"
+      ],
+      [
+        32,
+        "IAP_SUBJECT_SPONSOR_KEY"
+      ],
+      [
+        32,
+        "SPONSOR_NAME"
+      ],
+      [
+        32,
+        "SPONSOR_TYPE"
+      ],
+      [
+        32,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        33,
+        "PROGRAM_CODE"
+      ],
+      [
+        33,
+        "PROGRAM_TITLE"
+      ],
+      [
+        33,
+        "CATEGORY_CODE"
+      ],
+      [
+        33,
+        "CATEGORY_TITLE"
+      ],
+      [
+        33,
+        "FOUR_DIGIT_CODE"
+      ],
+      [
+        33,
+        "FOUR_DIGIT_TITLE"
+      ],
+      [
+        33,
+        "NOTE"
+      ],
+      [
+        33,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        33,
+        "VERSION"
+      ],
+      [
+        34,
+        "DEPARTMENT_CODE"
+      ],
+      [
+        34,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        34,
+        "DEPARTMENT_FULL_NAME"
+      ],
+      [
+        34,
+        "SCHOOL_CODE"
+      ],
+      [
+        34,
+        "SCHOOL_NAME"
+      ],
+      [
+        34,
+        "DEPT_BUDGET_CODE"
+      ],
+      [
+        34,
+        "IS_DEGREE_GRANTING"
+      ],
+      [
+        34,
+        "DEPT_NAME_IN_COMMENCEMENT_BK"
+      ],
+      [
+        34,
+        "SCHOOL_NAME_IN_COMMENCEMENT_BK"
+      ],
+      [
+        34,
+        "DEPARTMENT_NAME_HISTORY"
+      ],
+      [
+        34,
+        "DEPARTMENT_LAST_ACTIVITY_DATE"
+      ],
+      [
+        34,
+        "DLC_KEY"
+      ],
+      [
+        34,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        35,
+        "LIBRARY_COURSE_INSTRUCTOR_KEY"
+      ],
+      [
+        35,
+        "LIBRARY_RESERVE_CATALOG_KEY"
+      ],
+      [
+        35,
+        "LIBRARY_SUBJECT_OFFERED_KEY"
+      ],
+      [
+        35,
+        "LIBRARY_MATERIAL_STATUS_KEY"
+      ],
+      [
+        35,
+        "TERM_CODE"
+      ],
+      [
+        35,
+        "SUBJECT_ID"
+      ],
+      [
+        35,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        36,
+        "ACADEMIC_TERMS_KEY"
+      ],
+      [
+        36,
+        "TERM_CODE"
+      ],
+      [
+        36,
+        "TERM_DESCRIPTION"
+      ],
+      [
+        36,
+        "TERM_SELECTOR"
+      ],
+      [
+        36,
+        "TERM_START_DATE"
+      ],
+      [
+        36,
+        "TERM_END_DATE"
+      ],
+      [
+        36,
+        "ACADEMIC_YEAR"
+      ],
+      [
+        36,
+        "ACADEMIC_YEAR_DESC"
+      ],
+      [
+        36,
+        "IS_CURRENT_TERM"
+      ],
+      [
+        36,
+        "IS_REGULAR_TERM"
+      ],
+      [
+        36,
+        "TERM_STATUS_INDICATOR"
+      ],
+      [
+        36,
+        "TERM_STATUS"
+      ],
+      [
+        36,
+        "FINANCIAL_AID_YEAR"
+      ],
+      [
+        36,
+        "DEGREE_YEAR"
+      ],
+      [
+        36,
+        "LAST_DAY_OF_FINAL_EXAM"
+      ],
+      [
+        36,
+        "PRE_REGISTRATION_START_DAY"
+      ],
+      [
+        36,
+        "REGISTRATION_DAY"
+      ],
+      [
+        36,
+        "FIRST_DAY_OF_CLASSES"
+      ],
+      [
+        36,
+        "LAST_DAY_OF_CLASSES"
+      ],
+      [
+        36,
+        "ADD_DATE"
+      ],
+      [
+        36,
+        "DROP_DATE"
+      ],
+      [
+        36,
+        "GRADUATE_AWARD_START_DATE"
+      ],
+      [
+        36,
+        "GRADUATE_AWARD_END_DATE"
+      ],
+      [
+        36,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        37,
+        "BUILDING_KEY"
+      ],
+      [
+        37,
+        "BUILDING_NUMBER"
+      ],
+      [
+        37,
+        "BUILDING_NAME"
+      ],
+      [
+        37,
+        "BUILDING_STREET_ADDRESS"
+      ],
+      [
+        37,
+        "BUILDING_MAILING_ADDRESS"
+      ],
+      [
+        37,
+        "BLDG_GROSS_SQUARE_FOOTAGE"
+      ],
+      [
+        37,
+        "BLDG_ASSIGNABLE_SQUARE_FOOTAGE"
+      ],
+      [
+        37,
+        "BUILDING_COUNTER"
+      ],
+      [
+        37,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        38,
+        "FCLT_BUILDING_KEY"
+      ],
+      [
+        38,
+        "BUILDING_NUMBER"
+      ],
+      [
+        38,
+        "PARENT_BUILDING_NUMBER"
+      ],
+      [
+        38,
+        "PARENT_BUILDING_NAME"
+      ],
+      [
+        38,
+        "PARENT_BUILDING_NAME_LONG"
+      ],
+      [
+        38,
+        "BUILDING_NAME_LONG"
+      ],
+      [
+        38,
+        "EXT_GROSS_AREA"
+      ],
+      [
+        38,
+        "ASSIGNABLE_AREA"
+      ],
+      [
+        38,
+        "NON_ASSIGNABLE_AREA"
+      ],
+      [
+        38,
+        "SITE"
+      ],
+      [
+        38,
+        "CAMPUS_SECTOR"
+      ],
+      [
+        38,
+        "ACCESS_LEVEL_CODE"
+      ],
+      [
+        38,
+        "ACCESS_LEVEL_NAME"
+      ],
+      [
+        38,
+        "BUILDING_TYPE"
+      ],
+      [
+        38,
+        "OWNERSHIP_TYPE"
+      ],
+      [
+        38,
+        "BUILDING_USE"
+      ],
+      [
+        38,
+        "OCCUPANCY_CLASS"
+      ],
+      [
+        38,
+        "BUILDING_HEIGHT"
+      ],
+      [
+        38,
+        "COST_CENTER_CODE"
+      ],
+      [
+        38,
+        "COST_COLLECTOR_KEY"
+      ],
+      [
+        38,
+        "LATITUDE_WGS"
+      ],
+      [
+        38,
+        "LONGITUDE_WGS"
+      ],
+      [
+        38,
+        "EASTING_X_SPCS"
+      ],
+      [
+        38,
+        "NORTHING_Y_SPCS"
+      ],
+      [
+        38,
+        "BUILDING_SORT"
+      ],
+      [
+        38,
+        "BUILDING_NAMED_FOR"
+      ],
+      [
+        38,
+        "BUILDING_NAME"
+      ],
+      [
+        38,
+        "DATE_BUILT"
+      ],
+      [
+        38,
+        "DATE_ACQUIRED"
+      ],
+      [
+        38,
+        "DATE_OCCUPIED"
+      ],
+      [
+        38,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        38,
+        "NUM_OF_ROOMS"
+      ],
+      [
+        39,
+        "TERM_PARAMETER"
+      ],
+      [
+        39,
+        "TERM_INDICATOR"
+      ],
+      [
+        39,
+        "TERM_CODE"
+      ],
+      [
+        39,
+        "TERM_DESCRIPTION"
+      ],
+      [
+        39,
+        "TERM_START_DATE"
+      ],
+      [
+        39,
+        "TERM_END_DATE"
+      ],
+      [
+        39,
+        "TERM_LAST_DAY_BEFORE_NEXT_TERM"
+      ],
+      [
+        39,
+        "IS_CURRENT_TERM"
+      ],
+      [
+        40,
+        "TIP_MATERIAL_STATUS_KEY"
+      ],
+      [
+        40,
+        "TIP_MATERIAL_STATUS_CODE"
+      ],
+      [
+        40,
+        "TIP_MATERIAL_STATUS"
+      ],
+      [
+        40,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        41,
+        "IAP_SUBJECT_SESSION_KEY"
+      ],
+      [
+        41,
+        "SESSION_SEQUENCE"
+      ],
+      [
+        41,
+        "SESSION_TITLE"
+      ],
+      [
+        41,
+        "SESSION_DESCRIPTION"
+      ],
+      [
+        41,
+        "SESSION_LOCATION"
+      ],
+      [
+        41,
+        "SESSION_DATE"
+      ],
+      [
+        41,
+        "SESSION_START_TIME"
+      ],
+      [
+        41,
+        "SESSION_END_TIME"
+      ],
+      [
+        41,
+        "HAS_SESSION_INFO"
+      ],
+      [
+        41,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        42,
+        "MIT_ID"
+      ],
+      [
+        42,
+        "LAST_NAME"
+      ],
+      [
+        42,
+        "FIRST_NAME"
+      ],
+      [
+        42,
+        "MIDDLE_NAME"
+      ],
+      [
+        42,
+        "FULL_NAME"
+      ],
+      [
+        42,
+        "DIRECTORY_FULL_NAME"
+      ],
+      [
+        42,
+        "OFFICE_LOCATION"
+      ],
+      [
+        42,
+        "OFFICE_PHONE"
+      ],
+      [
+        42,
+        "DIRECTORY_TITLE"
+      ],
+      [
+        42,
+        "PRIMARY_TITLE"
+      ],
+      [
+        42,
+        "DEPARTMENT_NUMBER"
+      ],
+      [
+        42,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        42,
+        "KRB_NAME"
+      ],
+      [
+        42,
+        "KRB_NAME_UPPERCASE"
+      ],
+      [
+        42,
+        "EMAIL_ADDRESS"
+      ],
+      [
+        42,
+        "PERSONAL_URL"
+      ],
+      [
+        42,
+        "NAME_KNOWN_BY"
+      ],
+      [
+        42,
+        "EMAIL_ADDRESS_UPPERCASE"
+      ],
+      [
+        42,
+        "FULL_NAME_UPPERCASE"
+      ],
+      [
+        42,
+        "PREFERRED_FIRST_NAME_UPPER"
+      ],
+      [
+        42,
+        "PREFERRED_LAST_NAME_UPPER"
+      ],
+      [
+        43,
+        "FIRST_NAME"
+      ],
+      [
+        43,
+        "MIDDLE_NAME"
+      ],
+      [
+        43,
+        "LAST_NAME"
+      ],
+      [
+        43,
+        "FULL_NAME"
+      ],
+      [
+        43,
+        "OFFICE_LOCATION"
+      ],
+      [
+        43,
+        "OFFICE_PHONE"
+      ],
+      [
+        43,
+        "EMAIL_ADDRESS"
+      ],
+      [
+        43,
+        "DEPARTMENT"
+      ],
+      [
+        43,
+        "DEPARTMENT_NAME"
+      ],
+      [
+        43,
+        "STUDENT_YEAR"
+      ],
+      [
+        43,
+        "FULL_NAME_UPPERCASE"
+      ],
+      [
+        43,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        44,
+        "FCLT_ORGANIZATION_KEY"
+      ],
+      [
+        44,
+        "SPACE_UNIT_KEY"
+      ],
+      [
+        44,
+        "SPACE_UNIT_CODE"
+      ],
+      [
+        44,
+        "SPACE_UNIT"
+      ],
+      [
+        44,
+        "DLC_KEY"
+      ],
+      [
+        44,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        45,
+        "FLOOR_KEY"
+      ],
+      [
+        45,
+        "FLOOR"
+      ],
+      [
+        45,
+        "FLOOR_NAME"
+      ],
+      [
+        45,
+        "WAREHOUSE_LOAD_DATE"
+      ],
+      [
+        46,
+        "TIP_MATERIAL_KEY"
+      ],
+      [
+        46,
+        "ISBN"
+      ],
+      [
+        46,
+        "TITLE"
+      ],
+      [
+        46,
+        "AUTHOR"
+      ],
+      [
+        46,
+        "EDITION"
+      ],
+      [
+        46,
+        "PUBLISHER"
+      ],
+      [
+        46,
+        "YEAR"
+      ],
+      [
+        46,
+        "NEW_SHELF_PRICE"
+      ],
+      [
+        46,
+        "USED_SHELF_PRICE"
+      ],
+      [
+        46,
+        "RENTAL_NEW_PRICE"
+      ],
+      [
+        46,
+        "RENTAL_USED_PRICE"
+      ],
+      [
+        46,
+        "MATERIAL_INFO_SOURCE"
+      ],
+      [
+        47,
+        "SPACE_USAGE_KEY"
+      ],
+      [
+        47,
+        "SPACE_USAGE"
+      ],
+      [
+        47,
+        "WAREHOUSE_LOAD_DATE"
+      ]
+    ],
+    "column_types": [
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "number",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "time",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "number",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "number",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "text",
+      "text",
+      "time",
+      "text",
+      "number",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "time",
+      "time",
+      "time",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "number",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "time",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "number",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "time",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "number",
+      "number",
+      "number",
+      "number",
+      "text",
+      "number",
+      "text",
+      "time"
+    ],
+    "db_id": "dw",
+    "foreign_keys": [
+      [
+        73,
+        778
+      ],
+      [
+        72,
+        757
+      ],
+      [
+        71,
+        438
+      ],
+      [
+        70,
+        660
+      ],
+      [
+        85,
+        338
+      ],
+      [
+        84,
+        447
+      ],
+      [
+        83,
+        709
+      ],
+      [
+        82,
+        766
+      ],
+      [
+        81,
+        466
+      ],
+      [
+        92,
+        669
+      ],
+      [
+        115,
+        338
+      ],
+      [
+        106,
+        447
+      ],
+      [
+        138,
+        338
+      ],
+      [
+        129,
+        447
+      ],
+      [
+        185,
+        507
+      ],
+      [
+        176,
+        438
+      ],
+      [
+        174,
+        660
+      ],
+      [
+        211,
+        335
+      ],
+      [
+        237,
+        669
+      ],
+      [
+        271,
+        660
+      ],
+      [
+        334,
+        28
+      ],
+      [
+        389,
+        224
+      ],
+      [
+        344,
+        502
+      ],
+      [
+        339,
+        495
+      ],
+      [
+        337,
+        447
+      ],
+      [
+        422,
+        28
+      ],
+      [
+        411,
+        669
+      ],
+      [
+        436,
+        660
+      ],
+      [
+        477,
+        338
+      ],
+      [
+        467,
+        447
+      ],
+      [
+        497,
+        502
+      ],
+      [
+        522,
+        502
+      ],
+      [
+        532,
+        447
+      ],
+      [
+        529,
+        197
+      ],
+      [
+        528,
+        713
+      ],
+      [
+        527,
+        603
+      ],
+      [
+        526,
+        206
+      ],
+      [
+        568,
+        502
+      ],
+      [
+        563,
+        495
+      ],
+      [
+        562,
+        338
+      ],
+      [
+        555,
+        224
+      ],
+      [
+        627,
+        335
+      ],
+      [
+        616,
+        502
+      ],
+      [
+        634,
+        338
+      ],
+      [
+        633,
+        447
+      ],
+      [
+        632,
+        405
+      ],
+      [
+        631,
+        105
+      ],
+      [
+        630,
+        16
+      ],
+      [
+        629,
+        316
+      ],
+      [
+        637,
+        447
+      ],
+      [
+        636,
+        446
+      ],
+      [
+        703,
+        447
+      ],
+      [
+        760,
+        335
+      ],
+      [
+        756,
+        28
+      ],
+      [
+        762,
+        438
+      ]
+    ],
+    "primary_keys": [
+      9,
+      16,
+      28,
+      48,
+      91,
+      105,
+      125,
+      173,
+      197,
+      206,
+      224,
+      235,
+      270,
+      288,
+      316,
+      335,
+      338,
+      405,
+      409,
+      438,
+      447,
+      466,
+      488,
+      495,
+      502,
+      507,
+      603,
+      607,
+      660,
+      669,
+      709,
+      713,
+      757,
+      766,
+      778
+    ],
+    "table_names": [
+      "time day",
+      "library reserve catalog",
+      "fclt organization",
+      "sis course description",
+      "space detail",
+      "tip detail",
+      "fclt building address",
+      "library subject offered",
+      "subject offered",
+      "fac rooms",
+      "iap subject person",
+      "iap subject category",
+      "master dept hierarchy",
+      "cis hass attribute",
+      "fclt building hist",
+      "fac building address",
+      "fac building",
+      "library course instructor",
+      "space supervisor usage",
+      "fclt org dlc key",
+      "course catalog subject offered",
+      "library material status",
+      "fclt rooms",
+      "fac floor",
+      "academic terms all",
+      "tip subject offered",
+      "sis admin department",
+      "sis subject code",
+      "student department",
+      "fac organization",
+      "iap subject detail",
+      "cis course catalog",
+      "iap subject sponsor",
+      "cip",
+      "sis department",
+      "library reserve matrl detail",
+      "academic terms",
+      "buildings",
+      "fclt building",
+      "academic term parameter",
+      "tip material status",
+      "iap subject session",
+      "employee directory",
+      "mit student directory",
+      "space unit",
+      "space floor",
+      "tip material",
+      "space usage"
+    ],
+    "table_names_original": [
+      "TIME_DAY",
+      "LIBRARY_RESERVE_CATALOG",
+      "FCLT_ORGANIZATION",
+      "SIS_COURSE_DESCRIPTION",
+      "SPACE_DETAIL",
+      "TIP_DETAIL",
+      "FCLT_BUILDING_ADDRESS",
+      "LIBRARY_SUBJECT_OFFERED",
+      "SUBJECT_OFFERED",
+      "FAC_ROOMS",
+      "IAP_SUBJECT_PERSON",
+      "IAP_SUBJECT_CATEGORY",
+      "MASTER_DEPT_HIERARCHY",
+      "CIS_HASS_ATTRIBUTE",
+      "FCLT_BUILDING_HIST",
+      "FAC_BUILDING_ADDRESS",
+      "FAC_BUILDING",
+      "LIBRARY_COURSE_INSTRUCTOR",
+      "SPACE_SUPERVISOR_USAGE",
+      "FCLT_ORG_DLC_KEY",
+      "COURSE_CATALOG_SUBJECT_OFFERED",
+      "LIBRARY_MATERIAL_STATUS",
+      "FCLT_ROOMS",
+      "FAC_FLOOR",
+      "ACADEMIC_TERMS_ALL",
+      "TIP_SUBJECT_OFFERED",
+      "SIS_ADMIN_DEPARTMENT",
+      "SIS_SUBJECT_CODE",
+      "STUDENT_DEPARTMENT",
+      "FAC_ORGANIZATION",
+      "IAP_SUBJECT_DETAIL",
+      "CIS_COURSE_CATALOG",
+      "IAP_SUBJECT_SPONSOR",
+      "CIP",
+      "SIS_DEPARTMENT",
+      "LIBRARY_RESERVE_MATRL_DETAIL",
+      "ACADEMIC_TERMS",
+      "BUILDINGS",
+      "FCLT_BUILDING",
+      "ACADEMIC_TERM_PARAMETER",
+      "TIP_MATERIAL_STATUS",
+      "IAP_SUBJECT_SESSION",
+      "EMPLOYEE_DIRECTORY",
+      "MIT_STUDENT_DIRECTORY",
+      "SPACE_UNIT",
+      "SPACE_FLOOR",
+      "TIP_MATERIAL",
+      "SPACE_USAGE"
+    ]
+  }
+]

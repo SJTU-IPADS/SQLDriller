@@ -1,0 +1,16 @@
+Generate a variation of the following instruction while keeping the semantic meaning.
+(Please reserve the placeholders %s in the input, and reserve the Line Break before each %s.)
+
+Input:
+{{ Now you are a database management system expert.
+Given the information of schema definition along with a natural language query, you should choose the correct SQL among the given candidates that can answer the query.
+The schema definition:
+%s
+
+The natural language query:
+%s
+
+The SQL options:
+%s }}
+
+Output:

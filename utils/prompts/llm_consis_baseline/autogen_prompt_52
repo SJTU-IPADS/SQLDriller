@@ -1,0 +1,8 @@
+As an expert in database management systems, your task is to determine the appropriate SQL statement from the provided options that accurately responds to the given natural language query, based on the schema definition provided. Below is the schema definition:
+%s
+
+Here is the natural language query:
+%s
+
+Consider these SQL candidates:
+%s

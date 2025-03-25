@@ -1,0 +1,2225 @@
+[
+    {
+        "id": 19,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "What is the name and capacity for the stadium with the highest average attendance?",
+        "original": "SELECT name ,  capacity FROM stadium ORDER BY average DESC LIMIT 1",
+        "fixed": "SELECT name, capacity FROM stadium WHERE average = (SELECT MAX(average) FROM stadium)",
+        "note": "limit 1"
+    },
+    {
+        "id": 22,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "Show the stadium name and the number of concerts in each stadium.",
+        "original": "SELECT T2.name ,  count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id GROUP BY T1.stadium_id",
+        "fixed": "SELECT s.name as StadiumName, (SELECT COUNT(*) FROM concert WHERE stadium_id = s.stadium_id) AS NumberOfConcerts FROM stadium s",
+        "note": "join -> left join"
+    },
+    {
+        "id": 23,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "For each stadium, display the number of concerts that take place there, identified by Stadium ID.",
+        "original": "SELECT T2.Stadium_ID, count(*) FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id = T2.stadium_id GROUP BY T1.stadium_id",
+        "fixed": "SELECT s.stadium_id, COUNT(c.concert_id) AS concert_count FROM stadium s LEFT JOIN concert c ON s.stadium_id = c.stadium_id GROUP BY s.stadium_id",
+        "note": "join -> left join"
+    },
+    {
+        "id": 24,
+        "db_id": "concert_singer",
+        "difficulty": "extra",
+        "question": "Show the stadium name and capacity with most number of concerts in year 2014 or after.",
+        "original": "SELECT T2.name ,  T2.capacity FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  >=  2014 GROUP BY T2.stadium_id ORDER BY count(*) DESC LIMIT 1",
+        "fixed": "SELECT T2.name, T2.capacity FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id = T2.stadium_id WHERE T1.year >= 2014 GROUP BY T2.stadium_id HAVING COUNT(*) = (SELECT COUNT(*) AS c FROM concert AS T3 JOIN stadium AS T4 ON T3.stadium_id = T4.stadium_id WHERE T3.year >= 2014 GROUP BY T4.stadium_id ORDER BY c desc LIMIT 1)",
+        "note": "limit 1"
+    },
+    {
+        "id": 25,
+        "db_id": "concert_singer",
+        "difficulty": "extra",
+        "question": "What is the name and capacity of the stadium with the most concerts after 2013 ?",
+        "original": "select t2.name ,  t2.capacity from concert as t1 join stadium as t2 on t1.stadium_id  =  t2.stadium_id where t1.year  >  2013 group by t2.stadium_id order by count(*) desc limit 1",
+        "fixed": "SELECT first.name, first.capacity FROM (SELECT s.name, s.capacity FROM stadium s, concert c WHERE s.stadium_id = c.stadium_id AND c.year > 2013 GROUP BY s.stadium_id HAVING COUNT(*) = (SELECT MAX(count) FROM (SELECT COUNT(*) as count FROM concert GROUP BY stadium_id) as subquery)) AS first",
+        "note": "limit 1"
+    },
+    {
+        "id": 31,
+        "db_id": "concert_singer",
+        "difficulty": "hard",
+        "question": "Show names for all stadiums except for stadiums having a concert in year 2014.",
+        "original": "SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014",
+        "fixed": "SELECT name FROM stadium WHERE stadium_id NOT IN (SELECT stadium_id FROM concert WHERE year = 2014)",
+        "note": "except non-key"
+    },
+    {
+        "id": 32,
+        "db_id": "concert_singer",
+        "difficulty": "hard",
+        "question": "What are the names of all stadiums that did not have a concert in 2014?",
+        "original": "SELECT name FROM stadium EXCEPT SELECT T2.name FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.year  =  2014",
+        "fixed": "SELECT s.name FROM stadium s WHERE s.stadium_id NOT IN (SELECT c.stadium_id FROM concert c WHERE c.year = 2014)",
+        "note": "except non-key"
+    },
+    {
+        "id": 33,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "Show the name and theme for all concerts and the number of singers in each concert.",
+        "original": "SELECT T2.concert_name ,  T2.theme ,  count(*) FROM singer_in_concert AS T1 JOIN concert AS T2 ON T1.concert_id  =  T2.concert_id GROUP BY T2.concert_id",
+        "fixed": "SELECT concert_name, theme, (SELECT COUNT(*) FROM singer_in_concert WHERE singer_in_concert.concert_id = concert.concert_id) AS number_of_singers FROM concert",
+        "note": "join -> left join"
+    },
+    {
+        "id": 34,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "What are the names , themes , and number of singers for every concert ?",
+        "original": "select t2.concert_name ,  t2.theme ,  count(*) from singer_in_concert as t1 join concert as t2 on t1.concert_id  =  t2.concert_id group by t2.concert_id",
+        "fixed": "SELECT concert.concert_name, concert.theme, COUNT(DISTINCT sic.singer_id) num_singers FROM concert LEFT JOIN singer_in_concert sic ON concert.concert_id = sic.concert_id GROUP BY concert.concert_id, concert.concert_name, concert.theme",
+        "note": "join -> left join"
+    },
+    {
+        "id": 35,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "List singer names and number of concerts for each singer.",
+        "original": "SELECT T2.name ,  count(*) FROM singer_in_concert AS T1 JOIN singer AS T2 ON T1.singer_id  =  T2.singer_id GROUP BY T2.singer_id",
+        "fixed": "SELECT name as SingerName, (SELECT COUNT(*) FROM singer_in_concert WHERE singer_id = singer.singer_id) as ConcertCount FROM singer",
+        "note": "join -> left join"
+    },
+    {
+        "id": 39,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "what are the names and nations of the singers who have a song having 'Hey' in its name?",
+        "original": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'",
+        "fixed": "SELECT name, country FROM singer WHERE INSTR(song_name, 'Hey') > 0",
+        "note": "str"
+    },
+    {
+        "id": 40,
+        "db_id": "concert_singer",
+        "difficulty": "medium",
+        "question": "What is the name and country of origin of every singer who has a song with the word 'Hey' in its title?",
+        "original": "SELECT name ,  country FROM singer WHERE song_name LIKE '%Hey%'",
+        "fixed": "SELECT name, country FROM singer WHERE instr(song_name, 'Hey') > 0",
+        "note": "str"
+    },
+    {
+        "id": 41,
+        "db_id": "concert_singer",
+        "difficulty": "extra",
+        "question": "Find the name and location of the stadiums which some concerts happened in the years of both 2014 and 2015.",
+        "original": "SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2014 INTERSECT SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2015",
+        "fixed": "SELECT Name, Location FROM stadium where Stadium_ID in (SELECT Stadium_ID FROM concert WHERE year = 2014 INTERSECT SELECT Stadium_ID FROM concert WHERE year = 2015)",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 42,
+        "db_id": "concert_singer",
+        "difficulty": "extra",
+        "question": "What are the names and locations of the stadiums that had concerts that occurred in both 2014 and 2015?",
+        "original": "SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2014 INTERSECT SELECT T2.name ,  T2.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id  =  T2.stadium_id WHERE T1.Year  =  2015",
+        "fixed": "SELECT Name, Location FROM stadium where Stadium_ID in (SELECT Stadium_ID FROM concert WHERE year = 2014 INTERSECT SELECT Stadium_ID FROM concert WHERE year = 2015)",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 43,
+        "db_id": "concert_singer",
+        "difficulty": "hard",
+        "question": "Find the number of concerts happened in the stadium with the highest capacity .",
+        "original": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)",
+        "fixed": "SELECT COUNT(c.concert_id) FROM concert AS c JOIN stadium AS s ON c.stadium_id = s.stadium_id WHERE s.capacity = (SELECT MAX(capacity) FROM stadium)",
+        "note": "limit 1"
+    },
+    {
+        "id": 44,
+        "db_id": "concert_singer",
+        "difficulty": "hard",
+        "question": "What are the number of concerts that occurred in the stadium with the largest capacity ?",
+        "original": "select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)",
+        "fixed": "SELECT COUNT(concert.concert_id) FROM concert JOIN stadium ON concert.stadium_id = stadium.stadium_id WHERE stadium.capacity = (SELECT MAX(capacity) FROM stadium)",
+        "note": "limit 1"
+    },
+    {
+        "id": 51,
+        "db_id": "pets_1",
+        "difficulty": "medium",
+        "question": "Find number of pets owned by students who are older than 20.",
+        "original": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20",
+        "fixed": "SELECT COUNT(DISTINCT hp.petid) FROM has_pet hp INNER JOIN student s ON hp.stuid = s.stuid WHERE s.age > 20",
+        "note": "lack distinct"
+    },
+    {
+        "id": 52,
+        "db_id": "pets_1",
+        "difficulty": "medium",
+        "question": "How many pets are owned by students that have an age greater than 20?",
+        "original": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.age  >  20",
+        "fixed": "SELECT COUNT(*) FROM pets WHERE petid IN (SELECT petid FROM has_pet WHERE stuid IN (SELECT stuid FROM student WHERE age > 20));",
+        "note": "lack distinct"
+    },
+    {
+        "id": 53,
+        "db_id": "pets_1",
+        "difficulty": "hard",
+        "question": "Find the number of dog pets that are raised by female students (with sex F).",
+        "original": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T2.petid  =  T3.petid WHERE T1.sex  =  'F' AND T3.pettype  =  'dog'",
+        "fixed": "SELECT COUNT(DISTINCT pets.petid) FROM student, has_pet, pets WHERE student.stuid = has_pet.stuid AND has_pet.petid = pets.petid AND student.sex = 'F' AND pets.pettype = 'dog'",
+        "note": "lack distinct"
+    },
+    {
+        "id": 54,
+        "db_id": "pets_1",
+        "difficulty": "hard",
+        "question": "How many dog pets are raised by female students?",
+        "original": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T2.petid  =  T3.petid WHERE T1.sex  =  'F' AND T3.pettype  =  'dog'",
+        "fixed": "SELECT count(DISTINCT T3.PetID) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid = T2.stuid JOIN pets AS T3 ON T2.petid = T3.petid WHERE T1.sex = 'F' AND T3.pettype = 'dog'",
+        "note": "lack distinct"
+    },
+    {
+        "id": 57,
+        "db_id": "pets_1",
+        "difficulty": "extra",
+        "question": "Find the first name of students who have cat or dog pet.",
+        "original": "SELECT DISTINCT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' OR T3.pettype  =  'dog'",
+        "fixed": "SELECT fname FROM student WHERE stuid IN (SELECT stuid FROM has_pet WHERE petid IN (SELECT petid FROM pets WHERE pettype = 'cat' OR pettype = 'dog'))",
+        "note": "join -> in-sub; redudant distinct"
+    },
+    {
+        "id": 58,
+        "db_id": "pets_1",
+        "difficulty": "extra",
+        "question": "What are the first names of every student who has a cat or dog as a pet?",
+        "original": "SELECT DISTINCT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' OR T3.pettype  =  'dog'",
+        "fixed": "SELECT T1.Fname FROM student AS T1 WHERE T1.StuID IN (SELECT T2.StuID FROM has_pet AS T2 JOIN pets AS T3 ON T3.petid = T2.petid WHERE T3.pettype = 'cat' OR T3.pettype = 'dog')",
+        "note": "join -> in-sub; redudant distinct"
+    },
+    {
+        "id": 59,
+        "db_id": "pets_1",
+        "difficulty": "extra",
+        "question": "Find the first name of students who have both cat and dog pets .",
+        "original": "select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'cat' intersect select t1.fname from student as t1 join has_pet as t2 on t1.stuid  =  t2.stuid join pets as t3 on t3.petid  =  t2.petid where t3.pettype  =  'dog'",
+        "fixed": "SELECT s.fname FROM student s WHERE s.stuid IN (SELECT hp.stuid FROM has_pet hp JOIN pets p ON hp.petid = p.petid WHERE p.pettype = 'cat') AND s.stuid IN (SELECT hp.stuid FROM has_pet hp JOIN pets p ON hp.petid = p.petid WHERE p.pettype = 'dog')",
+        "note": "join -> in-sub; intersect non-key"
+    },
+    {
+        "id": 60,
+        "db_id": "pets_1",
+        "difficulty": "extra",
+        "question": "What are the students' first names who have both cats and dogs as pets?",
+        "original": "SELECT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat' INTERSECT SELECT T1.Fname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog'",
+        "fixed": "SELECT s.fname FROM student s WHERE StuID in (SELECT hp.StuID FROM has_pet hp JOIN pets p ON hp.petid = p.petid WHERE p.pettype IN ('cat', 'dog') GROUP BY hp.StuID HAVING COUNT(DISTINCT p.pettype) = 2)",
+        "note": "join -> in-sub; intersect non-key"
+    },
+    {
+        "id": 65,
+        "db_id": "pets_1",
+        "difficulty": "extra",
+        "question": "Find the first name and age of students who have a dog but do not have a cat as a pet.",
+        "original": "SELECT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog' AND T1.stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+        "fixed": "SELECT s.fname, s.age FROM student s WHERE EXISTS (SELECT 1 FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'dog' AND has_pet.stuid = s.stuid) AND NOT EXISTS (SELECT 1 FROM has_pet JOIN pets ON has_pet.petid = pets.petid WHERE pets.pettype = 'cat' AND has_pet.stuid = s.stuid)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 66,
+        "db_id": "pets_1",
+        "difficulty": "extra",
+        "question": "What is the first name of every student who has a dog but does not have a cat?",
+        "original": "SELECT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'dog' AND T1.stuid NOT IN (SELECT T1.stuid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pettype  =  'cat')",
+        "fixed": "SELECT s1.fname FROM student s1 WHERE EXISTS (SELECT * FROM has_pet hp1 JOIN pets p1 ON hp1.petid = p1.petid WHERE p1.pettype = 'dog' AND hp1.stuid = s1.stuid) AND NOT EXISTS (SELECT * FROM has_pet hp2 JOIN pets p2 ON hp2.petid = p2.petid WHERE p2.pettype = 'cat' AND hp2.stuid = s1.stuid)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 75,
+        "db_id": "pets_1",
+        "difficulty": "medium",
+        "question": "Find the first name and age of students who have a pet.",
+        "original": "SELECT DISTINCT T1.fname ,  T1.age FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid",
+        "fixed": "SELECT fname, age FROM student WHERE stuid IN (SELECT stuid FROM has_pet);",
+        "note": "join -> in-sub; redudant distinct"
+    },
+    {
+        "id": 77,
+        "db_id": "pets_1",
+        "difficulty": "medium",
+        "question": "Find the ids of the pets owned by students whose last name is \u2018Smith\u2019.",
+        "original": "SELECT T2.petid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.Lname  =  'Smith'",
+        "fixed": "SELECT petid FROM pets WHERE petid IN (SELECT petid FROM has_pet JOIN student ON has_pet.stuid = student.stuid WHERE lname = 'Smith')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 78,
+        "db_id": "pets_1",
+        "difficulty": "medium",
+        "question": "What is the id of the pet owned by the student whose last name is 'Smith'?",
+        "original": "SELECT T2.petid FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid WHERE T1.Lname  =  'Smith'",
+        "fixed": "SELECT petid FROM pets WHERE petid IN (SELECT petid FROM has_pet WHERE stuid IN (SELECT stuid FROM student WHERE lname = 'Smith'))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 83,
+        "db_id": "pets_1",
+        "difficulty": "hard",
+        "question": "Find the last name of the student who has a cat that is age 3.",
+        "original": "SELECT T1.lname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pet_age  =  3 AND T3.pettype  =  'cat'",
+        "fixed": "SELECT lname FROM student WHERE stuid IN (SELECT stuid FROM has_pet WHERE petid IN (SELECT petid FROM pets WHERE pettype = 'cat' AND pet_age = 3))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 84,
+        "db_id": "pets_1",
+        "difficulty": "hard",
+        "question": "What is the last name of the student who has a cat that is 3 years old?",
+        "original": "SELECT T1.lname FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid  =  T2.stuid JOIN pets AS T3 ON T3.petid  =  T2.petid WHERE T3.pet_age  =  3 AND T3.pettype  =  'cat'",
+        "fixed": "SELECT lname FROM student WHERE stuid IN (SELECT stuid FROM has_pet WHERE petid IN (SELECT petid FROM pets WHERE pettype = 'cat' AND pet_age = 3))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 89,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "How many countries does each continent have? List the continent id, continent name and the number of countries.",
+        "original": "SELECT T1.ContId ,  T1.Continent ,  count(*) FROM CONTINENTS AS T1 JOIN COUNTRIES AS T2 ON T1.ContId  =  T2.Continent GROUP BY T1.ContId;",
+        "fixed": "SELECT a.contid, a.continent, COALESCE(b.num_countries, 0) AS num_countries FROM continents a LEFT JOIN (SELECT continent, COUNT(*) AS num_countries FROM countries GROUP BY continent) b ON a.contid = b.continent",
+        "note": "join -> left join"
+    },
+    {
+        "id": 90,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "For each continent, list its id, name, and how many countries it has?",
+        "original": "SELECT T1.ContId ,  T1.Continent ,  count(*) FROM CONTINENTS AS T1 JOIN COUNTRIES AS T2 ON T1.ContId  =  T2.Continent GROUP BY T1.ContId;",
+        "fixed": "SELECT contid, continent, (SELECT COUNT(*) FROM countries WHERE continent = continents.contid) AS country_count FROM continents;",
+        "note": "join -> left join"
+    },
+    {
+        "id": 93,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "How many models does each car maker produce? List maker full name, id and the number.",
+        "original": "SELECT T1.FullName ,  T1.Id ,  count(*) FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id;",
+        "fixed": "SELECT fullName, id, (SELECT COUNT(*) FROM model_list WHERE model_list.maker = car_makers.id) AS model_count FROM car_makers",
+        "note": "join -> left join"
+    },
+    {
+        "id": 94,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "What is the full name of each car maker, along with its id and how many models it produces?",
+        "original": "SELECT T1.FullName ,  T1.Id ,  count(*) FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker GROUP BY T1.Id;",
+        "fixed": "SELECT id, fullname, (SELECT COUNT(modelid) FROM model_list WHERE model_list.maker = car_makers.id) AS TotalModels FROM car_makers",
+        "note": "join -> left join"
+    },
+    {
+        "id": 95,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "Which model of the car has the minimum horsepower?",
+        "original": "SELECT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id ORDER BY T2.horsepower ASC LIMIT 1;",
+        "fixed": "SELECT DISTINCT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.horsepower = (SELECT min(T3.Horsepower) FROM CARS_DATA AS T3)",
+        "note": "limit 1"
+    },
+    {
+        "id": 96,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "What is the model of all cars with the smallest amount of horsepower?",
+        "original": "SELECT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.Horsepower = (SELECT MIN(Horsepower) FROM CARS_DATA)",
+        "fixed": "SELECT DISTINCT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.horsepower = (SELECT min(T3.Horsepower) FROM CARS_DATA AS T3)",
+        "note": "lack distinct"
+    },
+    {
+        "id": 99,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "Find the full names of the makers that produced some cars in the year of 1970?",
+        "original": "SELECT DISTINCT T1.FullName FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker JOIN CAR_NAMES AS T3 ON T2.model  =  T3.model JOIN CARS_DATA AS T4 ON T3.MakeId  =  T4.id WHERE T4.year  =  '1970'",
+        "fixed": "SELECT T1.FullName FROM CAR_MAKERS AS T1 WHERE T1.Id IN (SELECT T2.Maker FROM MODEL_LIST AS T2 JOIN CAR_NAMES AS T3 ON T2.model = T3.model JOIN CARS_DATA AS T4 ON T3.MakeId = T4.id WHERE T4.year = '1970');",
+        "note": "redundant distinct; join -> in-sub"
+    },
+    {
+        "id": 100,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "What is the name of the different car makers who produced a car in 1970?",
+        "original": "SELECT DISTINCT T1.Maker FROM CAR_MAKERS AS T1 JOIN MODEL_LIST AS T2 ON T1.Id  =  T2.Maker JOIN CAR_NAMES AS T3 ON T2.model  =  T3.model JOIN CARS_DATA AS T4 ON T3.MakeId  =  T4.id WHERE T4.year  =  '1970';",
+        "fixed": "SELECT T1.FullName FROM CAR_MAKERS AS T1 WHERE T1.Id IN (SELECT T2.Maker FROM MODEL_LIST AS T2 JOIN CAR_NAMES AS T3 ON T2.model = T3.model JOIN CARS_DATA AS T4 ON T3.MakeId = T4.id WHERE T4.year = '1970');",
+        "note": "semantic error: column"
+    },
+    {
+        "id": 105,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "How many car makers are there in each continents? List the continent name and the count.",
+        "original": "SELECT T1.Continent ,  count(*) FROM CONTINENTS AS T1 JOIN COUNTRIES AS T2 ON T1.ContId  =  T2.continent JOIN car_makers AS T3 ON T2.CountryId  =  T3.Country GROUP BY T1.Continent;",
+        "fixed": "SELECT T1.Continent, count(*) FROM CONTINENTS AS T1 JOIN COUNTRIES AS T2 ON T1.ContId = T2.continent JOIN car_makers AS T3 ON T2.CountryId = T3.Country GROUP BY T1.ContId;",
+        "note": "group by non-key"
+    },
+    {
+        "id": 106,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "What is the name of each continent and how many car makers are there in each one?",
+        "original": "SELECT T1.Continent ,  count(*) FROM CONTINENTS AS T1 JOIN COUNTRIES AS T2 ON T1.ContId  =  T2.continent JOIN car_makers AS T3 ON T2.CountryId  =  T3.Country GROUP BY T1.Continent;",
+        "fixed": "SELECT cont.continent, numMakers FROM (SELECT contid, COUNT(DISTINCT car_makers.id) as numMakers FROM continents LEFT JOIN countries ON continents.contid = countries.continent LEFT JOIN car_makers ON car_makers.country = countries.countryid GROUP BY contid) AS subquery JOIN continents cont ON cont.contid = subquery.contid",
+        "note": "group by non-key"
+    },
+    {
+        "id": 107,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "Which countries have the most car makers? List the country names. If there is a tie, show all such countries.",
+        "original": "WITH CountryCarMakerCounts AS (SELECT T2.CountryName, COUNT(*) AS MakerCount FROM car_makers AS T1 JOIN countries AS T2 ON T1.Country = T2.CountryId GROUP BY T2.CountryName) SELECT CountryName FROM CountryCarMakerCounts WHERE MakerCount = (SELECT MAX(MakerCount) FROM CountryCarMakerCounts);",
+        "fixed": "SELECT c.countryname FROM countries c WHERE c.countryid IN (SELECT cm.country FROM car_makers cm GROUP BY cm.country HAVING COUNT(cm.maker) = (SELECT MAX(counted) FROM (SELECT COUNT(maker) AS counted FROM car_makers GROUP BY country)))",
+        "note": "group by non-key"
+    },
+    {
+        "id": 110,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "What is the number of car models that are produced by each maker and what is the id and full name of each maker?",
+        "original": "SELECT Count(*) ,  T2.FullName ,  T2.id FROM MODEL_LIST AS T1 JOIN CAR_MAKERS AS T2 ON T1.Maker  =  T2.Id GROUP BY T2.id;",
+        "fixed": "SELECT cm.id, cm.fullname, (SELECT COUNT(*) FROM model_list WHERE model_list.maker = cm.id) AS model_count FROM car_makers cm GROUP BY cm.id, cm.fullname",
+        "note": "join -> left join"
+    },
+    {
+        "id": 114,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "What is the number of makers of care in France?",
+        "original": "SELECT count(*) FROM CAR_MAKERS AS T1 JOIN COUNTRIES AS T2 ON T1.Country  =  T2.CountryId WHERE T2.CountryName  =  'france';",
+        "fixed": "SELECT count(*) FROM CAR_MAKERS AS T1 JOIN COUNTRIES AS T2 ON T1.Country = T2.CountryId WHERE T2.CountryName = 'France';",
+        "note": "str"
+    },
+    {
+        "id": 129,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "Which countries in europe have at least 3 car manufacturers?",
+        "original": "SELECT T1.CountryName FROM COUNTRIES AS T1 JOIN CONTINENTS AS T2 ON T1.Continent  =  T2.ContId JOIN CAR_MAKERS AS T3 ON T1.CountryId  =  T3.Country WHERE T2.Continent  =  'europe' GROUP BY T1.CountryName HAVING count(*)  >=  3;",
+        "fixed": "SELECT T1.CountryName FROM COUNTRIES AS T1 JOIN CONTINENTS AS T2 ON T1.Continent = T2.ContId JOIN CAR_MAKERS AS T3 ON T1.CountryId = T3.Country WHERE T2.Continent = 'europe' GROUP BY T1.CountryId HAVING count(*) >= 3;",
+        "note": "group by non-key"
+    },
+    {
+        "id": 130,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "What are the names of all European countries with at least 3 manufacturers?",
+        "original": "SELECT T1.CountryName FROM COUNTRIES AS T1 JOIN CONTINENTS AS T2 ON T1.Continent  =  T2.ContId JOIN CAR_MAKERS AS T3 ON T1.CountryId  =  T3.Country WHERE T2.Continent  =  'europe' GROUP BY T1.CountryName HAVING count(*)  >=  3;",
+        "fixed": "SELECT T1.CountryName FROM COUNTRIES AS T1 JOIN CONTINENTS AS T2 ON T1.Continent = T2.ContId JOIN CAR_MAKERS AS T3 ON T1.CountryId = T3.Country WHERE T2.Continent = 'europe' GROUP BY T1.CountryId HAVING count(*) >= 3;",
+        "note": "group by non-key"
+    },
+    {
+        "id": 131,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "What is the maximum horsepower and the make of the car models with 3 cylinders?",
+        "original": "SELECT T2.horsepower ,  T1.Make FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.cylinders  =  3 ORDER BY T2.horsepower DESC LIMIT 1;",
+        "fixed": "SELECT T2.horsepower, T1.Make FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.cylinders = 3 and T2.Horsepower = (SELECT max(T3.Horsepower) FROM cars_data AS T3)",
+        "note": "limit 1"
+    },
+    {
+        "id": 132,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "What is the largest amount of horsepower for the models with 3 cylinders and what make is it?",
+        "original": "SELECT T2.horsepower ,  T1.Make FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.cylinders  =  3 ORDER BY T2.horsepower DESC LIMIT 1;",
+        "fixed": "SELECT T2.horsepower, T1.Make FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.cylinders = 3 and T2.Horsepower = (SELECT max(T3.Horsepower) FROM cars_data AS T3)",
+        "note": "limit 1"
+    },
+    {
+        "id": 133,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "Which model saves the most gasoline? That is to say, have the maximum miles per gallon.",
+        "original": "SELECT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id ORDER BY T2.mpg DESC LIMIT 1;",
+        "fixed": "SELECT DISTINCT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.MPG = (SELECT max(T3.MPG) FROM CARS_DATA AS T3)",
+        "note": "limit 1"
+    },
+    {
+        "id": 134,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "What is the car model with the highest mpg ?",
+        "original": "select t1.model from car_names as t1 join cars_data as t2 on t1.makeid  =  t2.id order by t2.mpg desc limit 1;",
+        "fixed": "SELECT DISTINCT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.MPG = (SELECT max(T3.MPG) FROM CARS_DATA AS T3)",
+        "note": "limit 1"
+    },
+    {
+        "id": 151,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "List distinctive models produced by maker with the full name General Motors or distinctive models weighing more than 3500.",
+        "original": "SELECT DISTINCT Model FROM ( SELECT T2.Model FROM CAR_NAMES AS T1 JOIN MODEL_LIST AS T2 ON T1.Model = T2.Model JOIN CAR_MAKERS AS T3 ON T2.Maker = T3.Id WHERE T3.FullName = 'General Motors' UNION SELECT T2.Model FROM CAR_NAMES AS T1 JOIN MODEL_LIST AS T2 ON T1.Model = T2.Model JOIN CARS_DATA AS T4 ON T1.MakeId = T4.Id WHERE T4.weight > 3500 ) AS DistinctModels;",
+        "fixed": "SELECT DISTINCT model FROM model_list WHERE maker IN (SELECT id FROM car_makers WHERE fullname = 'General Motors') OR model IN (SELECT cn.model FROM car_names cn JOIN cars_data cd ON cn.makeid = cd.id WHERE cd.weight > 3500)",
+        "note": "semantic error"
+    },
+    {
+        "id": 154,
+        "db_id": "car_1",
+        "difficulty": "easy",
+        "question": "What are the different years in which there were cars produced that weighed less than 4000 and also cars that weighted more than 3000 ?",
+        "original": "select distinct year from cars_data where weight between 3000 and 4000;",
+        "fixed": "SELECT year FROM (SELECT year FROM cars_data WHERE weight > 3000 INTERSECT SELECT year FROM cars_data WHERE weight < 4000)",
+        "note": "semantic error"
+    },
+    {
+        "id": 155,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "What is the horsepower of the car with the largest accelerate?",
+        "original": "SELECT T1.horsepower FROM CARS_DATA AS T1 ORDER BY T1.accelerate DESC LIMIT 1;",
+        "fixed": "SELECT d.horsepower FROM cars_data AS d WHERE d.accelerate = (SELECT MAX(accelerate) FROM cars_data)",
+        "note": "limit 1"
+    },
+    {
+        "id": 157,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "For model volvo, how many cylinders does the car with the least accelerate have?",
+        "original": "SELECT T1.cylinders FROM CARS_DATA AS T1 JOIN CAR_NAMES AS T2 ON T1.Id  =  T2.MakeId WHERE T2.Model  =  'volvo' ORDER BY T1.accelerate ASC LIMIT 1;",
+        "fixed": "SELECT Distinct T1.cylinders FROM CARS_DATA AS T1 JOIN CAR_NAMES AS T2 ON T1.Id = T2.MakeId WHERE T2.Model = 'volvo' and T1.Accelerate = (SELECT min(T3.Accelerate) FROM cars_data AS T3)",
+        "note": "limit 1"
+    },
+    {
+        "id": 158,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "For a volvo model, how many cylinders does the version with least accelerate have?",
+        "original": "SELECT T1.cylinders FROM CARS_DATA AS T1 JOIN CAR_NAMES AS T2 ON T1.Id  =  T2.MakeId WHERE T2.Model  =  'volvo' ORDER BY T1.accelerate ASC LIMIT 1;",
+        "fixed": "SELECT Distinct T1.cylinders FROM CARS_DATA AS T1 JOIN CAR_NAMES AS T2 ON T1.Id = T2.MakeId WHERE T2.Model = 'volvo' and T1.Accelerate = (SELECT min(T3.Accelerate) FROM cars_data AS T3)",
+        "note": "limit 1"
+    },
+    {
+        "id": 159,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "How many cars have a larger accelerate than the car with the largest horsepower?",
+        "original": "SELECT COUNT(*) FROM CARS_DATA WHERE Accelerate  >  ( SELECT Accelerate FROM CARS_DATA ORDER BY Horsepower DESC LIMIT 1 );",
+        "fixed": "SELECT COUNT(*) FROM CARS_DATA WHERE Accelerate > (SELECT min(Accelerate) FROM CARS_DATA WHERE Horsepower = (SELECT max(Horsepower) FROM cars_data));",
+        "note": "semantic error; nlq vague"
+    },
+    {
+        "id": 160,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "What is the number of cars with a greater accelerate than the one with the most horsepower?",
+        "original": "SELECT COUNT(*) FROM CARS_DATA WHERE Accelerate  >  ( SELECT Accelerate FROM CARS_DATA ORDER BY Horsepower DESC LIMIT 1 );",
+        "fixed": "SELECT COUNT(*) FROM CARS_DATA WHERE Accelerate > (SELECT min(Accelerate) FROM CARS_DATA WHERE Horsepower = (SELECT max(Horsepower) FROM cars_data));",
+        "note": "semantic error; nlq vague"
+    },
+    {
+        "id": 161,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "How many countries has more than 2 car makers ?",
+        "original": "select count(*) from countries as t1 join car_makers as t2 on t1.countryid  =  t2.country group by t1.countryid having count(*)  >  2",
+        "fixed": "SELECT COUNT(*) FROM (SELECT country FROM car_makers GROUP BY country HAVING COUNT(maker) > 2)",
+        "note": "semantic error"
+    },
+    {
+        "id": 162,
+        "db_id": "car_1",
+        "difficulty": "medium",
+        "question": "What is the number of countries with more than 2 car makers ?",
+        "original": "select count(*) from countries as t1 join car_makers as t2 on t1.countryid  =  t2.country group by t1.countryid having count(*)  >  2",
+        "fixed": "SELECT COUNT(DISTINCT c.countryid) FROM countries c INNER JOIN car_makers cm ON c.countryid = cm.country GROUP BY c.countryid HAVING COUNT(cm.id) > 2",
+        "note": "semantix error"
+    },
+    {
+        "id": 165,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "For the cars with 4 cylinders, which model has the largest horsepower?",
+        "original": "SELECT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.Cylinders  =  4 ORDER BY T2.horsepower DESC LIMIT 1;",
+        "fixed": "SELECT DISTINCT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.Cylinders = 4 AND T2.horsepower = (SELECT max(T3.Horsepower) FROM CARS_DATA AS T3 WHERE T3.Cylinders = 4)",
+        "note": "limit 1"
+    },
+    {
+        "id": 166,
+        "db_id": "car_1",
+        "difficulty": "extra",
+        "question": "For all of the 4 cylinder cars, which model has the most horsepower?",
+        "original": "SELECT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId  =  T2.Id WHERE T2.Cylinders  =  4 ORDER BY T2.horsepower DESC LIMIT 1;",
+        "fixed": "SELECT DISTINCT T1.Model FROM CAR_NAMES AS T1 JOIN CARS_DATA AS T2 ON T1.MakeId = T2.Id WHERE T2.Cylinders = 4 AND T2.horsepower = (SELECT max(T3.Horsepower) FROM CARS_DATA AS T3 WHERE T3.Cylinders = 4)",
+        "note": "limit 1"
+    },
+    {
+        "id": 173,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "What are the name of the countries where there is not a single car maker?",
+        "original": "SELECT CountryName FROM countries EXCEPT SELECT T1.CountryName FROM countries AS T1 JOIN CAR_MAKERS AS T2 ON T1.countryId  =  T2.Country;",
+        "fixed": "SELECT countryname FROM countries WHERE countryid NOT IN (SELECT country FROM car_makers)",
+        "note": "except non-key"
+    },
+    {
+        "id": 174,
+        "db_id": "car_1",
+        "difficulty": "hard",
+        "question": "What are the names of the countries with no car makers?",
+        "original": "SELECT CountryName FROM countries EXCEPT SELECT T1.CountryName FROM countries AS T1 JOIN CAR_MAKERS AS T2 ON T1.countryId  =  T2.Country;",
+        "fixed": "SELECT countryname FROM countries WHERE countryid NOT IN (SELECT country FROM car_makers)",
+        "note": "except non-key"
+    },
+    {
+        "id": 225,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "What are the codes of all airports that are tied for the highest total number of incoming and outgoing flights?",
+        "original": "SELECT T1.AirportCode FROM AIRPORTS AS T1 JOIN FLIGHTS AS T2 ON T1.AirportCode = T2.DestAirport OR T1.AirportCode = T2.SourceAirport GROUP BY T1.AirportCode HAVING count(*) = (SELECT max(a.TotalFlights) FROM (SELECT count(*) AS TotalFlights FROM AIRPORTS AS A JOIN FLIGHTS AS F ON A.AirportCode = F.DestAirport OR A.AirportCode = F.SourceAirport GROUP BY A.AirportCode) a)",
+        "fixed": "WITH CombinedAirports AS (SELECT sourceairport AS airportcode FROM flights UNION ALL SELECT destairport AS airportcode FROM flights) SELECT airportcode FROM CombinedAirports GROUP BY airportcode HAVING COUNT(airportcode) = (SELECT MAX(Count) FROM (SELECT COUNT(airportcode) AS Count FROM CombinedAirports GROUP BY airportcode))",
+        "note": "semantic error"
+    },
+    {
+        "id": 226,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "What are the airport codes of all airports involved in the most number of flights, considering both their incoming and outgoing flights? If there is a tie, return all of them.",
+        "original": "SELECT T1.AirportCode FROM AIRPORTS AS T1 JOIN FLIGHTS AS T2 ON T1.AirportCode = T2.DestAirport OR T1.AirportCode = T2.SourceAirport GROUP BY T1.AirportCode HAVING COUNT(*) = (SELECT MAX(C) FROM (SELECT COUNT(*) AS C FROM AIRPORTS AS T1 JOIN FLIGHTS AS T2 ON T1.AirportCode = T2.DestAirport OR T1.AirportCode = T2.SourceAirport GROUP BY T1.AirportCode) AS max_count)",
+        "fixed": "SELECT combined.airport FROM (SELECT sourceairport AS airport FROM flights UNION ALL SELECT destairport AS airport FROM flights) combined GROUP BY combined.airport HAVING COUNT(*) = (SELECT max(C) FROM (SELECT COUNT(*) AS C FROM (SELECT sourceairport AS airport FROM flights UNION ALL SELECT destairport AS airport FROM flights) t GROUP BY t.airport))",
+        "note": "semantic error: join on or -> union"
+    },
+    {
+        "id": 227,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "Show the code of the airport with the fewest total number of flights combining both incoming and outgoing flights. If there is a tie, include all such airport codes.",
+        "original": "SELECT T1.AirportCode FROM AIRPORTS AS T1 JOIN FLIGHTS AS T2 ON T1.AirportCode = T2.DestAirport OR T1.AirportCode = T2.SourceAirport GROUP BY T1.AirportCode HAVING COUNT(*) = (SELECT MIN(C) FROM (SELECT COUNT(*) AS C FROM AIRPORTS AS T1 JOIN FLIGHTS AS T2 ON T1.AirportCode = T2.DestAirport OR T1.AirportCode = T2.SourceAirport GROUP BY T1.AirportCode) AS max_count)",
+        "fixed": "SELECT airportcode FROM ( SELECT sourceairport AS airportcode FROM flights UNION ALL SELECT destairport FROM flights ) AllFlights GROUP BY airportcode HAVING COUNT(*) = (SELECT MIN(Count) FROM ( SELECT COUNT(*) AS Count FROM ( SELECT sourceairport AS airportcode FROM flights UNION ALL SELECT destairport FROM flights ) GROUPED GROUP BY airportcode ))",
+        "note": "semantic error"
+    },
+    {
+        "id": 229,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "Which airlines (full names) have the most number of flights? If there is a tie, show all such airlines.",
+        "original": "SELECT T1.Airline FROM airlines AS T1 JOIN flights AS T2 ON T1.uid = T2.Airline GROUP BY T1.Airline HAVING COUNT(*) = (SELECT MAX(FlightCount) FROM (SELECT COUNT(*) AS FlightCount FROM flights GROUP BY Airline) AS SubQuery)",
+        "fixed": "SELECT airline FROM airlines WHERE uid IN (SELECT airline FROM flights GROUP BY airline HAVING COUNT(flightno) = (SELECT MAX(cnt) FROM (SELECT COUNT(flightno) AS cnt FROM flights GROUP BY airline)))",
+        "note": "group by non-key"
+    },
+    {
+        "id": 233,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "What are airlines that have some flight departing from airport 'AHD'?",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'AHD'",
+        "fixed": "SELECT airline FROM airlines WHERE uid IN (SELECT airline FROM flights WHERE sourceairport = 'AHD')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 234,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "Which airlines have a flight with source airport AHD?",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'AHD'",
+        "fixed": "SELECT T1.Airline FROM airlines as T1 WHERE T1.uid in (SELECT T2.Airline FROM flights as T2 WHERE T2.sourceairport = 'AHD')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 235,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "What are airlines that have flights arriving at airport 'AHD'?",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.DestAirport  =  'AHD'",
+        "fixed": "SELECT airline FROM airlines WHERE uid IN (SELECT DISTINCT airline FROM flights WHERE destairport = 'AHD')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 236,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "Which airlines have a flight with destination airport AHD?",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.DestAirport  =  'AHD'",
+        "fixed": "SELECT T1.Airline FROM airlines as T1 WHERE T1.uid in (SELECT T2.Airline FROM flights as T2 WHERE T2.sourceairport = 'AHD')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 237,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "Find all airlines that have departing flights from both airports 'APG' and 'CVO'.",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'APG' INTERSECT SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'CVO'",
+        "fixed": "SELECT al.airline FROM airlines al WHERE EXISTS (SELECT 1 FROM flights f WHERE f.airline = al.uid AND f.sourceairport = 'APG') AND EXISTS (SELECT 1 FROM flights f WHERE f.airline = al.uid AND f.sourceairport = 'CVO')",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 238,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "List the names of airlines that have flights departing from both APG and CVO airports.",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'APG' INTERSECT SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'CVO'",
+        "fixed": "SELECT al.airline FROM airlines al WHERE al.uid IN (SELECT airline FROM flights WHERE sourceairport = 'APG') AND al.uid IN (SELECT airline FROM flights WHERE sourceairport = 'CVO')",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 239,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "Find all airlines that have flights from airport 'CVO' but not from 'APG'.",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'CVO' EXCEPT SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'APG'",
+        "fixed": "SELECT al.airline FROM airlines al WHERE al.uid IN (SELECT airline FROM flights WHERE sourceairport = 'CVO') AND al.uid NOT IN (SELECT airline FROM flights WHERE sourceairport = 'APG');",
+        "note": "except non-key"
+    },
+    {
+        "id": 240,
+        "db_id": "flight_2",
+        "difficulty": "extra",
+        "question": "Which airlines have departures from CVO but not from APG airports?",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'CVO' EXCEPT SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline WHERE T2.SourceAirport  =  'APG'",
+        "fixed": "SELECT al.airline FROM airlines al WHERE al.uid IN (SELECT airline FROM flights WHERE sourceairport = 'CVO') AND al.uid NOT IN (SELECT airline FROM flights WHERE sourceairport = 'APG');",
+        "note": "except non-key"
+    },
+    {
+        "id": 241,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "Find all airlines that have at least 10 flights.",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline GROUP BY T1.Airline HAVING count(*)  >  10",
+        "fixed": "SELECT airline FROM airlines WHERE uid IN (SELECT airline FROM flights GROUP BY airline HAVING COUNT(*) >= 10)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 242,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "Which airlines have at least 10 flights?",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline GROUP BY T1.Airline HAVING count(*)  >  10",
+        "fixed": "SELECT a.airline FROM airlines a WHERE (SELECT COUNT(*) FROM flights f WHERE f.airline = a.uid) >= 10",
+        "note": "group by non-key"
+    },
+    {
+        "id": 243,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "Find all airlines that have fewer than 200 flights.",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline GROUP BY T1.Airline HAVING count(*)  <  200",
+        "fixed": "SELECT A.airline FROM airlines A WHERE (SELECT COUNT(*) FROM flights F WHERE F.airline = A.uid) < 200",
+        "note": "group by non-key"
+    },
+    {
+        "id": 244,
+        "db_id": "flight_2",
+        "difficulty": "medium",
+        "question": "Which airlines have fewer than 200 flights?",
+        "original": "SELECT T1.Airline FROM AIRLINES AS T1 JOIN FLIGHTS AS T2 ON T1.uid  =  T2.Airline GROUP BY T1.Airline HAVING count(*)  <  200",
+        "fixed": "SELECT a.airline FROM airlines a WHERE (SELECT COUNT(*) FROM flights f WHERE f.airline = a.uid) < 200",
+        "note": "group by non-key"
+    },
+    {
+        "id": 277,
+        "db_id": "employee_hire_evaluation",
+        "difficulty": "extra",
+        "question": "Find the name of the employee who was awarded the most times in the evaluation. If there is a tie, return all of the employees.",
+        "original": "SELECT t1.Name FROM employee AS t1 JOIN evaluation AS t2 ON t1.Employee_ID = t2.Employee_ID GROUP BY t1.Name HAVING COUNT(*) = (SELECT MAX(Awards.Count) FROM (SELECT COUNT(*) AS Count FROM evaluation GROUP BY Employee_ID) AS Awards)",
+        "fixed": "SELECT employee.name FROM employee JOIN (SELECT MAX(totalAwards) AS totalAwards FROM (SELECT employee_id, COUNT(employee_id) AS totalAwards FROM evaluation GROUP BY employee_id)) Awards ON Awards.totalAwards = (SELECT COUNT(*) FROM evaluation WHERE evaluation.employee_id = employee.employee_id)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 278,
+        "db_id": "employee_hire_evaluation",
+        "difficulty": "extra",
+        "question": "Which employees received the most awards in evaluations? If there is a tie, return all employee names.",
+        "original": "WITH AwardCount AS (SELECT t1.Name, COUNT(*) as TotalAwards FROM employee t1 JOIN evaluation t2 ON t1.Employee_ID = t2.Employee_ID GROUP BY t1.Name) SELECT Name FROM AwardCount WHERE TotalAwards = (SELECT MAX(TotalAwards) FROM AwardCount)",
+        "fixed": "WITH AwardCount AS (SELECT t1.Name, COUNT(*) as TotalAwards FROM employee t1 JOIN evaluation t2 ON t1.Employee_ID = t2.Employee_ID GROUP BY t1.Employee_ID) SELECT Name FROM AwardCount WHERE TotalAwards = (SELECT MAX(TotalAwards) FROM AwardCount)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 279,
+        "db_id": "employee_hire_evaluation",
+        "difficulty": "hard",
+        "question": "Find the names of the employees who got the highest one time bonus.",
+        "original": "SELECT t1.Name FROM employee AS t1 JOIN evaluation AS t2 ON t1.Employee_ID = t2.Employee_ID WHERE t2.Bonus = (SELECT MAX(Bonus) FROM evaluation)",
+        "fixed": "SELECT name FROM employee WHERE employee_id IN (SELECT employee_id FROM evaluation WHERE bonus = (SELECT MAX(bonus) FROM evaluation))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 280,
+        "db_id": "employee_hire_evaluation",
+        "difficulty": "hard",
+        "question": "Which employees received the biggest bonus? Give me the employee names.",
+        "original": "SELECT t1.Name FROM employee AS t1 JOIN evaluation AS t2 ON t1.Employee_ID = t2.Employee_ID WHERE t2.Bonus = (SELECT MAX(Bonus) FROM evaluation)",
+        "fixed": "SELECT e.name FROM employee e WHERE e.employee_id IN (SELECT ee.employee_id FROM evaluation ee WHERE ee.bonus = (SELECT MAX(bonus) FROM evaluation))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 287,
+        "db_id": "employee_hire_evaluation",
+        "difficulty": "medium",
+        "question": "Find the number of employees hired in each shop; show the shop name as well.",
+        "original": "SELECT count(*) ,  t2.name FROM hiring AS t1 JOIN shop AS t2 ON t1.shop_id  =  t2.shop_id GROUP BY t2.name",
+        "fixed": "SELECT name, (SELECT COUNT(*) FROM hiring WHERE hiring.shop_id = shop.shop_id) AS num_employees FROM shop",
+        "note": "join -> left join; group by non-key"
+    },
+    {
+        "id": 288,
+        "db_id": "employee_hire_evaluation",
+        "difficulty": "medium",
+        "question": "For each shop, return the number of employees working there and the name of the shop.",
+        "original": "SELECT count(*) ,  t2.name FROM hiring AS t1 JOIN shop AS t2 ON t1.shop_id  =  t2.shop_id GROUP BY t2.name",
+        "fixed": "SELECT shop.name, (SELECT COUNT(*) FROM hiring WHERE hiring.shop_id = shop.shop_id) AS emp_count FROM shop",
+        "note": "join -> left join; group by non-key"
+    },
+    {
+        "id": 309,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "Show all template ids and number of documents using each template.",
+        "original": "SELECT template_id ,  count(*) FROM Documents GROUP BY template_id",
+        "fixed": "SELECT t.template_id, COUNT(d.document_id) AS number_of_documents FROM templates t LEFT JOIN documents d ON t.template_id = d.template_id GROUP BY t.template_id",
+        "note": "join -> left join"
+    },
+    {
+        "id": 322,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "easy",
+        "question": "What are the different template type codes?",
+        "original": "SELECT DISTINCT template_type_code FROM Templates",
+        "fixed": "SELECT DISTINCT template_type_code FROM ref_template_types;",
+        "note": "semantic error: wrong table"
+    },
+    {
+        "id": 334,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "easy",
+        "question": "What are the codes of template types that have fewer than 3 templates?",
+        "original": "SELECT template_type_code FROM Templates GROUP BY template_type_code HAVING count(*)  <  3",
+        "fixed": "SELECT r.template_type_code FROM ref_template_types r WHERE (SELECT COUNT(*) FROM templates t WHERE t.template_type_code = r.template_type_code) < 3",
+        "note": "semantic error"
+    },
+    {
+        "id": 337,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "What is the template type code of the template used by document with the name 'Data base'?",
+        "original": "SELECT T1.template_type_code FROM Templates AS T1 JOIN Documents AS T2 ON T1.template_id  =  T2.template_id WHERE T2.document_name  =  'Data base'",
+        "fixed": "SELECT template_type_code FROM templates WHERE template_id IN (SELECT template_id FROM documents WHERE document_name = 'Data base')",
+        "note": "lack distinct"
+    },
+    {
+        "id": 338,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "Return the template type code or type codes of the template(s) that is used by a document named Data base.",
+        "original": "SELECT T1.template_type_code FROM Templates AS T1 JOIN Documents AS T2 ON T1.template_id  =  T2.template_id WHERE T2.document_name  =  'Data base'",
+        "fixed": "SELECT ref_template_types.template_type_code FROM ref_template_types WHERE ref_template_types.template_type_code IN (SELECT t.template_type_code FROM templates t JOIN documents d ON t.template_id = d.template_id WHERE d.document_name = 'Data base')",
+        "note": "lack distinct"
+    },
+    {
+        "id": 341,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "Show all template type codes and the number of documents using each type.",
+        "original": "SELECT T1.template_type_code ,  count(*) FROM Templates AS T1 JOIN Documents AS T2 ON T1.template_id  =  T2.template_id GROUP BY T1.template_type_code",
+        "fixed": "SELECT rt.template_type_code, COUNT(distinct doc.document_id) FROM ref_template_types rt LEFT JOIN templates temp ON rt.template_type_code = temp.template_type_code LEFT JOIN documents doc ON temp.template_id = doc.template_id GROUP BY rt.template_type_code",
+        "note": "join -> left join; semantic error: wrong table"
+    },
+    {
+        "id": 342,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "What are the different template type codes, and how many documents use each type?",
+        "original": "SELECT T1.template_type_code ,  count(*) FROM Templates AS T1 JOIN Documents AS T2 ON T1.template_id  =  T2.template_id GROUP BY T1.template_type_code",
+        "fixed": "SELECT ref_template_types.template_type_code, COUNT(documents.document_id) AS document_count FROM ref_template_types LEFT JOIN templates ON ref_template_types.template_type_code = templates.template_type_code LEFT JOIN documents ON templates.template_id = documents.template_id GROUP BY ref_template_types.template_type_code",
+        "note": "join -> left join; semantic error: wrong table"
+    },
+    {
+        "id": 345,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "hard",
+        "question": "Show all template type codes that are not used by any document.",
+        "original": "SELECT template_type_code FROM Templates EXCEPT SELECT template_type_code FROM Templates AS T1 JOIN Documents AS T2 ON T1.template_id  =  T2.template_id",
+        "fixed": "SELECT rt.template_type_code FROM ref_template_types rt WHERE NOT EXISTS (SELECT 1 FROM templates t WHERE rt.template_type_code = t.template_type_code AND EXISTS (SELECT 1 FROM documents d WHERE t.template_id = d.template_id))",
+        "note": "semantic error: wrong table"
+    },
+    {
+        "id": 346,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "hard",
+        "question": "What are the codes of template types that are not used for any document?",
+        "original": "SELECT template_type_code FROM Templates EXCEPT SELECT template_type_code FROM Templates AS T1 JOIN Documents AS T2 ON T1.template_id  =  T2.template_id",
+        "fixed": "SELECT rtt.template_type_code FROM ref_template_types rtt WHERE NOT EXISTS (SELECT 1 FROM templates t JOIN documents d ON t.template_id = d.template_id WHERE t.template_type_code = rtt.template_type_code)",
+        "note": "semantic error: wrong table"
+    },
+    {
+        "id": 361,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "Show paragraph details for paragraph with text 'Korea ' .",
+        "original": "select other_details from paragraphs where paragraph_text like 'korea'",
+        "fixed": "SELECT * FROM paragraphs WHERE paragraph_text = 'Korea '",
+        "note": "semantic error: str"
+    },
+    {
+        "id": 367,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "Show all document ids and the number of paragraphs in each document. Order by document id.",
+        "original": "SELECT document_id ,  count(*) FROM Paragraphs GROUP BY document_id ORDER BY document_id",
+        "fixed": "SELECT documents.document_id, COALESCE(SUM(CASE WHEN paragraphs.paragraph_id IS NOT NULL THEN 1 ELSE 0 END), 0) FROM documents LEFT JOIN paragraphs ON documents.document_id = paragraphs.document_id GROUP BY documents.document_id ORDER BY documents.document_id",
+        "note": "join -> left join"
+    },
+    {
+        "id": 368,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "Return the different document ids along with the number of paragraphs corresponding to each, ordered by id.",
+        "original": "SELECT document_id ,  count(*) FROM Paragraphs GROUP BY document_id ORDER BY document_id",
+        "fixed": "SELECT doc.document_id, COUNT(para.paragraph_id) AS count_paragraphs FROM documents doc LEFT JOIN paragraphs para ON doc.document_id = para.document_id GROUP BY doc.document_id ORDER BY doc.document_id",
+        "note": "join -> left join"
+    },
+    {
+        "id": 369,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "Show all document ids, names and the number of paragraphs in each document.",
+        "original": "SELECT T1.document_id ,  T2.document_name ,  count(*) FROM Paragraphs AS T1 JOIN Documents AS T2 ON T1.document_id  =  T2.document_id GROUP BY T1.document_id",
+        "fixed": "SELECT d.document_id, d.document_name, COUNT(p.paragraph_id) AS num_paragraphs FROM documents d LEFT JOIN paragraphs p ON d.document_id = p.document_id GROUP BY d.document_id, d.document_name",
+        "note": "join -> left join"
+    },
+    {
+        "id": 370,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "medium",
+        "question": "What are the ids and names of each document, as well as the number of paragraphs in each?",
+        "original": "SELECT T1.document_id ,  T2.document_name ,  count(*) FROM Paragraphs AS T1 JOIN Documents AS T2 ON T1.document_id  =  T2.document_id GROUP BY T1.document_id",
+        "fixed": "SELECT doc.document_id, doc.document_name, (SELECT COUNT(paragraph_id) FROM paragraphs WHERE paragraphs.document_id = doc.document_id) AS number_of_paragraphs FROM documents doc",
+        "note": "join -> left join"
+    },
+    {
+        "id": 380,
+        "db_id": "cre_Doc_Template_Mgt",
+        "difficulty": "hard",
+        "question": "What are the ids of documents that contain at least one paragraph with the text 'Brazil' and at least one paragraph with the text 'Ireland'?",
+        "original": "SELECT document_id FROM Paragraphs WHERE paragraph_text  =  'Brazil' INTERSECT SELECT document_id FROM Paragraphs WHERE paragraph_text  =  'Ireland'",
+        "fixed": "SELECT document_id FROM Paragraphs WHERE paragraph_text LIKE '%Brazil%' INTERSECT SELECT document_id FROM Paragraphs WHERE paragraph_text LIKE '%Ireland%'",
+        "note": "str"
+    },
+    {
+        "id": 387,
+        "db_id": "course_teach",
+        "difficulty": "easy",
+        "question": "List the name of teachers whose hometown is not `` Little Lever Urban District '' .",
+        "original": "select name from teacher where hometown != 'little lever urban district'",
+        "fixed": "select name from teacher where hometown != 'Little Lever Urban District'",
+        "note": "str"
+    },
+    {
+        "id": 388,
+        "db_id": "course_teach",
+        "difficulty": "easy",
+        "question": "What are the distinct names of the teachers whose hometown is not Little Lever Urban District?",
+        "original": "SELECT DISTINCT name FROM teacher WHERE hometown != 'little lever urban district'",
+        "fixed": "SELECT DISTINCT name FROM teacher WHERE hometown != 'Little Lever Urban District'",
+        "note": "str"
+    },
+    {
+        "id": 405,
+        "db_id": "course_teach",
+        "difficulty": "medium",
+        "question": "Show names of teachers and the number of courses they teach.",
+        "original": "SELECT T2.Name ,  COUNT(*) FROM course_arrange AS T1 JOIN teacher AS T2 ON T1.Teacher_ID  =  T2.Teacher_ID GROUP BY T2.Name",
+        "fixed": "SELECT t.name AS teacher_name, COUNT(ca.course_id) FROM teacher t LEFT JOIN course_arrange ca ON t.teacher_id = ca.teacher_id GROUP BY t.teacher_id",
+        "note": "join -> left join; group by non-key"
+    },
+    {
+        "id": 406,
+        "db_id": "course_teach",
+        "difficulty": "medium",
+        "question": "What are the names of the teachers and how many courses do they teach?",
+        "original": "SELECT T2.Name ,  COUNT(*) FROM course_arrange AS T1 JOIN teacher AS T2 ON T1.Teacher_ID  =  T2.Teacher_ID GROUP BY T2.Name",
+        "fixed": "SELECT name, (SELECT COUNT(*) FROM course_arrange WHERE teacher_id = teacher.teacher_id) AS num_courses FROM teacher",
+        "note": "join -> left join; group by non-key"
+    },
+    {
+        "id": 407,
+        "db_id": "course_teach",
+        "difficulty": "medium",
+        "question": "Show names of teachers that teach at least two courses.",
+        "original": "SELECT T2.Name FROM course_arrange AS T1 JOIN teacher AS T2 ON T1.Teacher_ID  =  T2.Teacher_ID GROUP BY T2.Name HAVING COUNT(*)  >=  2",
+        "fixed": "SELECT T.Name FROM teacher AS T WHERE T.Teacher_ID IN (SELECT ca.Teacher_ID FROM course_arrange ca GROUP BY ca.Teacher_ID HAVING COUNT(DISTINCT ca.course_id) > 1)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 408,
+        "db_id": "course_teach",
+        "difficulty": "medium",
+        "question": "What are the names of the teachers who teach at least two courses?",
+        "original": "SELECT T2.Name FROM course_arrange AS T1 JOIN teacher AS T2 ON T1.Teacher_ID  =  T2.Teacher_ID GROUP BY T2.Name HAVING COUNT(*)  >=  2",
+        "fixed": "SELECT t.name FROM teacher t WHERE t.teacher_id IN (SELECT ca.teacher_id FROM course_arrange ca GROUP BY ca.teacher_id HAVING COUNT(DISTINCT ca.course_id) >= 2)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 420,
+        "db_id": "museum_visit",
+        "difficulty": "extra",
+        "question": "What are the id, name and membership level of visitors who have spent the largest amount of money in total in all museum tickets?",
+        "original": "SELECT t2.visitor_id ,  t1.name ,  t1.Level_of_membership FROM visitor AS t1 JOIN visit AS t2 ON t1.id  =  t2.visitor_id GROUP BY t2.visitor_id ORDER BY sum(t2.Total_spent) DESC LIMIT 1",
+        "fixed": "SELECT t1.ID, t1.name, t1.Level_of_membership from visitor AS T1 WHERE T1.ID IN (SELECT T2.visitor_ID FROM visit AS T2 GROUP BY t2.visitor_ID HAVING sum(T2.Total_spent) = (SELECT sum(T3.Total_spent) AS S FROM visit AS T3 GROUP BY t3.visitor_ID ORDER BY S DESC LIMIT 1))",
+        "note": "limit 1"
+    },
+    {
+        "id": 423,
+        "db_id": "museum_visit",
+        "difficulty": "hard",
+        "question": "Show the name and age of all visitors who bought the most tickets at once.",
+        "original": "SELECT t1.name, t1.age FROM visitor AS t1 JOIN visit AS t2 ON t1.id = t2.visitor_id WHERE t2.num_of_ticket = (SELECT MAX(num_of_ticket) FROM visit)",
+        "fixed": "SELECT v.name, v.age FROM (SELECT visitor_id FROM visit GROUP BY visitor_id HAVING MAX(num_of_ticket) = (SELECT MAX(num_of_ticket) FROM visit)) ids JOIN visitor v ON v.id = ids.visitor_id",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 426,
+        "db_id": "museum_visit",
+        "difficulty": "extra",
+        "question": "What is the name of the visitor who visited both a museum opened before 2009 and a museum opened after 2011?",
+        "original": "SELECT t1.name FROM visitor AS t1 JOIN visit AS t2 ON t1.id  =  t2.visitor_id JOIN museum AS t3 ON t3.Museum_ID  =  t2.Museum_ID WHERE t3.open_year  <  2009 INTERSECT SELECT t1.name FROM visitor AS t1 JOIN visit AS t2 ON t1.id  =  t2.visitor_id JOIN museum AS t3 ON t3.Museum_ID  =  t2.Museum_ID WHERE t3.open_year  >  2011",
+        "fixed": "SELECT T1.Name FROM visitor AS T1 WHERE exists(SELECT 1 FROM visit AS T2 JOIN museum AS T3 on T2.Museum_ID = T3.Museum_ID WHERE T3.Open_Year < 2009 AND T2.visitor_ID = T1.ID) AND exists(SELECT 1 FROM visit AS T4 JOIN museum AS T5 on T4.Museum_ID = T5.Museum_ID WHERE T5.Open_Year > 2011 AND T4.visitor_ID = T1.ID)",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 447,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "List the names of all winners who played in both 2013 and 2016.",
+        "original": "SELECT winner_name FROM matches WHERE YEAR  =  2013 INTERSECT SELECT winner_name FROM matches WHERE YEAR  =  2016",
+        "fixed": "SELECT T.winner_name FROM (SELECT winner_id, winner_name FROM matches WHERE YEAR = 2013 INTERSECT SELECT winner_id, winner_name FROM matches WHERE YEAR = 2016) AS T",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 451,
+        "db_id": "wta_1",
+        "difficulty": "extra",
+        "question": "What are the country code and first name of the players who won in both tourney WTA Championships and Australian Open?",
+        "original": "SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'WTA Championships' INTERSECT SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'Australian Open'",
+        "fixed": "SELECT p.country_code, p.first_name FROM players p WHERE EXISTS (SELECT 1 FROM matches m WHERE m.winner_id = p.player_id AND m.tourney_name = 'WTA Championships') AND EXISTS (SELECT 1 FROM matches m WHERE m.winner_id = p.player_id AND m.tourney_name = 'Australian Open')",
+        "note": "semantic error"
+    },
+    {
+        "id": 452,
+        "db_id": "wta_1",
+        "difficulty": "extra",
+        "question": "What are the first names and country codes for players who won both the WTA Championships and the Australian Open?",
+        "original": "SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'WTA Championships' INTERSECT SELECT T1.country_code ,  T1.first_name FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id WHERE T2.tourney_name  =  'Australian Open'",
+        "fixed": "SELECT first_name, country_code FROM players WHERE player_id IN (SELECT winner_id FROM matches WHERE tourney_name = 'WTA Championships' INTERSECT SELECT winner_id FROM matches WHERE tourney_name = 'Australian Open')",
+        "note": "semantic error"
+    },
+    {
+        "id": 459,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "Find the first name and country code of each player who did the most number of tours.",
+        "original": "SELECT T1.first_name, T1.country_code FROM players AS T1 JOIN rankings AS T2 ON T1.player_id = T2.player_id WHERE T2.tours = (SELECT MAX(tours) FROM rankings)",
+        "fixed": "SELECT p.first_name, p.country_code FROM players p, (SELECT player_id FROM rankings GROUP BY player_id HAVING MAX(tours) = (SELECT MAX(tours) FROM rankings)) as r WHERE p.player_id = r.player_id",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 460,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "Show the first name and country code of each player with the most tours.",
+        "original": "SELECT T1.first_name, T1.country_code FROM players AS T1 JOIN rankings AS T2 ON T1.player_id = T2.player_id WHERE T2.tours = (SELECT MAX(tours) FROM rankings)",
+        "fixed": "SELECT T1.first_name, T1.country_code FROM players AS T1 WHERE T1.player_id IN (SELECT T2.player_id FROM rankings AS T2 WHERE T2.tours = (SELECT MAX(tours) FROM rankings))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 464,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "What is the winner's full name (first name and last name) of the player who has won the most matches, and how many total winner rank points does this player have?",
+        "original": "SELECT p.first_name, p.last_name, SUM(m.winner_rank_points) AS total_winner_rank_points FROM matches m JOIN players p ON m.winner_id = p.player_id GROUP BY m.winner_id ORDER BY COUNT(*) DESC LIMIT 1",
+        "fixed": "SELECT p.first_name, p.last_name, T.total_winner_rank_points FROM players AS p JOIN (SELECT m1.winner_id, SUM(m1.winner_rank_points) AS total_winner_rank_points FROM matches AS m1 GROUP BY m1.winner_id HAVING count(*) = (SELECT count(*) AS C FROM matches m JOIN players p ON m.winner_id = p.player_id GROUP BY m.winner_id ORDER BY C DESC LIMIT 1)) AS T on p.player_id = T.winner_id",
+        "note": "limit 1"
+    },
+    {
+        "id": 465,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "Find the first name and last name of the winner who has the highest winner rank points and participated in the Australian Open tourney.",
+        "original": "SELECT p.first_name, p.last_name FROM matches m JOIN players p ON m.winner_id = p.player_id WHERE m.tourney_name = 'Australian Open' ORDER BY m.winner_rank_points DESC LIMIT 1",
+        "fixed": "SELECT first_name, last_name FROM players WHERE player_id IN (SELECT winner_id FROM matches WHERE tourney_name = 'Australian Open' AND winner_rank_points = (SELECT MAX(winner_rank_points) FROM matches WHERE tourney_name = 'Australian Open'))",
+        "note": "limit 1"
+    },
+    {
+        "id": 466,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "What is the first name and last name of the winner with the most winner rank points who participated in the Australian Open tournament?",
+        "original": "SELECT p.first_name, p.last_name FROM matches m JOIN players p ON m.winner_id = p.player_id WHERE m.tourney_name = 'Australian Open' ORDER BY m.winner_rank_points DESC LIMIT 1",
+        "fixed": "SELECT first_name, last_name FROM players WHERE player_id IN (SELECT winner_id FROM matches WHERE tourney_name = 'Australian Open' AND winner_rank_points = (SELECT MAX(winner_rank_points) FROM matches WHERE tourney_name = 'Australian Open'))",
+        "note": "limit 1"
+    },
+    {
+        "id": 472,
+        "db_id": "wta_1",
+        "difficulty": "medium",
+        "question": "What are the first names of all players and their total ranking points, assigning zero points if ranking is not available?",
+        "original": "SELECT COALESCE(SUM(ranking_points), 0), T1.first_name FROM players AS T1 LEFT JOIN rankings AS T2 ON T1.player_id = T2.player_id GROUP BY T1.first_name",
+        "fixed": "SELECT p.first_name, IFNULL(SUM(r.ranking_points), 0) FROM players p LEFT JOIN rankings r ON p.player_id = r.player_id GROUP BY p.player_id",
+        "note": "group by non-key"
+    },
+    {
+        "id": 483,
+        "db_id": "wta_1",
+        "difficulty": "medium",
+        "question": "Find the winner name and winner rank of each of the 3 youngest winners across all matches.",
+        "original": "SELECT DISTINCT winner_name ,  winner_rank FROM matches ORDER BY winner_age LIMIT 3",
+        "fixed": "SELECT winner_name, winner_rank FROM matches WHERE winner_age <= (SELECT MAX(winner_age) FROM (SELECT winner_age AS winner_age FROM matches ORDER BY winner_age Limit 3)) ORDER BY winner_age",
+        "note": "redundant distinct; limit n"
+    },
+    {
+        "id": 484,
+        "db_id": "wta_1",
+        "difficulty": "medium",
+        "question": "What are the names and ranks of the three youngest winners across all matches?",
+        "original": "SELECT DISTINCT winner_name ,  winner_rank FROM matches ORDER BY winner_age LIMIT 3",
+        "fixed": "SELECT winner_name, winner_rank FROM matches WHERE winner_age <= (SELECT MAX(winner_age) FROM (SELECT winner_age AS winner_age FROM matches ORDER BY winner_age Limit 3)) ORDER BY winner_age",
+        "note": "redundant distinct; limit n"
+    },
+    {
+        "id": 485,
+        "db_id": "wta_1",
+        "difficulty": "medium",
+        "question": "How many different winners both participated in the WTA Championships and were left handed?",
+        "original": "SELECT count(DISTINCT winner_name) FROM matches WHERE tourney_name  =  'WTA Championships' AND winner_hand  =  'L'",
+        "fixed": "SELECT count(DISTINCT winner_id) FROM matches WHERE tourney_name = 'WTA Championships' AND winner_hand = 'L'",
+        "note": "semantic error"
+    },
+    {
+        "id": 486,
+        "db_id": "wta_1",
+        "difficulty": "medium",
+        "question": "Find the number of left handed winners who participated in the WTA Championships.",
+        "original": "SELECT count(DISTINCT winner_name) FROM matches WHERE tourney_name  =  'WTA Championships' AND winner_hand  =  'L'",
+        "fixed": "SELECT count(DISTINCT winner_id) FROM matches WHERE tourney_name = 'WTA Championships' AND winner_hand = 'L'",
+        "note": "semantic error"
+    },
+    {
+        "id": 487,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "Find the first name, country code and birth date of the winner who has the highest rank points in all matches.",
+        "original": "SELECT T1.first_name ,  T1.country_code ,  T1.birth_date FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id ORDER BY T2.winner_rank_points DESC LIMIT 1",
+        "fixed": "SELECT T1.first_name, T1.country_code, T1.birth_date FROM players AS T1 WHERE T1.player_id IN (SELECT T2.winner_id FROM matches AS T2 WHERE T2.winner_rank_points = (SELECT max(T3.winner_rank_points) FROM matches AS T3))",
+        "note": "limit 1"
+    },
+    {
+        "id": 488,
+        "db_id": "wta_1",
+        "difficulty": "hard",
+        "question": "What is the first name, country code, and birth date of the player with the most winner rank points across all matches?",
+        "original": "SELECT T1.first_name ,  T1.country_code ,  T1.birth_date FROM players AS T1 JOIN matches AS T2 ON T1.player_id  =  T2.winner_id ORDER BY T2.winner_rank_points DESC LIMIT 1",
+        "fixed": "SELECT T1.first_name, T1.country_code, T1.birth_date FROM players AS T1 WHERE T1.player_id IN (SELECT T2.winner_id FROM matches AS T2 WHERE T2.winner_rank_points = (SELECT max(T3.winner_rank_points) FROM matches AS T3))",
+        "note": "limit 1"
+    },
+    {
+        "id": 493,
+        "db_id": "battle_death",
+        "difficulty": "medium",
+        "question": "List the name, date and result of each battle.",
+        "original": "SELECT name ,  date FROM battle",
+        "fixed": "SELECT name, date, result FROM battle",
+        "note": "semantic error: column"
+    },
+    {
+        "id": 501,
+        "db_id": "battle_death",
+        "difficulty": "medium",
+        "question": "What are the distinct battle names which are between bulgarian commander 'Kaloyan' and latin commander 'Baldwin I'?",
+        "original": "SELECT name FROM battle WHERE bulgarian_commander  =  'Kaloyan' AND latin_commander  =  'Baldwin I'",
+        "fixed": "SELECT DISTINCT name FROM battle WHERE bulgarian_commander = 'Kaloyan' AND latin_commander = 'Baldwin I'",
+        "note": "lack distinct"
+    },
+    {
+        "id": 504,
+        "db_id": "battle_death",
+        "difficulty": "extra",
+        "question": "List the name and date of the battle or battles that have lost the ship named 'Lettice' and the ship named 'HMS Atalanta'.",
+        "original": "SELECT T1.name ,  T1.date FROM battle AS T1 JOIN ship AS T2 ON T1.id  =  T2.lost_in_battle WHERE T2.name  =  'Lettice' INTERSECT SELECT T1.name ,  T1.date FROM battle AS T1 JOIN ship AS T2 ON T1.id  =  T2.lost_in_battle WHERE T2.name  =  'HMS Atalanta'",
+        "fixed": "SELECT T3.name, T3.date FROM (SELECT T1.id, T1.name, T1.date FROM battle AS T1 JOIN ship AS T2 ON T1.id = T2.lost_in_battle WHERE T2.name = 'Lettice' INTERSECT SELECT T1.id, T1.name, T1.date FROM battle AS T1 JOIN ship AS T2 ON T1.id = T2.lost_in_battle WHERE T2.name = 'HMS Atalanta') AS T3",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 505,
+        "db_id": "battle_death",
+        "difficulty": "extra",
+        "question": "Show names, results and bulgarian commanders of the battles with no ships lost in the 'English Channel'.",
+        "original": "SELECT name ,  RESULT ,  bulgarian_commander FROM battle EXCEPT SELECT T1.name ,  T1.result ,  T1.bulgarian_commander FROM battle AS T1 JOIN ship AS T2 ON T1.id  =  T2.lost_in_battle WHERE T2.location  =  'English Channel'",
+        "fixed": "SELECT name, result, bulgarian_commander FROM battle WHERE id NOT IN (SELECT lost_in_battle FROM ship WHERE location = 'English Channel')",
+        "note": "except non-key"
+    },
+    {
+        "id": 525,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "medium",
+        "question": "What are the names and id of courses having at most 2 sections?",
+        "original": "SELECT T1.course_name ,  T1.course_id FROM Courses AS T1 JOIN Sections AS T2 ON T1.course_id  =  T2.course_id GROUP BY T1.course_id HAVING count(*)  <=  2",
+        "fixed": "SELECT c.course_id, c.course_name FROM courses c WHERE (SELECT COUNT(*) FROM sections s WHERE s.course_id = c.course_id) <= 2",
+        "note": "join -> left join"
+    },
+    {
+        "id": 526,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "medium",
+        "question": "What are the names and ids of every course with less than 2 sections?",
+        "original": "SELECT T1.course_name ,  T1.course_id FROM Courses AS T1 JOIN Sections AS T2 ON T1.course_id  =  T2.course_id GROUP BY T1.course_id HAVING count(*)  <=  2",
+        "fixed": "SELECT c.course_name, c.course_id FROM courses c WHERE (SELECT COUNT(*) FROM sections s WHERE s.course_id = c.course_id) < 2",
+        "note": "join -> left join"
+    },
+    {
+        "id": 531,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "medium",
+        "question": "What is the description of the department whose name has the substring the computer?",
+        "original": "SELECT department_description FROM Departments WHERE department_name LIKE '%computer%'",
+        "fixed": "SELECT department_description FROM departments WHERE department_name LIKE '%the computer%'",
+        "note": "str"
+    },
+    {
+        "id": 533,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "medium",
+        "question": "Who are enrolled in 2 degree programs in one semester? List the first name, middle name and last name and the id.",
+        "original": "SELECT T1.first_name ,  T1.middle_name ,  T1.last_name ,  T1.student_id FROM Students AS T1 JOIN Student_Enrolment AS T2 ON T1.student_id  =  T2.student_id GROUP BY T1.student_id HAVING count(*)  =  2",
+        "fixed": "SELECT DISTINCT s.first_name, s.middle_name, s.last_name, s.student_id FROM students s WHERE EXISTS (SELECT 1 FROM student_enrolment se WHERE se.student_id = s.student_id GROUP BY se.semester_id HAVING COUNT(DISTINCT se.degree_program_id) = 2)",
+        "note": "lack distinct"
+    },
+    {
+        "id": 534,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "medium",
+        "question": "What are the first, middle, and last names, along with the ids, of all students who enrolled in 2 degree programs in one semester?",
+        "original": "SELECT T1.first_name ,  T1.middle_name ,  T1.last_name ,  T1.student_id FROM Students AS T1 JOIN Student_Enrolment AS T2 ON T1.student_id  =  T2.student_id GROUP BY T1.student_id HAVING count(*)  =  2",
+        "fixed": "SELECT DISTINCT s.student_id, s.first_name, s.middle_name, s.last_name FROM students s JOIN student_enrolment se ON s.student_id = se.student_id JOIN (SELECT student_id, semester_id FROM student_enrolment GROUP BY student_id, semester_id HAVING COUNT(DISTINCT degree_program_id) = 2) ds ON s.student_id = ds.student_id AND se.semester_id = ds.semester_id",
+        "note": "lack distinct"
+    },
+    {
+        "id": 535,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "hard",
+        "question": "Who is enrolled in a Bachelor degree program? List the first name, middle name, last name.",
+        "original": "SELECT DISTINCT T1.first_name ,  T1.middle_name ,  T1.last_name FROM Students AS T1 JOIN Student_Enrolment AS T2 ON T1.student_id  =  T2.student_id JOIN Degree_Programs AS T3 ON T2.degree_program_id  =  T3.degree_program_id WHERE T3.degree_summary_name  =  'Bachelor'",
+        "fixed": "SELECT first_name, middle_name, last_name FROM students WHERE student_id IN (SELECT student_id FROM student_enrolment WHERE degree_program_id IN (SELECT degree_program_id FROM degree_programs WHERE degree_summary_name = 'Bachelor'))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 536,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "hard",
+        "question": "What are the first, middle, and last names for everybody enrolled in a degree program with the degree summary name 'Bachelors'?",
+        "original": "SELECT DISTINCT T1.first_name, T1.middle_name, T1.last_name FROM Students AS T1 JOIN Student_Enrolment AS T2 ON T1.student_id = T2.student_id JOIN Degree_Programs AS T3 ON T2.degree_program_id = T3.degree_program_id WHERE T3.degree_summary_name = 'Bachelors'",
+        "fixed": "SELECT first_name, middle_name, last_name FROM students WHERE student_id IN (SELECT student_id FROM student_enrolment WHERE degree_program_id IN (SELECT degree_program_id FROM degree_programs WHERE degree_summary_name = 'Bachelors'))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 537,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "Show the kinds of programs with the most number of students enrolled.",
+        "original": "SELECT T1.degree_summary_name FROM Degree_Programs AS T1 JOIN Student_Enrolment AS T2 ON T1.degree_program_id = T2.degree_program_id GROUP BY T1.degree_summary_name HAVING COUNT(*) = (SELECT MAX(counts) FROM (SELECT COUNT(*) AS counts FROM Student_Enrolment GROUP BY degree_program_id) AS temp)",
+        "fixed": "SELECT dp.degree_summary_name FROM degree_programs dp INNER JOIN student_enrolment se ON dp.degree_program_id = se.degree_program_id GROUP BY dp.degree_summary_name HAVING COUNT(DISTINCT se.student_id) = (SELECT MAX(total_enrolled) FROM (SELECT COUNT(DISTINCT student_id) AS total_enrolled FROM student_enrolment GROUP BY degree_program_id))",
+        "note": "lack distinct"
+    },
+    {
+        "id": 542,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "What is the first, middle, and last name, along with the id and number of enrollments, for the student who enrolled the most in any program?",
+        "original": "SELECT T1.student_id ,  T1.first_name ,  T1.middle_name ,  T1.last_name ,  count(*) ,  T1.student_id FROM Students AS T1 JOIN Student_Enrolment AS T2 ON T1.student_id  =  T2.student_id GROUP BY T1.student_id ORDER BY count(*) DESC LIMIT 1",
+        "fixed": "SELECT T1.first_name, T1.middle_name, T1.last_name, T1.student_id, COUNT(T2.student_id) AS num_enrollments FROM students T1 INNER JOIN student_enrolment T2 ON T1.student_id = T2.student_id GROUP BY T1.student_id HAVING num_enrollments = (SELECT COUNT(*) AS num_enrollments FROM student_enrolment AS T3 GROUP BY T3.student_id ORDER BY num_enrollments DESC LIMIT 1)",
+        "note": "limit 1"
+    },
+    {
+        "id": 546,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "easy",
+        "question": "What are the names of all courses that have some students enrolled?",
+        "original": "SELECT DISTINCT T1.course_name FROM Courses AS T1 JOIN Student_Enrolment_Courses AS T2 ON T1.course_id  =  T2.course_id",
+        "fixed": "SELECT course_name FROM courses WHERE course_id IN (SELECT course_id FROM student_enrolment_courses)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 547,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "Show the names of all courses with the most number of enrollments.",
+        "original": "SELECT T1.course_name FROM Courses AS T1 JOIN Student_Enrolment_Courses AS T2 ON T1.course_id = T2.course_id GROUP BY T1.course_name HAVING COUNT(*) = (SELECT MAX(course_count) FROM (SELECT COUNT(*) AS course_count FROM Student_Enrolment_Courses GROUP BY course_id) AS subquery)",
+        "fixed": "SELECT C.course_name FROM courses C INNER JOIN (SELECT course_id FROM student_enrolment_courses GROUP BY course_id HAVING COUNT(*) = (SELECT MAX(cnt) FROM (SELECT COUNT(*) as cnt FROM student_enrolment_courses GROUP BY course_id))) SC ON C.course_id = SC.course_id",
+        "note": "group by non-key"
+    },
+    {
+        "id": 548,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "Show the names of all courses with the most students enrolled.",
+        "original": "SELECT T1.course_name FROM Courses AS T1 JOIN Student_Enrolment_Courses AS T2 ON T1.course_id = T2.course_id GROUP BY T1.course_name HAVING COUNT(*) = (SELECT MAX(course_count) FROM (SELECT COUNT(*) AS course_count FROM Student_Enrolment_Courses GROUP BY course_id) AS subquery)",
+        "fixed": "SELECT T1.course_name FROM courses AS T1 JOIN student_enrolment_courses AS T2 ON T1.course_id = T2.course_id GROUP BY T1.course_id HAVING COUNT(*) = (SELECT COUNT(*) AS C FROM student_enrolment_courses GROUP BY course_id ORDER BY C DESC LIMIT 1)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 549,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "Find the last name of the students who currently live in the state of North Carolina but have not registered in any degree program.",
+        "original": "SELECT T1.last_name FROM Students AS T1 JOIN Addresses AS T2 ON T1.current_address_id  =  T2.address_id WHERE T2.state_province_county  =  'NorthCarolina' EXCEPT SELECT DISTINCT T3.last_name FROM Students AS T3 JOIN Student_Enrolment AS T4 ON T3.student_id  =  T4.student_id",
+        "fixed": "SELECT T.last_name FROM (SELECT T1.student_id, T1.last_name FROM Students AS T1 JOIN Addresses AS T2 ON T1.current_address_id = T2.address_id WHERE T2.state_province_county = 'North Carolina' EXCEPT SELECT T3.student_id, T3.last_name FROM Students AS T3 JOIN Student_Enrolment AS T4 ON T3.student_id = T4.student_id) AS T",
+        "note": "except non-key; str"
+    },
+    {
+        "id": 554,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "medium",
+        "question": "What is the mobile phone number of the student named Timmothy Ward ?",
+        "original": "select cell_mobile_number from students where first_name  =  'timmothy' and last_name  =  'ward'",
+        "fixed": "select cell_mobile_number from students where first_name = 'Timmothy' and last_name = 'Ward'",
+        "note": "str"
+    },
+    {
+        "id": 561,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "Which address holds the most number of students currently? List the address id and all lines.",
+        "original": "SELECT T1.address_id ,  T1.line_1 ,  T1.line_2 FROM Addresses AS T1 JOIN Students AS T2 ON T1.address_id  =  T2.current_address_id GROUP BY T1.address_id ORDER BY count(*) DESC LIMIT 1",
+        "fixed": "SELECT A.address_id, A.line_1, A.line_2, A.line_3 FROM addresses A INNER JOIN students S ON A.address_id = S.current_address_id GROUP BY A.address_id, A.line_1, A.line_2, A.line_3 HAVING COUNT(*) = (SELECT MAX(count) FROM (SELECT COUNT(*) count FROM students GROUP BY current_address_id))",
+        "note": "limit 1"
+    },
+    {
+        "id": 565,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "medium",
+        "question": "When is the first transcript released? List the date and details.",
+        "original": "SELECT transcript_date ,  other_details FROM Transcripts ORDER BY transcript_date ASC LIMIT 1",
+        "fixed": "SELECT transcript_date, other_details FROM Transcripts WHERE transcript_date = (SELECT min(transcript_date) FROM Transcripts)",
+        "note": "limit 1"
+    },
+    {
+        "id": 572,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "hard",
+        "question": "What are the courses with the maximum number of appearances in different transcripts and what are their enrollment ids?",
+        "original": "SELECT count(*) as num_transcripts, student_course_id FROM Transcript_Contents GROUP BY student_course_id HAVING count(*) = (SELECT max(counts) FROM (SELECT count(*) as counts FROM Transcript_Contents GROUP BY student_course_id) as subquery)",
+        "fixed": "SELECT count(*) as num_transcripts, student_course_id FROM Transcript_Contents GROUP BY student_course_id HAVING count(*) = (SELECT max(counts) FROM (SELECT count(*) as counts FROM Transcript_Contents GROUP BY student_course_id) as subquery)",
+        "note": "limit 1"
+    },
+    {
+        "id": 574,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "What is the date and id of the transcript with the least number of results?",
+        "original": "SELECT T2.transcript_date ,  T1.transcript_id FROM Transcript_Contents AS T1 JOIN Transcripts AS T2 ON T1.transcript_id  =  T2.transcript_id GROUP BY T1.transcript_id ORDER BY count(*) ASC LIMIT 1",
+        "fixed": "SELECT T2.transcript_date, T1.transcript_id FROM Transcript_Contents AS T1 JOIN Transcripts AS T2 ON T1.transcript_id = T2.transcript_id GROUP BY T1.transcript_id HAVING count(*) = (SELECT COUNT(*) AS c FROM Transcript_Contents AS T3 JOIN Transcripts AS T4 ON T3.transcript_id = T4.transcript_id GROUP BY T3.transcript_id ORDER BY c LIMIT 1)",
+        "note": "limit 1"
+    },
+    {
+        "id": 575,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "extra",
+        "question": "Find the semester name when both Master students and Bachelor students got enrolled in.",
+        "original": "SELECT DISTINCT Semesters.semester_name FROM Degree_Programs AS T1 JOIN Student_Enrolment AS T2 ON T1.degree_program_id = T2.degree_program_id JOIN Semesters ON T2.semester_id = Semesters.semester_id WHERE T1.degree_summary_name = 'Master' INTERSECT SELECT DISTINCT Semesters.semester_name FROM Degree_Programs AS T1 JOIN Student_Enrolment AS T2 ON T1.degree_program_id = T2.degree_program_id JOIN Semesters ON T2.semester_id = Semesters.semester_id WHERE T1.degree_summary_name = 'Bachelor'",
+        "fixed": "SELECT s.semester_name FROM semesters s WHERE s.semester_id IN (SELECT se.semester_id FROM student_enrolment se JOIN degree_programs dp ON se.degree_program_id = dp.degree_program_id WHERE dp.degree_summary_name = 'Master' INTERSECT SELECT se.semester_id FROM student_enrolment se JOIN degree_programs dp ON se.degree_program_id = dp.degree_program_id WHERE dp.degree_summary_name = 'Bachelor')",
+        "note": "join -> in-sub; intersect non-key"
+    },
+    {
+        "id": 578,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "easy",
+        "question": "What are the different addresses (considering both current and permanent) that have students living there?",
+        "original": "SELECT count(DISTINCT current_address_id) + count(DISTINCT permanent_address_id) FROM Students",
+        "fixed": "SELECT COUNT(*) FROM (SELECT current_address_id FROM Students UNION SELECT permanent_address_id FROM Students) AS T",
+        "note": "semantic error"
+    },
+    {
+        "id": 583,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "hard",
+        "question": "Find the first name of the students who permanently live in the country Haiti or have the cell phone number 09700166582 .",
+        "original": "select t1.first_name from students as t1 join addresses as t2 on t1.permanent_address_id  =  t2.address_id where t2.country  =  'haiti' or t1.cell_mobile_number  =  '09700166582'",
+        "fixed": "select t1.first_name from students as t1 join addresses as t2 on t1.permanent_address_id = t2.address_id where t2.country = 'Haiti' or t1.cell_mobile_number = '09700166582'",
+        "note": "str"
+    },
+    {
+        "id": 584,
+        "db_id": "student_transcripts_tracking",
+        "difficulty": "hard",
+        "question": "What are the first names of the students who live in Haiti permanently or have the cell phone number 09700166582 ?",
+        "original": "select t1.first_name from students as t1 join addresses as t2 on t1.permanent_address_id  =  t2.address_id where t2.country  =  'haiti' or t1.cell_mobile_number  =  '09700166582'",
+        "fixed": "select t1.first_name from students as t1 join addresses as t2 on t1.permanent_address_id = t2.address_id where t2.country = 'Haiti' or t1.cell_mobile_number = '09700166582'",
+        "note": "str"
+    },
+    {
+        "id": 595,
+        "db_id": "tvshow",
+        "difficulty": "hard",
+        "question": "Which country has the most of TV Channels? List the country and number of TV Channels it has.",
+        "original": "SELECT Country ,  count(*) FROM TV_Channel GROUP BY Country ORDER BY count(*) DESC LIMIT 1;",
+        "fixed": "WITH ranked_countries AS (SELECT country, COUNT(id) AS total_channels, RANK() OVER (ORDER BY COUNT(id) DESC) AS rank FROM tv_channel GROUP BY country) SELECT country, total_channels FROM ranked_countries WHERE rank = 1",
+        "note": "limit 1"
+    },
+    {
+        "id": 596,
+        "db_id": "tvshow",
+        "difficulty": "hard",
+        "question": "What is the country with the most number of TV Channels and how many does it have?",
+        "original": "SELECT Country ,  count(*) FROM TV_Channel GROUP BY Country ORDER BY count(*) DESC LIMIT 1;",
+        "fixed": "SELECT Country, count(*) FROM TV_Channel GROUP BY Country HAVING count(*) = (SELECT count(*) as c FROM TV_Channel GROUP BY Country ORDER BY c DESC LIMIT 1)",
+        "note": "limit 1"
+    },
+    {
+        "id": 609,
+        "db_id": "tvshow",
+        "difficulty": "medium",
+        "question": "What is the TV Channel that shows the cartoon 'The Rise of the Blue Beetle!'? List the TV Channel's series name.",
+        "original": "SELECT T1.series_name FROM TV_Channel AS T1 JOIN Cartoon AS T2 ON T1.id = T2.Channel WHERE T2.Title = 'The Rise of the Blue Beetle!';",
+        "fixed": "SELECT series_name FROM tv_channel WHERE id IN (SELECT channel FROM cartoon WHERE title = 'The Rise of the Blue Beetle!')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 610,
+        "db_id": "tvshow",
+        "difficulty": "medium",
+        "question": "What is the series name of the TV Channel that shows the cartoon 'The Rise of the Blue Beetle'?",
+        "original": "SELECT T1.series_name FROM TV_Channel AS T1 JOIN Cartoon AS T2 ON T1.id = T2.Channel WHERE T2.Title = 'The Rise of the Blue Beetle!';",
+        "fixed": "SELECT T1.series_name FROM TV_Channel AS T1 WHERE T1.id IN (SELECT T2.Channel FROM Cartoon AS T2 WHERE T2.Title = 'The Rise of the Blue Beetle!')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 623,
+        "db_id": "tvshow",
+        "difficulty": "medium",
+        "question": "What is the TV Channel of TV series with Episode 'A Love of a Lifetime'? List the TV Channel's series name.",
+        "original": "SELECT T1.series_name FROM TV_Channel AS T1 JOIN TV_series AS T2 ON T1.id = T2.Channel WHERE T2.Episode = 'A Love of a Lifetime';",
+        "fixed": "SELECT series_name FROM tv_channel WHERE id IN (SELECT channel FROM tv_series WHERE episode = 'A Love of a Lifetime')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 624,
+        "db_id": "tvshow",
+        "difficulty": "medium",
+        "question": "What is the name of the series that has the episode 'A Love of a Lifetime'?",
+        "original": "SELECT T1.series_name FROM TV_Channel AS T1 JOIN TV_series AS T2 ON T1.id = T2.Channel WHERE T2.Episode = 'A Love of a Lifetime';",
+        "fixed": "SELECT series_name FROM tv_channel WHERE id IN (SELECT channel FROM tv_series WHERE episode = 'A Love of a Lifetime')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 630,
+        "db_id": "tvshow",
+        "difficulty": "medium",
+        "question": "What is the produdction code and channel of the most recent cartoon ?",
+        "original": "select production_code ,  channel from cartoon order by original_air_date desc limit 1",
+        "fixed": "select production_code, channel from cartoon where Original_air_date = (SELECT max(original_air_date) FROM cartoon)",
+        "note": "limit 1"
+    },
+    {
+        "id": 633,
+        "db_id": "tvshow",
+        "difficulty": "medium",
+        "question": "which countries' tv channels are playing some cartoon written by Todd Casey?",
+        "original": "SELECT T1.country FROM TV_Channel AS T1 JOIN cartoon AS T2 ON T1.id = T2.Channel WHERE T2.written_by  =  'Todd Casey'",
+        "fixed": "SELECT DISTINCT country FROM tv_channel WHERE id IN (SELECT channel FROM cartoon WHERE written_by = 'Todd Casey')",
+        "note": "lack distinct"
+    },
+    {
+        "id": 634,
+        "db_id": "tvshow",
+        "difficulty": "medium",
+        "question": "What are the countries that have cartoons on TV that were written by Todd Casey?",
+        "original": "SELECT T1.country FROM TV_Channel AS T1 JOIN cartoon AS T2 ON T1.id = T2.Channel WHERE T2.written_by  =  'Todd Casey'",
+        "fixed": "SELECT DISTINCT tc.country FROM tv_channel tc JOIN cartoon c ON tc.id = c.channel WHERE c.written_by = 'Todd Casey'",
+        "note": "lack distinct"
+    },
+    {
+        "id": 637,
+        "db_id": "tvshow",
+        "difficulty": "extra",
+        "question": "Find the series name and country of the tv channel that is playing some cartoons directed by Ben Jones and Michael Chang?",
+        "original": "SELECT T1.series_name ,  T1.country FROM TV_Channel AS T1 JOIN cartoon AS T2 ON T1.id = T2.Channel WHERE T2.directed_by  =  'Michael Chang' INTERSECT SELECT T1.series_name ,  T1.country FROM TV_Channel AS T1 JOIN cartoon AS T2 ON T1.id = T2.Channel WHERE T2.directed_by  =  'Ben Jones'",
+        "fixed": "SELECT T1.series_name, T1.country FROM TV_Channel AS T1 WHERE T1.id IN (SELECT T2.id FROM TV_Channel AS T2 JOIN cartoon AS T3 ON T2.id = T3.Channel WHERE T3.directed_by = 'Michael Chang' INTERSECT SELECT T2.Id FROM TV_Channel AS T2 JOIN cartoon AS T3 ON T2.id = T3.Channel WHERE T3.directed_by = 'Ben Jones')",
+        "note": "semantic error"
+    },
+    {
+        "id": 638,
+        "db_id": "tvshow",
+        "difficulty": "extra",
+        "question": "What is the series name and country of all TV channels that are playing cartoons directed by Ben Jones and cartoons directed by Michael Chang?",
+        "original": "SELECT T1.series_name ,  T1.country FROM TV_Channel AS T1 JOIN cartoon AS T2 ON T1.id = T2.Channel WHERE T2.directed_by  =  'Michael Chang' INTERSECT SELECT T1.series_name ,  T1.country FROM TV_Channel AS T1 JOIN cartoon AS T2 ON T1.id = T2.Channel WHERE T2.directed_by  =  'Ben Jones'",
+        "fixed": "SELECT T1.series_name, T1.country FROM TV_Channel AS T1 WHERE T1.id IN (SELECT T2.id FROM TV_Channel AS T2 JOIN cartoon AS T3 ON T2.id = T3.Channel WHERE T3.directed_by = 'Michael Chang' INTERSECT SELECT T2.Id FROM TV_Channel AS T2 JOIN cartoon AS T3 ON T2.id = T3.Channel WHERE T3.directed_by = 'Ben Jones')",
+        "note": "semantic error"
+    },
+    {
+        "id": 659,
+        "db_id": "poker_player",
+        "difficulty": "easy",
+        "question": "What are the names of poker players?",
+        "original": "SELECT T1.Name FROM people AS T1 JOIN poker_player AS T2 ON T1.People_ID  =  T2.People_ID",
+        "fixed": "SELECT name FROM people WHERE exists (SELECT 1 FROM poker_player WHERE poker_player.people_id = people.people_id)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 665,
+        "db_id": "poker_player",
+        "difficulty": "hard",
+        "question": "Return the birth date of all poker players with the lowest earnings.",
+        "original": "SELECT T1.Birth_Date FROM people AS T1 JOIN poker_player AS T2 ON T1.People_ID = T2.People_ID WHERE T2.Earnings = (SELECT MIN(T3.Earnings) FROM poker_player AS T3)",
+        "fixed": "SELECT birth_date FROM people WHERE people_id IN (SELECT people_id FROM poker_player WHERE earnings = (SELECT MIN(earnings) FROM poker_player))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 666,
+        "db_id": "poker_player",
+        "difficulty": "hard",
+        "question": "Return the birth date of all poker players with the lowest earnings.",
+        "original": "SELECT T1.Birth_Date FROM people AS T1 JOIN poker_player AS T2 ON T1.People_ID = T2.People_ID WHERE T2.Earnings = (SELECT MIN(Earnings) FROM poker_player)",
+        "fixed": "SELECT birth_date FROM people WHERE people_id IN (SELECT people_id FROM poker_player WHERE earnings = (SELECT MIN(earnings) FROM poker_player))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 698,
+        "db_id": "voter_1",
+        "difficulty": "extra",
+        "question": "What are the area codes associated with all states that are tied for the most votes?",
+        "original": "SELECT T1.area_code FROM area_code_state AS T1 JOIN (SELECT state, COUNT(*) as votes_count FROM votes GROUP BY state) AS T2 ON T1.state = T2.state WHERE T2.votes_count = (SELECT MAX(votes_count) FROM (SELECT state, COUNT(*) AS votes_count FROM votes GROUP BY state) AS V2) ORDER BY T1.area_code",
+        "fixed": "SELECT T1.area_code FROM area_code_state AS T1 JOIN (SELECT state, COUNT(*) as votes_count FROM votes GROUP BY state) AS T2 ON T1.state = T2.state WHERE T2.votes_count = (SELECT MAX(votes_count) FROM (SELECT state, COUNT(*) AS votes_count FROM votes GROUP BY state) AS V2)",
+        "note": "redudant order by"
+    },
+    {
+        "id": 710,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "Which region is the city Kabul located in?",
+        "original": "SELECT Region FROM country AS T1 JOIN city AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Name  =  'Kabul'",
+        "fixed": "SELECT region FROM country WHERE code IN (SELECT countrycode FROM city WHERE name = 'Kabul')",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 711,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "What region is Kabul in?",
+        "original": "SELECT Region FROM country AS T1 JOIN city AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Name  =  'Kabul'",
+        "fixed": "SELECT region FROM country WHERE code IN (SELECT countrycode FROM city WHERE name = 'Kabul');",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 712,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "List the languages that are most popular in Aruba, including any ties.",
+        "original": "SELECT T2.Language FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode WHERE T1.Name = 'Aruba' AND T2.Percentage = (SELECT MAX(Percentage) FROM countrylanguage WHERE CountryCode = (SELECT Code FROM country WHERE Name = 'Aruba'))",
+        "fixed": "SELECT language FROM countrylanguage WHERE countrycode IN (SELECT code FROM country WHERE name = 'Aruba') AND percentage = (SELECT MAX(percentage) FROM countrylanguage WHERE countrycode IN (SELECT code FROM country WHERE name = 'Aruba'))",
+        "note": "semantic error: = & in"
+    },
+    {
+        "id": 713,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What language is predominantly spoken in Aruba?",
+        "original": "SELECT T2.Language FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T1.Name  =  'Aruba' ORDER BY Percentage DESC LIMIT 1",
+        "fixed": "SELECT T2.Language FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode WHERE T1.Name = 'Aruba' AND Percentage = (SELECT max(T4.Percentage) FROM country AS T3 JOIN countrylanguage AS T4 ON T3.Code = T4.CountryCode WHERE T3.Name = 'Aruba')",
+        "note": "limit 1"
+    },
+    {
+        "id": 721,
+        "db_id": "world_1",
+        "difficulty": "hard",
+        "question": "Give the name of the country in Asia with the lowest life expectancy.",
+        "original": "SELECT Name FROM country WHERE Continent  =  'Asia' ORDER BY LifeExpectancy LIMIT 1",
+        "fixed": "SELECT name FROM country WHERE continent = 'Asia' AND lifeexpectancy = (SELECT MIN(lifeexpectancy) FROM country WHERE continent = 'Asia')",
+        "note": "limit 1"
+    },
+    {
+        "id": 730,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "What is the average GNP and total population in all nations whose government is US territory?",
+        "original": "SELECT avg(GNP) ,  sum(population) FROM country WHERE GovernmentForm  =  'US Territory'",
+        "fixed": "SELECT avg(GNP), sum(population) FROM country WHERE GovernmentForm = 'US territory'",
+        "note": "str"
+    },
+    {
+        "id": 731,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "Give the mean GNP and total population of nations which are considered US territory.",
+        "original": "SELECT avg(GNP) ,  sum(population) FROM country WHERE GovernmentForm  =  'US Territory'",
+        "fixed": "SELECT avg(GNP), sum(population) FROM country WHERE GovernmentForm = 'US territory'",
+        "note": "str"
+    },
+    {
+        "id": 737,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "How many languages are spoken in Aruba?",
+        "original": "SELECT COUNT(T2.Language) FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T1.Name  =  'Aruba'",
+        "fixed": "SELECT COUNT(DISTINCT countrylanguage.language) FROM countrylanguage JOIN country ON countrylanguage.countrycode = country.code WHERE country.name = 'Aruba'",
+        "note": "lack distinct"
+    },
+    {
+        "id": 740,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What is name of the country that speaks the largest number of languages?",
+        "original": "SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode GROUP BY T1.Name ORDER BY COUNT(*) DESC LIMIT 1",
+        "fixed": "SELECT T1.name FROM country AS T1 WHERE T1.Code IN (SELECT T2.CountryCode FROM countrylanguage AS T2 GROUP BY T2.CountryCode HAVING count(*) = (SELECT COUNT(*) AS C FROM countrylanguage AS T3 GROUP BY T3.CountryCode ORDER BY C DESC LIMIT 1))",
+        "note": "limit 1"
+    },
+    {
+        "id": 741,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "List all names of nations that use the greatest amount of languages, including any ties.",
+        "original": "SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode GROUP BY T1.Name HAVING COUNT(*) = (SELECT MAX(lang_count) FROM (SELECT COUNT(*) AS lang_count FROM countrylanguage GROUP BY CountryCode) AS subquery)",
+        "fixed": "SELECT name FROM country WHERE code IN (SELECT countrycode FROM countrylanguage GROUP BY countrycode HAVING COUNT(DISTINCT language) = (SELECT MAX(lang_count) FROM (SELECT COUNT(DISTINCT language) AS lang_count FROM countrylanguage GROUP BY countrycode)))",
+        "note": "group by non-key"
+    },
+    {
+        "id": 742,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Which continent has the most diverse languages? If there is a tie, show all such continents.",
+        "original": "SELECT T1.Continent FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode GROUP BY T1.Continent HAVING COUNT(DISTINCT T2.Language) = (SELECT MAX(ncount) FROM (SELECT count(*) as ncount FROM country AS T3 JOIN countrylanguage AS T4 ON T3.Code = T4.CountryCode GROUP BY T3.Continent) subquery)",
+        "fixed": "SELECT continent FROM (SELECT continent, COUNT(DISTINCT language) AS lang_count FROM country c INNER JOIN countrylanguage cl ON c.code = cl.countrycode GROUP BY continent ORDER BY lang_count DESC) WHERE lang_count = (SELECT MAX(lang_count) FROM (SELECT continent, COUNT(DISTINCT language) AS lang_count FROM country INNER JOIN countrylanguage ON country.code = countrylanguage.countrycode GROUP BY continent))",
+        "note": "lack distinct"
+    },
+    {
+        "id": 743,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Which continent speaks the most languages? If there is a tie, list all tied continents.",
+        "original": "SELECT T1.Continent FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode GROUP BY T1.Continent HAVING COUNT(DISTINCT T2.Language) = (SELECT MAX(ncount) FROM (SELECT count(*) as ncount FROM country AS T3 JOIN countrylanguage AS T4 ON T3.Code = T4.CountryCode GROUP BY T3.Continent) subquery)",
+        "fixed": "WITH LanguageCount AS (SELECT continent, COUNT(DISTINCT language) AS NumLanguages FROM country INNER JOIN countrylanguage ON country.code = countrylanguage.countrycode GROUP BY continent) SELECT continent FROM LanguageCount WHERE NumLanguages = (SELECT MAX(NumLanguages) FROM LanguageCount)",
+        "note": "lack distinct"
+    },
+    {
+        "id": 744,
+        "db_id": "world_1",
+        "difficulty": "easy",
+        "question": "How many countries speak both English and Dutch?",
+        "original": "SELECT COUNT(*) FROM (SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' INTERSECT SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'Dutch')",
+        "fixed": "SELECT COUNT(DISTINCT a.code) FROM country AS a JOIN countrylanguage AS b ON a.code = b.countrycode WHERE b.language IN ('English', 'Dutch') GROUP BY a.code HAVING COUNT(DISTINCT b.language) = 2",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 745,
+        "db_id": "world_1",
+        "difficulty": "easy",
+        "question": "What is the number of nations that use English and Dutch?",
+        "original": "SELECT COUNT(*) FROM (SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' INTERSECT SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'Dutch')",
+        "fixed": "SELECT COUNT(*) FROM (SELECT T1.Code, T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode WHERE T2.Language = 'English' INTERSECT SELECT T1.Code, T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode WHERE T2.Language = 'Dutch');",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 746,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What are the names of nations speak both English and French?",
+        "original": "SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' INTERSECT SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'French'",
+        "fixed": "SELECT T1.Name FROM country AS T1 WHERE T1.Code IN (SELECT T2.Code FROM country AS T2 JOIN countrylanguage AS T3 ON T2.Code = T3.CountryCode WHERE T3.Language = 'English' INTERSECT SELECT T2.Code FROM country AS T2 JOIN countrylanguage AS T3 ON T2.Code = T3.CountryCode WHERE T3.Language = 'French')",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 747,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Give the names of nations that speak both English and French.",
+        "original": "SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' INTERSECT SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'French'",
+        "fixed": "SELECT name FROM country WHERE code IN (SELECT countrycode FROM countrylanguage WHERE language = 'English') AND code IN (SELECT countrycode FROM countrylanguage WHERE language = 'French')",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 748,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What are the names of nations where both English and French are official languages?",
+        "original": "SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' AND T2.IsOfficial  =  'T' INTERSECT SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'French' AND T2.IsOfficial  =  'T'",
+        "fixed": "SELECT country.name FROM country JOIN countrylanguage AS cl1 ON country.code = cl1.countrycode JOIN countrylanguage AS cl2 ON country.code = cl2.countrycode WHERE cl1.language = 'English' AND cl1.isofficial = 'T' AND cl2.language = 'French' AND cl2.isofficial = 'T'",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 749,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Give the names of countries with English and French as official languages.",
+        "original": "SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' AND T2.IsOfficial  =  'T' INTERSECT SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'French' AND T2.IsOfficial  =  'T'",
+        "fixed": "SELECT name FROM country WHERE code IN (SELECT countrycode FROM countrylanguage WHERE isofficial = 'T' AND language = 'English') AND code IN (SELECT countrycode FROM countrylanguage WHERE isofficial = 'T' AND language = 'French')",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 754,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What are the countries where either English or Dutch is the official language ?",
+        "original": "select t1.name from country as t1 join countrylanguage as t2 on t1.code  =  t2.countrycode where t2.language  =  'english' and isofficial  =  't' union select t1.name from country as t1 join countrylanguage as t2 on t1.code  =  t2.countrycode where t2.language  =  'dutch' and isofficial  =  't'",
+        "fixed": "select t1.Code from country as t1 join countrylanguage as t2 on t1.code = t2.countrycode where (t2.language = 'English' or t2.language = 'Dutch') and isofficial = 't'",
+        "note": "intersect non-key"
+    },
+    {
+        "id": 755,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Which countries have either English or Dutch as an official language?",
+        "original": "SELECT * FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' AND IsOfficial  =  'T' UNION SELECT * FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'Dutch' AND IsOfficial  =  'T'",
+        "fixed": "SELECT name FROM country WHERE code IN (SELECT countrycode FROM countrylanguage WHERE isofficial = 'T' AND language IN ('English', 'Dutch'))",
+        "note": "semantic error; nlq vague: column"
+    },
+    {
+        "id": 764,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What is average life expectancy in the countries where English is not the official language?",
+        "original": "SELECT avg(LifeExpectancy) FROM country WHERE Name NOT IN (SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' AND T2.IsOfficial  =  'T')",
+        "fixed": "SELECT AVG(c.lifeexpectancy) FROM country AS c WHERE c.code NOT IN (SELECT cl.countrycode FROM countrylanguage AS cl WHERE cl.language = 'English' AND cl.isofficial = 'T')",
+        "note": "in-sub non-key"
+    },
+    {
+        "id": 765,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Give the mean life expectancy of countries in which English is not the official language.",
+        "original": "SELECT avg(LifeExpectancy) FROM country WHERE Name NOT IN (SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English' AND T2.IsOfficial  =  'T')",
+        "fixed": "SELECT AVG(c.lifeexpectancy) FROM country c WHERE NOT EXISTS (SELECT 1 FROM countrylanguage cl WHERE cl.countrycode = c.code AND cl.language = 'English' AND cl.isofficial = 'T')",
+        "note": "in-sub non-key"
+    },
+    {
+        "id": 766,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What is the total number of people living in the nations that do not use English?",
+        "original": "SELECT sum(Population) FROM country WHERE Name NOT IN (SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English')",
+        "fixed": "SELECT SUM(population) FROM country WHERE code NOT IN (SELECT countrycode FROM countrylanguage WHERE language = 'English')",
+        "note": "in-sub non-key"
+    },
+    {
+        "id": 767,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "How many people live in countries that do not speak English?",
+        "original": "SELECT sum(Population) FROM country WHERE Name NOT IN (SELECT T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode WHERE T2.Language  =  'English')",
+        "fixed": "SELECT SUM(population) FROM country WHERE code NOT IN (SELECT countrycode FROM countrylanguage WHERE language = 'English')",
+        "note": "in-sub non-key"
+    },
+    {
+        "id": 772,
+        "db_id": "world_1",
+        "difficulty": "hard",
+        "question": "What are the countries that have greater surface area than any country in Europe?",
+        "original": "SELECT Name FROM country WHERE SurfaceArea  >  (SELECT min(SurfaceArea) FROM country WHERE Continent  =  'Europe')",
+        "fixed": "SELECT name FROM country WHERE surfacearea > (SELECT MAX(surfacearea) FROM country WHERE continent = 'Europe')",
+        "note": "semantic error"
+    },
+    {
+        "id": 774,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What are the African countries that have a  population less than any country in Asia?",
+        "original": "SELECT Name FROM country WHERE Continent  =  'Africa'  AND population  <  (SELECT max(population) FROM country WHERE Continent  =  'Asia')",
+        "fixed": "SELECT A.name FROM country AS A WHERE A.continent = 'Africa' AND A.population < (SELECT MIN(B.population) FROM country B WHERE B.continent = 'Asia')",
+        "note": "semantic error"
+    },
+    {
+        "id": 778,
+        "db_id": "world_1",
+        "difficulty": "hard",
+        "question": "What are the country codes for countries that do not speak English?",
+        "original": "SELECT CountryCode FROM countrylanguage EXCEPT SELECT CountryCode FROM countrylanguage WHERE LANGUAGE  =  'English'",
+        "fixed": "SELECT code FROM country WHERE code NOT IN (SELECT countrycode FROM countrylanguage WHERE language = 'English')",
+        "note": "semantic error: wrong table"
+    },
+    {
+        "id": 779,
+        "db_id": "world_1",
+        "difficulty": "hard",
+        "question": "Return the country codes for countries that do not speak English.",
+        "original": "SELECT CountryCode FROM countrylanguage EXCEPT SELECT CountryCode FROM countrylanguage WHERE LANGUAGE  =  'English'",
+        "fixed": "SELECT code FROM country WHERE code NOT IN (SELECT countrycode FROM countrylanguage WHERE language = 'English')",
+        "note": "semantic error: wrong table"
+    },
+    {
+        "id": 784,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Which cities are in European countries where English is not the official language?",
+        "original": "SELECT DISTINCT T2.Name FROM country AS T1 JOIN city AS T2 ON T2.CountryCode  =  T1.Code WHERE T1.Continent  =  'Europe' AND T1.Name NOT IN (SELECT T3.Name FROM country AS T3 JOIN countrylanguage AS T4 ON T3.Code  =  T4.CountryCode WHERE T4.IsOfficial  =  'T' AND T4.Language  =  'English')",
+        "fixed": "SELECT T1.name FROM city AS T1 WHERE T1.countrycode IN (SELECT T2.code FROM country AS T2 WHERE T2.continent = 'Europe' AND NOT EXISTS (SELECT countrycode FROM countrylanguage AS T3 WHERE T2.code = T3.countrycode AND T3.language = 'English' AND T3.isofficial = 'T'))",
+        "note": "redundant distinct; in-sub non-key"
+    },
+    {
+        "id": 785,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "What are the names of cities in Europe for which English is not the official language?",
+        "original": "SELECT DISTINCT T2.Name FROM country AS T1 JOIN city AS T2 ON T2.CountryCode  =  T1.Code WHERE T1.Continent  =  'Europe' AND T1.Name NOT IN (SELECT T3.Name FROM country AS T3 JOIN countrylanguage AS T4 ON T3.Code  =  T4.CountryCode WHERE T4.IsOfficial  =  'T' AND T4.Language  =  'English')",
+        "fixed": "SELECT T2.Name FROM country AS T1 JOIN city AS T2 ON T2.CountryCode = T1.Code WHERE T1.Continent = 'Europe' AND T1.Code NOT IN (SELECT T3.Code FROM country AS T3 JOIN countrylanguage AS T4 ON T3.Code = T4.CountryCode WHERE T4.IsOfficial = 'T' AND T4.Language = 'English')",
+        "note": "redundant distinct; in-sub non-key"
+    },
+    {
+        "id": 786,
+        "db_id": "world_1",
+        "difficulty": "hard",
+        "question": "List the names and populations of unique cities in Asian countries where Chinese is the official language.",
+        "original": "select distinct t3.name, t3.population from country as t1 join countrylanguage as t2 on t1.code  =  t2.countrycode join city as t3 on t1.code  =  t3.countrycode where t2.isofficial  =  't' and t2.language  =  'chinese' and t1.continent  =  'asia'",
+        "fixed": "select t3.name, t3.population from country as t1 join countrylanguage as t2 on t1.code = t2.countrycode join city as t3 on t1.code = t3.countrycode where t2.isofficial = 't' and t2.language = 'Chinese' and t1.continent = 'Asia'",
+        "note": "redundant distinct; str"
+    },
+    {
+        "id": 792,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "Return the country name and the numbers of languages spoken for each country that speaks at least 3 languages.",
+        "original": "SELECT COUNT(T2.Language) ,  T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode GROUP BY T1.Name HAVING COUNT(*)  >  2",
+        "fixed": "SELECT distinctcountry.name, num_languages FROM (SELECT C.name, COUNT(DISTINCT L.language) AS num_languages FROM country C INNER JOIN countrylanguage L ON C.code = L.countrycode GROUP BY C.code) AS distinctcountry WHERE distinctcountry.num_languages >= 3",
+        "note": "group by non-key"
+    },
+    {
+        "id": 793,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "What are the names of countries that speak more than 2 languages, as well as how many languages they speak?",
+        "original": "SELECT COUNT(T2.Language) ,  T1.Name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code  =  T2.CountryCode GROUP BY T1.Name HAVING COUNT(*)  >  2",
+        "fixed": "SELECT country.name, COUNT(DISTINCT countrylanguage.language) AS language_count FROM country JOIN countrylanguage ON country.code = countrylanguage.countrycode GROUP BY country.code HAVING COUNT(DISTINCT countrylanguage.language) > 2",
+        "note": "group by non-key"
+    },
+    {
+        "id": 800,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "What are the names and areas of countries with the top 5 largest area (sorted by name alphabetically and then by ascending country code if tie)?",
+        "original": "SELECT Name, SurfaceArea FROM (SELECT Name, SurfaceArea, Code FROM country ORDER BY SurfaceArea DESC LIMIT 5) AS TopAreas ORDER BY Name ASC, Code ASC",
+        "fixed": "SELECT Name, SurfaceArea, Code FROM country ORDER BY SurfaceArea DESC, Name ASC, Code ASC LIMIT 5",
+        "note": "limit n; semantic error"
+    },
+    {
+        "id": 802,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "What are names of countries with the top 3 largest population (sorted by name alphabetically and then by ascending country code if tie)?",
+        "original": "SELECT Name FROM (SELECT Name, Code FROM country ORDER BY Population DESC LIMIT 3) AS top_countries ORDER BY Name ASC, Code ASC",
+        "fixed": "SELECT name FROM country ORDER BY population DESC, name, code LIMIT 3",
+        "note": "limit n; semantic error"
+    },
+    {
+        "id": 805,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "Return the names of the 3 countries with the fewest people, in alphabetical order of name and then ascending order of country code if populations are tied.",
+        "original": "SELECT Name FROM (SELECT Name, Code FROM country ORDER BY Population ASC, Name ASC, Code ASC LIMIT 3) AS subquery ORDER BY Name ASC",
+        "fixed": "SELECT Name FROM country ORDER BY Population ASC, Name ASC, Code ASC LIMIT 3",
+        "note": "limit n; semantic error"
+    },
+    {
+        "id": 810,
+        "db_id": "world_1",
+        "difficulty": "hard",
+        "question": "What is the total population and average area of countries in the continent of North America whose area is bigger than 3000 ?",
+        "original": "select sum(population) ,  avg(surfacearea) from country where continent  =  'north america' and surfacearea  >  3000",
+        "fixed": "select sum(population), avg(surfacearea) from country where continent = 'North America' and surfacearea > 3000",
+        "note": "str"
+    },
+    {
+        "id": 811,
+        "db_id": "world_1",
+        "difficulty": "hard",
+        "question": "Give the total population and average surface area corresponding to countries in North America that have a surface area greater than 3000 .",
+        "original": "select sum(population) ,  avg(surfacearea) from country where continent  =  'north america' and surfacearea  >  3000",
+        "fixed": "select sum(population), avg(surfacearea) from country where continent = 'North America' and surfacearea > 3000",
+        "note": "str"
+    },
+    {
+        "id": 817,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "What are the country codes of the different countries, and what are the languages spoken by the greatest percentage of people for each?",
+        "original": "SELECT LANGUAGE ,  CountryCode ,  max(Percentage) FROM countrylanguage GROUP BY CountryCode",
+        "fixed": "SELECT CountryCode, Language FROM countrylanguage WHERE (CountryCode, Percentage) IN (SELECT CountryCode, max(Percentage) FROM countrylanguage GROUP BY CountryCode)",
+        "note": "semantic error; limit 1"
+    },
+    {
+        "id": 819,
+        "db_id": "world_1",
+        "difficulty": "extra",
+        "question": "Count the number of countries for which Spanish is the predominantly spoken language.",
+        "original": "SELECT count(*) ,   max(Percentage) FROM countrylanguage WHERE LANGUAGE  =  'Spanish' GROUP BY CountryCode",
+        "fixed": "SELECT count(DISTINCT CountryCode) FROM countrylanguage WHERE LANGUAGE = 'Spanish' and (CountryCode, Percentage) IN (SELECT CountryCode, max(Percentage) FROM countrylanguage GROUP BY CountryCode)",
+        "note": "semantic error"
+    },
+    {
+        "id": 821,
+        "db_id": "world_1",
+        "difficulty": "medium",
+        "question": "Return the codes of countries for which Spanish is the predominantly spoken language.",
+        "original": "SELECT CountryCode ,  max(Percentage) FROM countrylanguage WHERE LANGUAGE  =  'Spanish' GROUP BY CountryCode",
+        "fixed": "SELECT CountryCode FROM countrylanguage WHERE LANGUAGE = 'Spanish' and (CountryCode, Percentage) IN (SELECT CountryCode, max(Percentage) FROM countrylanguage GROUP BY CountryCode)",
+        "note": "semantic error"
+    },
+    {
+        "id": 846,
+        "db_id": "orchestra",
+        "difficulty": "medium",
+        "question": "Please show the name of the conductor that has conducted orchestras founded after 2008.",
+        "original": "SELECT T1.Name FROM conductor AS T1 JOIN orchestra AS T2 ON T1.Conductor_ID  =  T2.Conductor_ID WHERE Year_of_Founded  >  2008",
+        "fixed": "SELECT T1.Name FROM conductor AS T1 WHERE T1.conductor_id IN (SELECT T2.conductor_id FROM orchestra AS T2 WHERE T2.year_of_founded > 2008)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 847,
+        "db_id": "orchestra",
+        "difficulty": "medium",
+        "question": "What are the names of conductors who have conducted orchestras founded after the year 2008?",
+        "original": "SELECT T1.Name FROM conductor AS T1 JOIN orchestra AS T2 ON T1.Conductor_ID  =  T2.Conductor_ID WHERE Year_of_Founded  >  2008",
+        "fixed": "SELECT T1.Name FROM conductor AS T1 WHERE T1.conductor_id IN (SELECT T2.conductor_id FROM orchestra AS T2 WHERE T2.year_of_founded > 2008)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 853,
+        "db_id": "orchestra",
+        "difficulty": "hard",
+        "question": "What is the record company used by the greatest number of orchestras?",
+        "original": "SELECT Record_Company FROM orchestra GROUP BY Record_Company ORDER BY COUNT(*) DESC LIMIT 1",
+        "fixed": "SELECT record_company FROM (SELECT record_company, COUNT(*) AS num_orchestras FROM orchestra GROUP BY record_company ORDER BY num_orchestras DESC) AS rc WHERE rc.num_orchestras = (SELECT MAX(num_orchestras) FROM (SELECT COUNT(*) AS num_orchestras FROM orchestra GROUP BY record_company) as stats)",
+        "note": "limit 1"
+    },
+    {
+        "id": 860,
+        "db_id": "orchestra",
+        "difficulty": "medium",
+        "question": "Show the years in which orchestras that have given more than one performance are founded.",
+        "original": "SELECT Year_of_Founded FROM orchestra AS T1 JOIN performance AS T2 ON T1.Orchestra_ID  =  T2.Orchestra_ID GROUP BY T2.Orchestra_ID HAVING COUNT(*)  >  1",
+        "fixed": "SELECT DISTINCT o.year_of_founded FROM orchestra o WHERE o.orchestra_id IN (SELECT p.orchestra_id FROM performance p GROUP BY p.orchestra_id HAVING COUNT(p.performance_id) > 1)",
+        "note": "lack distinct"
+    },
+    {
+        "id": 882,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "Show the student IDs along with the total number of friends they have participated in, specifying both friends initiated and received for each.",
+        "original": "SELECT student_id, COUNT(DISTINCT friend_id) + (SELECT COUNT(DISTINCT student_id) FROM Friend f2 WHERE f2.friend_id = Friend.student_id) AS total_friends FROM Friend GROUP BY student_id",
+        "fixed": "SELECT ide, COUNT(DISTINCT fre.friend_id) AS total_friends FROM (SELECT id AS ide FROM highschooler) LEFT JOIN (SELECT student_id, friend_id FROM friend UNION ALL SELECT friend_id, student_id FROM friend) fre ON ide = fre.student_id GROUP BY ide",
+        "note": "join -> left join"
+    },
+    {
+        "id": 883,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "How many friends does each student have, considering all the friendships they have initiated or received?",
+        "original": "SELECT ID, COUNT(*) FROM (SELECT student_id AS ID FROM Friend UNION ALL SELECT friend_id AS ID FROM Friend) AS AllFriends GROUP BY ID",
+        "fixed": "SELECT id, (SELECT COUNT(*) FROM friend WHERE friend_id = h.id) + (SELECT COUNT(*) FROM friend WHERE student_id = h.id) AS num_friends FROM highschooler h",
+        "note": "join -> left join"
+    },
+    {
+        "id": 884,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "Show the names of high school students and the number of friends they have initiated friendships with.",
+        "original": "SELECT T2.name ,  count(*) FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id  =  T2.id GROUP BY T1.student_id",
+        "fixed": "SELECT name, (SELECT COUNT(*) FROM friend WHERE highschooler.id = friend.student_id) AS friend_count FROM highschooler",
+        "note": "join -> left join"
+    },
+    {
+        "id": 885,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "What are the names of the high schoolers and the number of friends they have initiated friendships with?",
+        "original": "SELECT T2.name ,  count(*) FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id  =  T2.id GROUP BY T1.student_id",
+        "fixed": "SELECT h2.name as HighschoolerName, (SELECT COUNT(*) FROM friend WHERE student_id = h2.id) as FriendshipCount FROM highschooler h2",
+        "note": "join -> left join"
+    },
+    {
+        "id": 886,
+        "db_id": "network_1",
+        "difficulty": "extra",
+        "question": "What is the name of the high schooler who has the greatest number of friends, considering both initiated and received friendships?",
+        "original": "SELECT T2.name FROM (SELECT student_id AS id FROM Friend UNION ALL SELECT friend_id AS id FROM Friend) AS T1 JOIN Highschooler AS T2 ON T1.id = T2.ID GROUP BY T1.id ORDER BY COUNT(*) DESC LIMIT 1",
+        "fixed": "SELECT T2.name FROM (SELECT student_id AS id FROM Friend UNION ALL SELECT friend_id AS id FROM Friend) AS T1 JOIN Highschooler AS T2 ON T1.id = T2.ID GROUP BY T1.id HAVING COUNT(*) = (SELECT COUNT(*) AS c FROM (SELECT student_id AS id FROM Friend UNION ALL SELECT friend_id AS id FROM Friend) AS T3 GROUP BY T3.id ORDER BY c DESC LIMIT 1)",
+        "note": "limit 1"
+    },
+    {
+        "id": 887,
+        "db_id": "network_1",
+        "difficulty": "extra",
+        "question": "Return the names of all high school students with the most friends.",
+        "original": "SELECT H.name FROM Highschooler AS H JOIN (SELECT F.student_id, COUNT(*) AS num_friends FROM Friend AS F GROUP BY F.student_id) AS T ON H.ID = T.student_id WHERE T.num_friends = (SELECT MAX(num_friends) FROM (SELECT COUNT(*) AS num_friends FROM Friend GROUP BY student_id) AS Subquery) ORDER BY H.name",
+        "fixed": "SELECT T2.name FROM (SELECT student_id AS id FROM Friend UNION ALL SELECT friend_id AS id FROM Friend) AS T1 JOIN Highschooler AS T2 ON T1.id = T2.ID GROUP BY T1.id HAVING COUNT(*) = (SELECT COUNT(*) AS c FROM (SELECT student_id AS id FROM Friend UNION ALL SELECT friend_id AS id FROM Friend) AS T3 GROUP BY T3.id ORDER BY c DESC LIMIT 1)",
+        "note": "semantic error"
+    },
+    {
+        "id": 888,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "Show the names of high schoolers who have at least 3 friends, specifying both the friendships initiated or received by the student.",
+        "original": "SELECT H.name FROM Highschooler AS H JOIN Friend AS F ON H.ID = F.student_id OR H.ID = F.friend_id GROUP BY H.ID HAVING COUNT(DISTINCT CASE WHEN F.student_id = H.ID THEN F.friend_id ELSE F.student_id END) >= 3",
+        "fixed": "SELECT H.name FROM highschooler H WHERE (SELECT COUNT(*) FROM friend F WHERE F.student_id = H.id OR F.friend_id = H.id) >= 3",
+        "note": "semantic error"
+    },
+    {
+        "id": 889,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "What are the names of high schoolers who have initiated or received 3 or more friendships?",
+        "original": "SELECT H.name FROM Highschooler H WHERE H.ID IN (SELECT student_id FROM Friend GROUP BY student_id HAVING COUNT(*) >= 3 UNION ALL SELECT friend_id FROM Friend GROUP BY friend_id HAVING COUNT(*) >= 3)",
+        "fixed": "SELECT h.name FROM highschooler h WHERE (SELECT COUNT(*) FROM friend WHERE student_id = h.id OR friend_id = h.id) >= 3",
+        "note": "semantic error"
+    },
+    {
+        "id": 890,
+        "db_id": "network_1",
+        "difficulty": "hard",
+        "question": "Show the names of all friends of each high schooler named Kyle. List each student id and the friends names.",
+        "original": "SELECT T2.id AS student_id, T3.name AS friend_name FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.id JOIN Highschooler AS T3 ON T1.friend_id = T3.id WHERE T2.name = 'Kyle'",
+        "fixed": "SELECT T3.ID, T4.name FROM (SELECT T2.ID, T1.friend_id AS friend_id FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.id WHERE T2.name = 'Kyle' UNION SELECT T2.ID, T1.student_id AS friend_id FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.friend_id = T2.id WHERE T2.name = 'Kyle') AS T3 JOIN Highschooler AS T4 ON T3.friend_id = T4.ID",
+        "note": "semantic error"
+    },
+    {
+        "id": 891,
+        "db_id": "network_1",
+        "difficulty": "hard",
+        "question": "Return the names of friends of each high school students named Kyle. List each student id and the friends names.",
+        "original": "SELECT T2.ID, T3.name FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.ID JOIN Highschooler AS T3 ON T1.friend_id = T3.ID WHERE T2.name = 'Kyle'",
+        "fixed": "SELECT T3.ID, T4.name FROM (SELECT T2.ID, T1.friend_id AS friend_id FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.id WHERE T2.name = 'Kyle' UNION SELECT T2.ID, T1.student_id AS friend_id FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.friend_id = T2.id WHERE T2.name = 'Kyle') AS T3 JOIN Highschooler AS T4 ON T3.friend_id = T4.ID",
+        "note": "semantic error"
+    },
+    {
+        "id": 892,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "How many friends does each high school student named Kyle have? List the student id and the number of friends.",
+        "original": "SELECT T2.id, count(*) FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.id WHERE T2.name = 'Kyle' GROUP BY T2.id",
+        "fixed": "SELECT H.id, COUNT(F.friend_id) AS num_friends FROM highschooler H LEFT JOIN friend F ON H.id = F.student_id WHERE H.name = 'Kyle' GROUP BY H.id",
+        "note": "join -> left join"
+    },
+    {
+        "id": 893,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "Count the total number of friends that each high schooler named Kyle has. List the student id and the number of friends.",
+        "original": "SELECT T2.ID, count(*) AS num_friends FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.ID WHERE T2.name = 'Kyle' GROUP BY T2.ID",
+        "fixed": "SELECT T3.ID, COUNT(T3.friend_id) FROM (SELECT T2.ID, T1.friend_id AS friend_id FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.id WHERE T2.name = 'Kyle' UNION SELECT T2.ID, T1.student_id AS friend_id FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.friend_id = T2.id WHERE T2.name = 'Kyle') AS T3 GROUP BY T3.ID;",
+        "note": "semantic error"
+    },
+    {
+        "id": 894,
+        "db_id": "network_1",
+        "difficulty": "hard",
+        "question": "Show ids of all students who do not have any friends.",
+        "original": "SELECT id FROM Highschooler EXCEPT SELECT student_id FROM Friend",
+        "fixed": "SELECT id FROM highschooler WHERE id NOT IN (SELECT student_id FROM friend UNION SELECT friend_id FROM friend)",
+        "note": "semantic error"
+    },
+    {
+        "id": 895,
+        "db_id": "network_1",
+        "difficulty": "hard",
+        "question": "What are the ids of high school students who do not have friends?",
+        "original": "SELECT id FROM Highschooler EXCEPT SELECT student_id FROM Friend",
+        "fixed": "SELECT id FROM highschooler WHERE id NOT IN (SELECT student_id FROM friend) AND id NOT IN (SELECT friend_id FROM friend)",
+        "note": "semantic error"
+    },
+    {
+        "id": 897,
+        "db_id": "network_1",
+        "difficulty": "hard",
+        "question": "What are the names of students who have not initiated or received any friendships?",
+        "original": "SELECT name FROM Highschooler WHERE ID NOT IN (SELECT student_id FROM Friend) OR ID NOT IN (SELECT friend_id FROM Friend)",
+        "fixed": "SELECT name FROM highschooler WHERE id NOT IN (SELECT student_id FROM friend) AND id NOT IN (SELECT friend_id FROM friend)",
+        "note": "semantic error"
+    },
+    {
+        "id": 900,
+        "db_id": "network_1",
+        "difficulty": "hard",
+        "question": "Show names of all students who have initiated some friendships and also have been liked by someone else.",
+        "original": "SELECT name from Highschooler where id in (SELECT student_id FROM Friend INTERSECT SELECT student_id FROM Likes)",
+        "fixed": "SELECT T1.name FROM highschooler AS T1 WHERE T1.id IN (SELECT DISTINCT T2.student_id FROM friend AS T2) and T1.id IN (SELECT DISTINCT T3.liked_id FROM likes AS T3)",
+        "note": "semantic error"
+    },
+    {
+        "id": 901,
+        "db_id": "network_1",
+        "difficulty": "hard",
+        "question": "What are the names of high schoolers who both have friends and are liked?",
+        "original": "SELECT T2.name FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id  =  T2.id INTERSECT SELECT T2.name FROM Likes AS T1 JOIN Highschooler AS T2 ON T1.liked_id  =  T2.id",
+        "fixed": "SELECT T3.name FROM Highschooler as T3 WHERE T3.ID IN (SELECT T2.ID FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id = T2.id UNION SELECT T2.ID FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.friend_id = T2.id INTERSECT SELECT T2.ID FROM Likes AS T1 JOIN Highschooler AS T2 ON T1.liked_id = T2.id)",
+        "note": "semantic error"
+    },
+    {
+        "id": 902,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "Count the total number of likes for each student id, including both likes given and received.",
+        "original": "SELECT student_id, COUNT(*) AS total_likes FROM (SELECT student_id FROM Likes UNION ALL SELECT liked_id AS student_id FROM Likes) AS UnifiedLikes GROUP BY student_id",
+        "fixed": "SELECT id, COUNT(DISTINCT L1.liked_id) + COUNT(DISTINCT L2.student_id) AS total_likes FROM highschooler h LEFT JOIN likes L1 ON h.id = L1.student_id LEFT JOIN likes L2 ON h.id = L2.liked_id GROUP BY id",
+        "note": "join -> left join"
+    },
+    {
+        "id": 903,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "Count the total number of likes given and received by each student id.",
+        "original": "SELECT student_id, COUNT(*) as total_likes FROM (SELECT student_id FROM Likes UNION ALL SELECT liked_id as student_id FROM Likes) as AllLikes GROUP BY student_id",
+        "fixed": "SELECT T1.ID, (SELECT COUNT(*) FROM Likes as T2 WHERE T2.student_id = T1.ID) as given, (SELECT COUNT(*) FROM Likes AS T3 WHERE T3.liked_id = T1.ID) as received FROM Highschooler AS T1",
+        "note": "join -> left join"
+    },
+    {
+        "id": 905,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "Show the names of high schoolers along with the total number of likes they have participated in, specifying both likes given and received for each.",
+        "original": "SELECT T2.name, COUNT(DISTINCT T1.student_id) AS likes_given, COUNT(DISTINCT T3.liked_id) AS likes_received FROM Highschooler AS T2 LEFT JOIN Likes AS T1 ON T1.student_id = T2.ID LEFT JOIN Likes AS T3 ON T3.liked_id = T2.ID GROUP BY T2.name",
+        "fixed": "SELECT T2.name, COUNT(DISTINCT T1.student_id) AS likes_given, COUNT(DISTINCT T3.liked_id) AS likes_received FROM Highschooler AS T2 LEFT JOIN Likes AS T1 ON T1.student_id = T2.ID LEFT JOIN Likes AS T3 ON T3.liked_id = T2.ID GROUP BY T2.ID",
+        "note": "group by non-key"
+    },
+    {
+        "id": 912,
+        "db_id": "network_1",
+        "difficulty": "medium",
+        "question": "How many likes has each high schooler named Kyle received? List the student id and the number of likes.",
+        "original": "SELECT T1.liked_id, count(*) AS likes_count FROM Likes AS T1 JOIN Highschooler AS T2 ON T1.liked_id = T2.id WHERE T2.name = 'Kyle' GROUP BY T1.liked_id",
+        "fixed": "SELECT h.id AS student_id, (SELECT COUNT(*) FROM likes WHERE liked_id = h.id) AS likes_count FROM highschooler h WHERE h.name = 'Kyle'",
+        "note": "join -> left join"
+    },
+    {
+        "id": 916,
+        "db_id": "network_1",
+        "difficulty": "extra",
+        "question": "Find the minimum grade of students who have no friends.",
+        "original": "SELECT min(grade) FROM Highschooler WHERE id NOT IN (SELECT T1.student_id FROM Friend AS T1 JOIN Highschooler AS T2 ON T1.student_id  =  T2.id)",
+        "fixed": "SELECT min(grade) FROM Highschooler WHERE id NOT IN (SELECT T1.student_id FROM Friend AS T1 UNION SELECT T2.friend_id FROM Friend AS T2)",
+        "note": "semantic error"
+    },
+    {
+        "id": 942,
+        "db_id": "dog_kennels",
+        "difficulty": "medium",
+        "question": "Which professionals have done at least two types of treatments? List the professional id and cell phone.",
+        "original": "SELECT T1.professional_id ,  T1.cell_number FROM Professionals AS T1 JOIN Treatments AS T2 ON T1.professional_id  =  T2.professional_id GROUP BY T1.professional_id HAVING count(*)  >=  2",
+        "fixed": "SELECT p.professional_id, p.cell_number FROM professionals p JOIN treatments t ON p.professional_id = t.professional_id GROUP BY p.professional_id, p.cell_number HAVING COUNT(DISTINCT t.treatment_type_code) >= 2",
+        "note": "semantic error"
+    },
+    {
+        "id": 943,
+        "db_id": "dog_kennels",
+        "difficulty": "medium",
+        "question": "Find the id and cell phone of the professionals who operate two or more types of treatments.",
+        "original": "SELECT T1.professional_id ,  T1.cell_number FROM Professionals AS T1 JOIN Treatments AS T2 ON T1.professional_id  =  T2.professional_id GROUP BY T1.professional_id HAVING count(*)  >=  2",
+        "fixed": "SELECT P.professional_id, P.cell_number FROM professionals P JOIN treatments T ON P.professional_id = T.professional_id GROUP BY P.professional_id, P.cell_number HAVING COUNT(DISTINCT T.treatment_type_code) >= 2",
+        "note": "semantic error"
+    },
+    {
+        "id": 944,
+        "db_id": "dog_kennels",
+        "difficulty": "extra",
+        "question": "What are the first name and last name of the professionals who have done treatment with cost below average?",
+        "original": "SELECT DISTINCT T1.first_name ,  T1.last_name FROM Professionals AS T1 JOIN Treatments AS T2 WHERE cost_of_treatment  <  ( SELECT avg(cost_of_treatment) FROM Treatments )",
+        "fixed": "SELECT T1.first_name, T1.last_name FROM Professionals AS T1 WHERE T1.professional_id IN (SELECT T2.professional_id FROM treatments AS T2 WHERE T2.cost_of_treatment < (SELECT AVG(T3.cost_of_treatment) FROM treatments AS T3))",
+        "note": "redundant distinct; join -> in-sub"
+    },
+    {
+        "id": 958,
+        "db_id": "dog_kennels",
+        "difficulty": "medium",
+        "question": "What are the arriving date and the departing date of the dogs who have gone through a treatment?",
+        "original": "SELECT DISTINCT T1.date_arrived ,  T1.date_departed FROM Dogs AS T1 JOIN Treatments AS T2 ON T1.dog_id  =  T2.dog_id",
+        "fixed": "SELECT date_arrived, date_departed FROM dogs WHERE dog_id IN (SELECT dog_id FROM treatments)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 959,
+        "db_id": "dog_kennels",
+        "difficulty": "medium",
+        "question": "Find the arriving date and the departing date of the dogs that received a treatment.",
+        "original": "SELECT DISTINCT T1.date_arrived ,  T1.date_departed FROM Dogs AS T1 JOIN Treatments AS T2 ON T1.dog_id  =  T2.dog_id",
+        "fixed": "SELECT date_arrived, date_departed FROM dogs WHERE dog_id IN (SELECT dog_id FROM treatments)",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 960,
+        "db_id": "dog_kennels",
+        "difficulty": "extra",
+        "question": "List the last name(s) of the owner(s) owning the youngest dog(s).",
+        "original": "SELECT T1.last_name FROM Owners AS T1 JOIN Dogs AS T2 ON T1.owner_id = T2.owner_id WHERE T2.age = (SELECT min(age) FROM Dogs)",
+        "fixed": "SELECT o.last_name FROM Owners AS o WHERE o.owner_id IN (SELECT d1.owner_id FROM dogs AS d1 WHERE d1.age = (SELECT MIN(d2.age) FROM dogs AS d2))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 961,
+        "db_id": "dog_kennels",
+        "difficulty": "extra",
+        "question": "Who owns the youngest dog? Give me his or her last name. If there is a tie, give me the last names of all owners with the youngest dog.",
+        "original": "SELECT T1.last_name FROM Owners AS T1 JOIN Dogs AS T2 ON T1.owner_id = T2.owner_id WHERE T2.age = (SELECT MIN(age) FROM Dogs)",
+        "fixed": "SELECT o.last_name FROM Owners AS o WHERE o.owner_id IN (SELECT d1.owner_id FROM dogs AS d1 WHERE d1.age = (SELECT MIN(d2.age) FROM dogs AS d2))",
+        "note": "join -> in-sub"
+    },
+    {
+        "id": 998,
+        "db_id": "dog_kennels",
+        "difficulty": "medium",
+        "question": "List the first name of all the professionals along with the description of all treatments they have done.",
+        "original": "SELECT DISTINCT T1.first_name ,  T3.treatment_type_description FROM professionals AS T1 JOIN Treatments AS T2 ON T1.professional_id  =  T2.professional_id JOIN Treatment_types AS T3 ON T2.treatment_type_code  =  T3.treatment_type_code",
+        "fixed": "SELECT p.first_name, tt.treatment_type_description FROM professionals p JOIN treatments t ON p.professional_id = t.professional_id JOIN treatment_types tt ON t.treatment_type_code = tt.treatment_type_code",
+        "note": "redundant distinct"
+    },
+    {
+        "id": 999,
+        "db_id": "dog_kennels",
+        "difficulty": "medium",
+        "question": "What are each professional's first name and description of the treatment they have performed?",
+        "original": "SELECT DISTINCT T1.first_name ,  T3.treatment_type_description FROM professionals AS T1 JOIN Treatments AS T2 ON T1.professional_id  =  T2.professional_id JOIN Treatment_types AS T3 ON T2.treatment_type_code  =  T3.treatment_type_code",
+        "fixed": "SELECT p.first_name, tt.treatment_type_description FROM professionals p JOIN treatments t ON p.professional_id = t.professional_id JOIN treatment_types tt ON t.treatment_type_code = tt.treatment_type_code",
+        "note": "redundant distinct"
+    },
+    {
+        "id": 1022,
+        "db_id": "singer",
+        "difficulty": "medium",
+        "question": "Show the names of singers that have more than one song.",
+        "original": "SELECT T1.Name FROM singer AS T1 JOIN song AS T2 ON T1.Singer_ID  =  T2.Singer_ID GROUP BY T1.Name HAVING COUNT(*)  >  1",
+        "fixed": "SELECT name FROM singer WHERE singer_id IN (SELECT singer_id FROM song GROUP BY singer_id HAVING COUNT(song_id) > 1)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 1023,
+        "db_id": "singer",
+        "difficulty": "medium",
+        "question": "What are the names of the singers that have more than one songs?",
+        "original": "SELECT T1.Name FROM singer AS T1 JOIN song AS T2 ON T1.Singer_ID  =  T2.Singer_ID GROUP BY T1.Name HAVING COUNT(*)  >  1",
+        "fixed": "SELECT name FROM singer WHERE singer_id IN (SELECT singer_id FROM song GROUP BY singer_id HAVING COUNT(*) > 1)",
+        "note": "group by non-key"
+    },
+    {
+        "id": 1024,
+        "db_id": "singer",
+        "difficulty": "medium",
+        "question": "Show the names of singers and the total sales of their songs.",
+        "original": "SELECT T1.Name ,  sum(T2.Sales) FROM singer AS T1 JOIN song AS T2 ON T1.Singer_ID  =  T2.Singer_ID GROUP BY T1.Name",
+        "fixed": "SELECT T1.Name, sum(T2.Sales) FROM singer AS T1 JOIN song AS T2 ON T1.Singer_ID = T2.Singer_ID GROUP BY T1.Singer_ID",
+        "note": "group by non-key"
+    },
+    {
+        "id": 1025,
+        "db_id": "singer",
+        "difficulty": "medium",
+        "question": "For each singer, what is the total sales for their songs?",
+        "original": "SELECT T1.Name ,  sum(T2.Sales) FROM singer AS T1 JOIN song AS T2 ON T1.Singer_ID  =  T2.Singer_ID GROUP BY T1.Name",
+        "fixed": "SELECT singer.name, SUM(song.sales) FROM song JOIN singer ON singer.singer_id = song.singer_id GROUP BY singer.singer_id",
+        "note": "group by non-key"
+    },
+    {
+        "id": 1031,
+        "db_id": "real_estate_properties",
+        "difficulty": "medium",
+        "question": "What is the feature type name of feature AirCon?",
+        "original": "SELECT T2.feature_type_name FROM Other_Available_Features AS T1 JOIN Ref_Feature_Types AS T2 ON T1.feature_type_code  =  T2.feature_type_code WHERE T1.feature_name  =  'AirCon'",
+        "fixed": "SELECT feature_type_name FROM ref_feature_types WHERE feature_type_code IN (SELECT feature_type_code FROM other_available_features WHERE feature_name = 'AirCon')",
+        "note": "join -> in-sub; semantic error"
+    },
+    {
+        "id": 1033,
+        "db_id": "real_estate_properties",
+        "difficulty": "hard",
+        "question": "What are the names of properties that are either houses or apartments with more than 1 room?",
+        "original": "SELECT property_name FROM Properties WHERE property_type_code  =  'House' UNION SELECT property_name FROM Properties WHERE property_type_code  =  'Apartment' AND room_count  >  1",
+        "fixed": "SELECT property_name FROM Properties WHERE (property_type_code = 'House' or property_type_code = 'Apartment') AND room_count > 1;",
+        "note": "semantic error"
+    }
+]

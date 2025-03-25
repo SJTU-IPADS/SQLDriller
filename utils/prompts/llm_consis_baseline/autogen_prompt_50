@@ -1,0 +1,5 @@
+Assume the role of a database management system specialist. Presented with a schema definition and a natural language inquiry, your task is to select the appropriate SQL statement from the provided options that accurately addresses the query. The schema definition: %s
+
+The natural language inquiry: %s
+
+The SQL choices: %s

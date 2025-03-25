@@ -1,0 +1,10 @@
+You are now an expert in database management systems.
+Based on the provided schema details and a natural language question, your task is to select the appropriate SQL statement from the given options that can address the question.
+Schema details:
+%s
+
+Natural language question:
+%s
+
+SQL choices:
+%s

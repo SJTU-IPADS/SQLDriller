@@ -1,0 +1,8 @@
+You are now an expert in database management systems. Based on the schema definition and a natural language query provided, your task is to identify the correct SQL option from the list of candidates that answers the query. The schema definition is as follows:
+%s
+
+The natural language query is:
+%s
+
+Here are the SQL options:
+%s

@@ -1,0 +1,90 @@
+Now we need to query a database system. Consider only the schema information and stored data in each table:
+%s
+
+######################
+- Task Description -
+######################
+
+For the natural language query:
+%s
+What is the execution result on the given data?
+You should carefully learn relationships among tables by definition of primary keys and foreign keys, think step-by-step, then manually analyze and infer the execution result.
+Specifically, you should first schedule a step-by-step plan of result construction.
+Then, choose the table(s) that contains columns to be output, carefully scan over each record in the table and perform query-specific data manipulations to construct the execution result.
+
+######################
+- Output Requirements -
+######################
+
+Finally you should list out the final result, no matter how many records there are.
+The final result format is a list of records started with "#result:" in plain text. Each record should be a Python-type tuple containing one or more columns:
+```
+#result: [(record0), (record1), (record2), ...]
+```
+If no record should be returned, just output:
+```
+#result: []
+```
+
+Pay attention to the output result on the following requirements:
+### Check output columns
+Please carefully recall the query requirement again, break down the query into sub-queries when necessary, and determine which and how many columns should be output in the result. Note that DO NOT output extra column values that are not required in the natural language query.
+
+### Check duplicated records
+When selecting some attributes of entities to return, by default each record of returned attributes should correspond to one unique instance of an entity. Different entities may have the same non-key attributes like 'name'. You should follow the criteria to carefully decide whether to reserve duplicates or not in the output:
+1. If selected column(s) is non-key attribute(s) from different entity instances (e.g., select 'name' or 'salary' from different records with different primary keys), you SHOULD NOT remove duplicates and reserve all of them.
+2. If selected column is the primary key and uniquely identifies each instance of entity, you SHOULD remove duplicates.
+
+If need to reserve duplicates but the duplication has been remove, it is **NECESSARY** to always add back the duplicated records into the results; and if need to remove duplicates but the duplication has been reserved, remove the duplicated records.
+
+#### Example 1:
+query: 'Show the names of singers ...',
+Table singers(singer_id, name), 2 records:
+- {'singer_id': 0, 'name': 'Bob'}
+- {'singer_id': 1, 'name': 'Bob'}
+
+Because name is not the primary key, we should reserve duplicates:
+```
+#result: [('Bob'), ('Bob')]
+```
+
+#### Example 2:
+query: 'Show all distinct names of singers ...',
+Table singers(singer_id, name), 2 records:
+- {'singer_id': 0, 'name': 'Bob'}
+- {'singer_id': 1, 'name': 'Bob'}
+
+Because the query requires removing duplicates, we should remove duplicates:
+```
+#result: [('Bob')]
+```
+
+######################
+- Extra Instructions -
+######################
+
+During inferring the final result, you should check and strictly follow these instructions one-by-one.
+DO NOT modify any value in the execution result directly and DO NOT add any extra columns.
+
+### Instruction 0: data values
+1. Stored data may contain nonsense strings, outliers values (e.g., column 'year' contains outlier values 10000 which is much larger than current year, or 'age' contains 1000 which is impossible for a human lifespan), you SHOULD NOT view them as invalid dirty data and DO NOT perform any data cleaning yourself. Treat them as valid values and include those values during column selection.
+2. The values are case-sensitive, for example 'a' and 'A', 'abc' and 'Abc' are different, distinguish them in your calculation.
+3. **None** is a concrete value and you should not exclude it for no reason but should include it as normal during column selection. If you need to output a None, return ```#result: [(None,)]```.
+
+### Instruction 1: check aggregation
+When the natural language query asks for aggregation results like counting the number, sum, max, min, average, you should return a number as the result rather than some records or an empty list. Strictly follow the criteria:
+1. If all records are filtered out and no records participates in aggregation calculation, **DO NOT** return empty list ```#result: []``` as aggregation result. Instead, you should return a value 0 when counting the number or calculating statistics like percentage. Or return a None value when calculating sum, max, min or average values.
+2. None values should not participate in the aggregate calculation of sum, max, min, and average. If all the column values are None, the aggregation result should be None, the same as performing aggregation on an empty set mentioned in criteria 1.
+#### Example 1:
+query: How many students that ...?
+Return ```#result: [(0,)]``` if no student meets the requirement.
+#### Example 2:
+query: What is the oldest age of the students that ...?
+Return ```#result: [(None,)]``` if no student meets the requirement or all students' age are None.
+
+### Instruction 2: check sorting
+Pay attention whether the order of records matters according to whether the natural language query requires sorting.
+If matters, sort the records according to the requirement.
+Also following the criteria:
+1. When it requires sorting by ascending alphabetical order, the uppercase letter should be before the lowercase one, then sort alphabetically. For example: A, B, C, a, b, c. The descending alphabetical order is vise versa.
+2. When it further requires records with TOP 1 (or TOP N) values on certain attributes, the records sharing the same extremum should be treated as a tie and you SHOULD list all of them.

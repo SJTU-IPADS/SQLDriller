@@ -1,0 +1,85 @@
+CREATE TABLE `essays`
+(
+    projectid         TEXT,
+    teacher_acctid    TEXT,
+    title             TEXT,
+    short_description TEXT,
+    need_statement    TEXT,
+    essay             TEXT
+);
+CREATE TABLE `projects`
+(
+    projectid                              TEXT NOT NULL PRIMARY KEY,
+    teacher_acctid                         TEXT,
+    schoolid                               TEXT,
+    school_ncesid                          TEXT,
+    school_latitude                        FLOAT,
+    school_longitude                       FLOAT,
+    school_city                            TEXT,
+    school_state                           TEXT,
+    school_zip                             INT,
+    school_metro                           TEXT,
+    school_district                        TEXT,
+    school_county                          TEXT,
+    school_charter                         TEXT,
+    school_magnet                          TEXT,
+    school_year_round                      TEXT,
+    school_nlns                            TEXT,
+    school_kipp                            TEXT,
+    school_charter_ready_promise           TEXT,
+    teacher_prefix                         TEXT,
+    teacher_teach_for_america              TEXT,
+    teacher_ny_teaching_fellow             TEXT,
+    primary_focus_subject                  TEXT,
+    primary_focus_area                     TEXT,
+    secondary_focus_subject                TEXT,
+    secondary_focus_area                   TEXT,
+    resource_type                          TEXT,
+    poverty_level                          TEXT,
+    grade_level                            TEXT,
+    fulfillment_labor_materials            FLOAT,
+    total_price_excluding_optional_support FLOAT,
+    total_price_including_optional_support FLOAT,
+    students_reached                       INT,
+    eligible_double_your_impact_match      TEXT,
+    eligible_almost_home_match             TEXT,
+    date_posted                            DATE
+);
+CREATE TABLE donations
+(
+    donationid                               TEXT NOT NULL PRIMARY KEY,
+    projectid                                TEXT,
+    donor_acctid                             TEXT,
+    donor_city                               TEXT,
+    donor_state                              TEXT,
+    donor_zip                                TEXT,
+    is_teacher_acct                          TEXT,
+    donation_timestamp                       DATETIME,
+    donation_to_project                      FLOAT,
+    donation_optional_support                FLOAT,
+    donation_total                           FLOAT,
+    dollar_amount                            TEXT,
+    donation_included_optional_support       TEXT,
+    payment_method                           TEXT,
+    payment_included_acct_credit             TEXT,
+    payment_included_campaign_gift_card      TEXT,
+    payment_included_web_purchased_gift_card TEXT,
+    payment_was_promo_matched                TEXT,
+    via_giving_page                          TEXT,
+    for_honoree                              TEXT,
+    donation_message                         TEXT,
+    FOREIGN KEY (projectid) REFERENCES projects (projectid)
+);
+CREATE TABLE resources
+(
+    resourceid            TEXT NOT NULL PRIMARY KEY,
+    projectid             TEXT,
+    vendorid              INT,
+    vendor_name           TEXT,
+    project_resource_type TEXT,
+    item_name             TEXT,
+    item_number           TEXT,
+    item_unit_price       FLOAT,
+    item_quantity         INT,
+    FOREIGN KEY (projectid) REFERENCES projects (projectid)
+);

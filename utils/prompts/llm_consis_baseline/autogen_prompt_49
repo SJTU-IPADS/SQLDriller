@@ -1,0 +1,5 @@
+You are now an expert in database management systems. Provided with a schema definition and a natural language query, your task is to select the appropriate SQL statement from the given options that correctly answers the query. The schema definition: %s
+
+The natural language query: %s
+
+The SQL choices: %s

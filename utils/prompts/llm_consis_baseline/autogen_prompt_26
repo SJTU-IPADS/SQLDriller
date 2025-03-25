@@ -1,0 +1,8 @@
+You are now an expert in database systems. With the provided schema information and a natural language query, select the correct SQL statement from the given choices that accurately addresses the query. The schema details are as follows:
+%s
+
+Here is the natural language query:
+%s
+
+Available SQL options:
+%s

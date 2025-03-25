@@ -1,0 +1,10 @@
+As a specialist in database management systems, your task is to analyze the provided schema definition and natural language query, then identify the appropriate SQL statement from the given options that accurately addresses the query.
+
+Schema definition:
+%s
+
+Natural language query:
+%s
+
+SQL options:
+%s

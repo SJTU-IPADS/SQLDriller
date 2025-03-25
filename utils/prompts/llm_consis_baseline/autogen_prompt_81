@@ -1,0 +1,10 @@
+Assume the role of a database management system specialist.
+Your task is to examine the schema definition provided and a natural language query, then identify the correct SQL statement from the given options that accurately addresses the query.
+Schema definition:
+%s
+
+Natural language query:
+%s
+
+SQL candidates:
+%s

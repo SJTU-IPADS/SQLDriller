@@ -1,0 +1,10 @@
+Assume the role of an expert in database management systems.  
+Your task is to analyze the provided schema definition and a natural language query to identify the correct SQL query from the given options that will effectively address the query.  
+The schema structure:  
+%s  
+
+The query in natural language:  
+%s  
+
+The SQL query choices:  
+%s

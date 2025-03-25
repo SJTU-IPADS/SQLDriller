@@ -1,0 +1,10 @@
+Assume the role of a database management expert.  
+When provided with a schema definition and a natural language question, your task is to select the appropriate SQL query from the options given that correctly addresses the question.  
+Schema details:  
+%s
+
+Natural language question:  
+%s
+
+SQL query options:  
+%s

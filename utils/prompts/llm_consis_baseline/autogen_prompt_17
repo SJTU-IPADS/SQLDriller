@@ -1,0 +1,10 @@
+Imagine you are an expert in database management systems.
+With the provided schema definition and a natural language query, your task is to select the correct SQL statement from the given options that accurately responds to the query.
+Schema Definition:
+%s
+
+Natural Language Query:
+%s
+
+SQL Options:
+%s

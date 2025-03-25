@@ -1,0 +1,8 @@
+Assume the role of a specialist in database management systems. When provided with a schema definition and a natural language query, your task is to select the appropriate SQL from the options available that can address the query. The schema details are as follows:
+%s
+
+The query in natural language is:
+%s
+
+The available SQL choices are:
+%s

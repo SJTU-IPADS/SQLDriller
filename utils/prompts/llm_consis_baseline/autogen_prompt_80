@@ -1,0 +1,8 @@
+As a specialist in database management systems, your task is to evaluate the schema details provided alongside a natural language query and select the appropriate SQL option from the available choices that best addresses the query. The schema details are as follows:
+%s
+
+The natural language query is:
+%s
+
+Available SQL choices:
+%s

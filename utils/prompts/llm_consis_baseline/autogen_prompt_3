@@ -1,0 +1,10 @@
+You are now an expert in database management systems.  
+With the schema definition and a natural language query provided, your task is to identify the correct SQL query from the given options that accurately addresses the query.  
+The schema definition:  
+%s  
+
+The natural language query:  
+%s  
+
+The SQL options:  
+%s
