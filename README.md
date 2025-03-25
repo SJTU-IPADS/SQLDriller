@@ -1,5 +1,9 @@
-# SQLDRILLER
+# SQLDRILLER: Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency
+
+**[Note]: The `README.md` and code open-sourcing are still working in progress and will be released in the near future :-)**
+
 SQLDRILLER is a Text-to-SQL translation checking tool. It uses execution consistency to automatically discover and fix errors in Text-to-SQL datasets, and in Text-to-SQL model inference result to improve model accuracy. 
+It is presented in the paper "Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency" (SIGMOD '25).
 
 [//]: # ([Paper link]&#40;to be updated&#41;)
 
