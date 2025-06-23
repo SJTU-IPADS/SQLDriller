@@ -121,6 +121,8 @@ All the related results are shown in `./results/nl_exec/{dataset_name}_{LLM_name
 
 ### 3. Dataset Refine and Model Accuracy Evaluation
 
+See `dataset_refine.py` for dataset error detection and fixing functionality.
+
 #### 3.1 Dataset Refine
 Run the following command to ***detect and fix*** errors in the datasets.
 ```shell
@@ -163,7 +165,27 @@ The results are shown in `./results/issues/{dataset_name}_train/`:
 
 #### 3.2 Model Accuracy Evaluation
 
-**Working in progress and will be released soon :-)**
+See `model_accuracy_improvement.py` for SQLDriller's accuracy improvement directly on model inference.
+
+**Automatic shell scripts will come out soon.**
 
 
-[//]: # (## Reference)
+## Reference
+```
+@article{10.1145/3725271,
+author = {Yang, Yicun and Wang, Zhaoguo and Xia, Yu and Wei, Zhuoran and Ding, Haoran and Piskac, Ruzica and Chen, Haibo and Li, Jinyang},
+title = {Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency},
+year = {2025},
+issue_date = {June 2025},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {3},
+number = {3},
+url = {https://doi.org/10.1145/3725271},
+doi = {10.1145/3725271},
+journal = {Proc. ACM Manag. Data},
+month = jun,
+articleno = {134},
+numpages = {28},
+keywords = {SQL query equivalence, execution consistency, language model, natural language interface for databases, text-to-SQL}
+}
