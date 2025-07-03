@@ -1,16 +1,15 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "No parameters provided. Please specify 'beaver' dataset."
+    echo "No parameters provided. Please specify 1 parameter {llm}."
     exit 1
 fi
 
-dataset='beaver'
+benchmark='beaver'
 gpt_model=${1:-gpt-4o}  # Use second parameter if provided, otherwise default to 'gpt-4o'
 
 
 metadata_path="./data/beaver/opt/dev_gold_ambiguity.json"
-benchmark="beaver"
 dataset_type="dev"
 
 sql_prediction_path="./prepared/beaver/accuracy/pred/dev/chess.sql"
@@ -19,7 +18,7 @@ sql_prediction_path="./prepared/beaver/accuracy/pred/dev/chess.sql"
 db_instance_dir="./dbs/microbench/beaver/dev/"
 save_dir="./results/nl_exec/${benchmark}_${dataset_type}_${gpt_model}"
 
-echo "Run NL execution on db instances of ${dataset} with ${gpt_model} model, table size: 5."
+echo "Run NL execution on db instances of ${benchmark} with ${gpt_model} model, table size: 5."
 python nl_exec_microbench.py \
     --metadata_path ${metadata_path} \
     --db_instance_dir ${db_instance_dir} \
@@ -28,7 +27,7 @@ python nl_exec_microbench.py \
     --gpt_model ${gpt_model} \
     --save_dir ${save_dir}
 
-echo "Run SQL execution on db instances of ${dataset} with ${gpt_model} model, table size: 5."
+echo "Run SQL execution on db instances of ${benchmark} with ${gpt_model} model, table size: 5."
 python nl_exec_microbench_sql.py \
     --metadata_path ${metadata_path} \
     --prediction_path ${sql_prediction_path} \
@@ -42,7 +41,7 @@ python nl_exec_microbench_sql.py \
 db_instance_dir_large_table="./dbs/microbench/beaver/dev_size_100/"
 save_dir_large_table="./results/nl_exec/${benchmark}_${dataset_type}_${gpt_model}_size_100"
 
-echo "Run NL execution on db instances of ${dataset} with ${gpt_model} model, table size: 100."
+echo "Run NL execution on db instances of ${benchmark} with ${gpt_model} model, table size: 100."
 python nl_exec_microbench.py \
     --metadata_path ${metadata_path} \
     --db_instance_dir ${db_instance_dir_large_table} \
@@ -51,7 +50,7 @@ python nl_exec_microbench.py \
     --gpt_model ${gpt_model} \
     --save_dir ${save_dir_large_table}
 
-echo "Run SQL execution on db instances of ${dataset} with ${gpt_model} model, table size: 100."
+echo "Run SQL execution on db instances of ${benchmark} with ${gpt_model} model, table size: 100."
 python nl_exec_microbench_sql.py \
     --metadata_path ${metadata_path} \
     --prediction_path ${sql_prediction_path} \

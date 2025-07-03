@@ -17,7 +17,7 @@ from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
 
 
 def ask_gpt_for_exec_res(args, nlq: str, db_id: str, sqls: list[str], all_ce_paths: list[str], order_matters_option: bool, benchmark: str, evidence=None) -> list:
-    case_dir = os.path.join(SAVE_ISSUE_DIR, args.save_subdir, "exec_res", str(globals.CURRENT_CASE_ID))
+    case_dir = os.path.join(args.save_dir, "exec_res", str(globals.CURRENT_CASE_ID))
     if not os.path.exists(case_dir):
         os.makedirs(case_dir)
     gpt_ce_res = []
@@ -187,7 +187,7 @@ def log_exec_ce(args,
                 gold=None,
                 gold_ce_res_list=None,
                 gold_score=-1):
-    case_dir = os.path.join(SAVE_ISSUE_DIR, args.save_subdir, "exec_res", str(globals.CURRENT_CASE_ID))
+    case_dir = os.path.join(args.save_dir, "exec_res", str(globals.CURRENT_CASE_ID))
     if not os.path.exists(case_dir):
         os.makedirs(case_dir)
     ce_res_json = []
@@ -215,10 +215,9 @@ def evaluate(args):
     with open(args.gpt_predictions_path) as f:
         data_items = json.load(f)
 
-    save_dir_path = os.path.join(SAVE_ISSUE_DIR, args.save_subdir)
-    if not os.path.exists(save_dir_path):
-        os.makedirs(save_dir_path)
-        os.makedirs(os.path.join(save_dir_path, "exec_res"))
+    if not os.path.exists(args.save_dir):
+        os.makedirs(args.save_dir)
+        os.makedirs(os.path.join(args.save_dir, "exec_res"))
 
     for _, item in tqdm(enumerate(data_items)):
         case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
@@ -235,7 +234,7 @@ def evaluate(args):
             traceback.print_exc()
             replaced_gold, exec_consistent_flag = None, 1
 
-        with open(os.path.join(save_dir_path, args.modified_gold_save_file), 'a') as f:
+        with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'a') as f:
             content = "%d\t%d\t%s\t%s" \
                       % (case_id, exec_consistent_flag, gold, replaced_gold if replaced_gold is not None else "-")
             f.write(content + "\n")
@@ -255,11 +254,12 @@ if __name__ == '__main__':
     parser.add_argument("--dataset_type", type=str, default=dataset_type.train)
     parser.add_argument("--sql_equiv_mode", type=str, default=sql_equiv_mode.mixed)
 
-    parser.add_argument("--save_subdir", type=str, default="run" + datetime.datetime.now().strftime("%Y%m%d-%H:%M"))
+    parser.add_argument("--save_dir", type=str, default="run" + datetime.datetime.now().strftime("%Y%m%d-%H:%M"))
     parser.add_argument("--modified_gold_save_file", type=str, default="modified_gold.tsv")
     args = parser.parse_args()
 
-    globals.LOG_SUBDIR = args.save_subdir
+    # TODO: remove global log
+    globals.LOG_SUBDIR = args.save_dir
     globals.set_refine_step(refine_steps.original)
 
     evaluate(args)
