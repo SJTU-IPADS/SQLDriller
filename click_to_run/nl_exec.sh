@@ -9,12 +9,12 @@ benchmark=$1
 gpt_model=${2:-gpt-4o}  # Use second parameter if provided, otherwise default to 'gpt-4o'
 
 if [ "$benchmark" = "spider" ]; then
-  dataset_type="test"
+    dataset_type="test"
 elif [ "$benchmark" = "bird" ]; then
-  dataset_type="dev"
+    dataset_type="dev"
 else
-  echo "Not supported dataset. Please specify 'spider', 'bird' dataset."
-  exit 1
+    echo "Not supported dataset. Please specify 'spider', 'bird' dataset."
+    exit 1
 fi
 
 metadata_path="./data/${benchmark}/opt/${dataset_type}.json"

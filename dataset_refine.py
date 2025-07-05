@@ -212,14 +212,18 @@ def log_exec_ce(args,
 
 
 def evaluate(args):
-    with open(args.gpt_predictions_path) as f:
-        data_items = json.load(f)
+    with open(args.dataset_file_path) as f:
+        dataset_items = json.load(f)
+    with open(args.sql_candidates_path) as f:
+        candidate_items = json.load(f)
+    assert len(dataset_items) == len(candidate_items)
 
     if not os.path.exists(args.save_dir):
         os.makedirs(args.save_dir)
         os.makedirs(os.path.join(args.save_dir, "exec_res"))
 
-    for _, item in tqdm(enumerate(data_items)):
+    fixed_dataset_items = []
+    for _, item in tqdm(enumerate(candidate_items)):
         case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
         if (args.start_id >= 0 and case_id < args.start_id) or (args.end_id >= 0 and case_id > args.end_id):
             continue
@@ -239,6 +243,15 @@ def evaluate(args):
                       % (case_id, exec_consistent_flag, gold, replaced_gold if replaced_gold is not None else "-")
             f.write(content + "\n")
 
+        original_case_item = dataset_items[case_id]
+        fixed_case_item = original_case_item.copy()
+        fixed_case_item['query' if 'query' in dict(original_case_item).keys() else 'SQL'] = \
+            replaced_gold if replaced_gold is not None else gold
+        fixed_dataset_items.append(fixed_case_item)
+        if case_id % 10 == 0:  # dump results for each 10 cases as checkpoint
+            with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'w') as f:
+                json.dump(fixed_dataset_items, f, indent=2)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -246,16 +259,18 @@ if __name__ == '__main__':
     parser.add_argument("--start_id", type=int, default=-1)
     parser.add_argument("--end_id", type=int, default=-1)
 
-    parser.add_argument("--gpt_predictions_path", type=str, required=True)
+    parser.add_argument("--dataset_file_path", type=str, required=True)
+    parser.add_argument("--sql_candidates_path", type=str, required=True)
     parser.add_argument("--fuzz_db_dir", type=str, required=True)
-    parser.add_argument("--save_ce_dir", type=str, required=True)
 
     parser.add_argument("--benchmark", type=str, default=benchmark_type.spider)
     parser.add_argument("--dataset_type", type=str, default=dataset_type.train)
     parser.add_argument("--sql_equiv_mode", type=str, default=sql_equiv_mode.mixed)
 
-    parser.add_argument("--save_dir", type=str, default="run" + datetime.datetime.now().strftime("%Y%m%d-%H:%M"))
+    parser.add_argument("--save_dir", type=str, required=True)
+    parser.add_argument("--save_ce_dir", type=str, required=True)
     parser.add_argument("--modified_gold_save_file", type=str, default="modified_gold.tsv")
+    parser.add_argument("--modified_dataset_save_file", type=str, default="modified.json")
     args = parser.parse_args()
 
     # TODO: remove global log
