@@ -17,22 +17,54 @@ from utils.utils import check_equivalence, get_gpt_nl_res_list, pick_majority_re
 from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
 
 
-def ask_gpt_for_exec_res(args, nlq: str, db_id: str, sqls: list[str], all_ce_paths: list[str], order_matters_option: bool, benchmark: str, evidence=None) -> list:
-    case_dir = os.path.join(args.save_dir, "exec_res", str(globals.CURRENT_CASE_ID))
+def ask_gpt_for_exec_res(args,
+                         case_id,
+                         nlq: str,
+                         db_id: str,
+                         sqls: list[str],
+                         all_ce_paths: list[str],
+                         order_matters_option: bool,
+                         benchmark: str,
+                         evidence=None) -> list:
+    case_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
     if not os.path.exists(case_dir):
         os.makedirs(case_dir)
+
     gpt_ce_res = []
     for ce_path in all_ce_paths:
         data_info_prompt = encode_schema_and_data_prompt(db_id, sqls, ce_path, benchmark, column_slim=(benchmark == benchmark_type.bird))
         with open(os.path.join(case_dir, "ce.txt"), 'a') as f:
             f.write("-----%s-----\n" % ce_path)
             f.write('%s\n' % data_info_prompt)
-        gpt_ce_res_self_consistency, _ = \
-            get_gpt_nl_res_list(data_info_prompt, nlq, evidence=evidence, n=(1 if len(all_ce_paths) > 5 else 5))
-        gpt_res_majority = pick_majority_result(gpt_ce_res_self_consistency, order_matters=order_matters_option)
+        try:
+            gpt_ce_res_self_consistency, reply_list = \
+                get_gpt_nl_res_list(data_info_prompt, nlq, evidence=evidence, n=(1 if len(all_ce_paths) > 5 else 5))
+            gpt_res_majority = pick_majority_result(gpt_ce_res_self_consistency, order_matters=order_matters_option)
+        except Exception as e:
+            gpt_ce_res_self_consistency, reply_list = None, [traceback.format_exc()]
+            gpt_res_majority = None
+
+        log_prompt = data_info_prompt + "\n\n" + nlq + ("\n\n" + evidence if evidence is not None else "")
+        log_gpt_reply(args.save_dir, case_id, all_ce_paths.index(ce_path), log_prompt, reply_list)
+
         gpt_ce_res.append(gpt_res_majority)
 
     return gpt_ce_res
+
+
+def log_gpt_reply(save_dir,
+                  case_id,
+                  instance_id,
+                  prompt,
+                  reply_list):
+    case_log_dir = os.path.join(save_dir, "exec_res", str(case_id), "log")
+    if not os.path.exists(case_log_dir):
+        os.makedirs(case_log_dir)
+    with open(os.path.join(case_log_dir, f"exec_ce{instance_id}.log"), "w") as f:
+        f.write("----------CURRENT_PROMPT----------\n" + prompt + "\n")
+        for i in range(len(reply_list)):
+            f.write("----------REPLY %d----------\n" % i + reply_list[i] + "\n")
+        f.write("----------END----------\n")
 
 
 def get_pred_exec_results(all_preds: list[str], all_ce_paths: list[str]) -> OrderedDict:
@@ -50,6 +82,8 @@ def get_pred_exec_results(all_preds: list[str], all_ce_paths: list[str]) -> Orde
 def get_gold_score(all_ce_paths: list[str], gold_ce_res_list, gpt_ce_res, order_matters_option) -> int:
     score = 0
     for i in range(len(gpt_ce_res)):
+        if gpt_ce_res[i] is None:
+            continue
         if EXEC_EVAL.result_eq(gpt_ce_res[i], gold_ce_res_list[all_ce_paths[i]], order_matters=order_matters_option):
             score += 1
     return score
@@ -62,6 +96,8 @@ def get_pred_scores(all_preds: list[str], all_ce_paths: list[str], pred_ce_res_l
         pred_ce_res = pred_ce_res_list[pred]
         score = 0
         for j in range(len(all_ce_paths)):
+            if gpt_ce_res[i] is None:
+                continue
             if EXEC_EVAL.result_eq(pred_ce_res[all_ce_paths[j]], gpt_ce_res[j], order_matters=order_matters_option):
                 score += 1
         pred_scores.append(score)
@@ -114,12 +150,21 @@ def judge_gold(item, args):
     # Collect exec results of gold, predictions, gpt
     pred_ce_res_list = get_pred_exec_results(all_preds, all_ce_paths)
 
-    gpt_ce_res = ask_gpt_for_exec_res(args, nlq, db_id, [gold] + all_preds, all_ce_paths, order_matters_option, args.benchmark, evidence)
+    gpt_ce_res = ask_gpt_for_exec_res(args, case_id, nlq, db_id, [gold] + all_preds, all_ce_paths, order_matters_option, args.benchmark, evidence)
 
     gold_score = get_gold_score(all_ce_paths, gold_ce_res_list, gpt_ce_res, order_matters_option)
     pred_scores = get_pred_scores(all_preds, all_ce_paths, pred_ce_res_list, gpt_ce_res, order_matters_option)
     
-    log_exec_ce(args, gpt_ce_res, all_ce_paths, all_preds, pred_ce_res_list, pred_scores, gold, gold_ce_res_list, gold_score)
+    log_exec_ce(args.save_dir,
+                case_id,
+                gpt_ce_res,
+                all_ce_paths,
+                all_preds,
+                pred_ce_res_list,
+                pred_scores,
+                gold=gold,
+                gold_ce_res_list=gold_ce_res_list,
+                gold_score=gold_score)
     exec_consistent = 0 if gold_score < len(all_ce_paths) else 1
     
     if max(pred_scores) > gold_score: 
@@ -154,7 +199,7 @@ def judge_gold(item, args):
                         candidate_pred_ce_paths.append(simplified_ce_path)
             if len(candidate_pred_ce_paths) != 0:
                 candidate_pred_ce_res_list = get_pred_exec_results(candidate_preds, candidate_pred_ce_paths)
-                gpt_ce_res = ask_gpt_for_exec_res(args, nlq, db_id, candidate_preds, candidate_pred_ce_paths, order_matters_option, args.benchmark, evidence)
+                gpt_ce_res = ask_gpt_for_exec_res(args, case_id, nlq, db_id, candidate_preds, candidate_pred_ce_paths, order_matters_option, args.benchmark, evidence)
                 candidate_pred_scores = get_pred_scores(candidate_preds, candidate_pred_ce_paths, candidate_pred_ce_res_list, gpt_ce_res, order_matters_option)
                 max_indexes = [i for i, x in enumerate(candidate_pred_scores) if x == max(candidate_pred_scores)]
                 if not order_matters_option:
@@ -165,7 +210,13 @@ def judge_gold(item, args):
                 if replaced_gold is None:
                     replaced_gold = candidate_preds[max_indexes[0]]
 
-                log_exec_ce(args, gpt_ce_res, candidate_pred_ce_paths, candidate_preds, candidate_pred_ce_res_list, candidate_pred_scores)
+                log_exec_ce(args.save_dir,
+                            case_id,
+                            gpt_ce_res,
+                            candidate_pred_ce_paths,
+                            candidate_preds,
+                            candidate_pred_ce_res_list,
+                            candidate_pred_scores)
             else:
                 if not order_matters_option:
                     for max_index in max_indexes:
@@ -174,12 +225,12 @@ def judge_gold(item, args):
                             break
                 if replaced_gold is None:
                     replaced_gold = all_preds[max_indexes[0]]
-            # len(max_indexes) may be greater than 1, ask gpt to choose one?
 
     return replaced_gold, exec_consistent
 
 
-def log_exec_ce(args,
+def log_exec_ce(save_dir,
+                case_id,
                 gpt_ce_res: list,
                 ce_paths: list[str],
                 preds: list[str],
@@ -188,7 +239,7 @@ def log_exec_ce(args,
                 gold=None,
                 gold_ce_res_list=None,
                 gold_score=-1):
-    case_dir = os.path.join(args.save_dir, "exec_res", str(globals.CURRENT_CASE_ID))
+    case_dir = os.path.join(save_dir, "exec_res", str(case_id))
     if not os.path.exists(case_dir):
         os.makedirs(case_dir)
     ce_res_json = []
@@ -237,7 +288,6 @@ def evaluate(args):
         case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
         if (start_id >= 0 and case_id < start_id) or (end_id >= 0 and case_id > end_id):
             continue  # range of case id: [start_id, end_id]
-        globals.CURRENT_CASE_ID = case_id
 
         print("Check gold error for case %d" % case_id)
 
@@ -324,8 +374,6 @@ if __name__ == '__main__':
     parser.add_argument("--modified_dataset_save_file", type=str, default="modified.json")
     args = parser.parse_args()
 
-    # TODO: remove global log
-    globals.LOG_SUBDIR = args.save_dir
     globals.set_refine_step(refine_steps.original)
 
     evaluate(args)

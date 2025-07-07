@@ -25,45 +25,6 @@ def simplify_ce(ce_path: str, gold, pred, case_id, db_copy_dir):
 """
 Interfaces that each model should provide
 """
-
-
-def get_schema_model_specific_info(model: str, dataset: str, item: dict) -> str:
-    case_id, db_id = item['id'], item['db_id']
-    if model == LLModel.C3:
-        return C3_MODEL.get_schema_info(dataset, case_id, db_id)
-    # elif model == LLModel.DIN_SQL:
-    #     return DIN_SQL_MODEL.get_schema_info(dataset, case_id, db_id)
-    # elif model == LLModel.DAIL_SQL:
-    #     assert False, "Do not support model %s currently" % model
-    # elif model == LLModel.RESD_natsql or model == LLModel.RESD_sql:
-    #     return RESD_MODEL.get_schema_info(model, dataset, case_id, db_id)
-    # elif is_pre_trained_llm_based(model):
-    #     # todo: temporarily the same as RESD models
-    #     return RESD_MODEL.get_schema_info(LLModel.RESD_natsql, dataset, case_id, db_id)
-    else:
-        assert False, "Do not support model %s currently" % model
-
-
-def get_multiple_predictions_from_model(model: str, dataset: str, item: dict, max_count: int, schema_info=None) -> list[str]:
-    candidates = []
-    if model == LLModel.C3:
-        candidates = C3_MODEL.generate_gpt_sql_answers(dataset, item, max_count)
-    # elif model == LLModel.DIN_SQL:
-    #     candidates = DIN_SQL_MODEL.generate_gpt_sql_answers(dataset, item, max_count)
-    # elif model == LLModel.DAIL_SQL:
-    #     assert False, "Do not support model %s currently" % model
-    # elif model == LLModel.RESD_natsql or model == LLModel.RESD_sql:
-    #     candidates = RESD_MODEL.generate_answers(model, dataset, item, max_count)
-    # elif is_pre_trained_llm_based(model):
-    #     # todo: temporarily the same as RESD models
-    #     candidates = RESD_MODEL.generate_answers(LLModel.RESD_natsql, dataset, item, max_count)
-    #     # candidates = T5_MODEL.generate_answers(model, dataset, item['nlq'], schema_info, max_count)
-    else:
-        assert False, "Do not support model %s currently" % model
-
-    return candidates
-
-
 def check_equivalence_by_sqlsolver(sql1: str, sql2: str, schema: str, timeout: int) -> str:
     try:
         os.environ['LD_LIBRARY_PATH'] = 'third_party/solver/lib'
@@ -151,22 +112,15 @@ def get_gpt_nl_res_list(
         nlq,
         evidence=None,
         n=1,
-        gpt_model=GPT_4_TURBO,
-        log=True) -> (list[list], list[str]):
+        gpt_model=GPT_4_TURBO) -> (list[list], list[str]):
     trial = 0
     while trial < GPT_MAX_TRIALS:
         trial += 1
         try:
             gpt_exec_nl_res_list, reply_list = \
                 exec_ce_by_gpt(data_info_prompt, nlq, evidence=evidence, n=n, gpt_model=gpt_model)
-            if log:
-                log_prompt = data_info_prompt + "\n\n" + nlq + ("\n\n" + evidence if evidence is not None else "")
-                globals.log_gpt("exec_ce", log_prompt, reply_list)
-
             return gpt_exec_nl_res_list, reply_list
         except Exception as e:
-            if log:
-                globals.log_exception(traceback.format_exc())
             if trial == GPT_MAX_TRIALS:
                 raise e
 

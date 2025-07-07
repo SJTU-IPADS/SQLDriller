@@ -43,8 +43,6 @@ def handle_pred_selection(case_preds, item, args) -> str:
         infer_predictions = [sql for sql in infer_predictions_unchecked if is_valid_sql(sql, db_id, args.benchmark)]
         infer_predictions = [sql for sql in infer_predictions if get_limit_k(sql) < 10]
 
-        globals.CURRENT_CASE_ID = case_id
-
         order_matters_option = judge_order_matters(infer_predictions)
         # There are multiple predictions with the same score, we want to pick one from them
         candidate_preds = infer_predictions
@@ -74,7 +72,7 @@ def handle_pred_selection(case_preds, item, args) -> str:
                     candidate_pred_ce_paths.append(simplified_ce_path)
         if len(candidate_pred_ce_paths) != 0:
             candidate_pred_ce_res_list = get_pred_exec_results(candidate_preds, candidate_pred_ce_paths)
-            gpt_ce_res = ask_gpt_for_exec_res(args, nlq, db_id, candidate_preds, candidate_pred_ce_paths,
+            gpt_ce_res = ask_gpt_for_exec_res(args, case_id, nlq, db_id, candidate_preds, candidate_pred_ce_paths,
                                               order_matters_option, benchmark=args.benchmark, evidence=evidence)
             candidate_pred_scores = get_pred_scores(candidate_preds, candidate_pred_ce_paths,
                                                     candidate_pred_ce_res_list,
@@ -89,7 +87,12 @@ def handle_pred_selection(case_preds, item, args) -> str:
             if replaced_gold is None:
                 replaced_gold = candidate_preds[max_indexes[0]]
 
-            log_exec_ce(args, gpt_ce_res, candidate_pred_ce_paths, candidate_preds, candidate_pred_ce_res_list,
+            log_exec_ce(args.save_dir,
+                        case_id,
+                        gpt_ce_res,
+                        candidate_pred_ce_paths,
+                        candidate_preds,
+                        candidate_pred_ce_res_list,
                         candidate_pred_scores)
         elif len(infer_predictions) != 0:
             if not order_matters_option:
@@ -118,11 +121,11 @@ def main(args):
             dev_set = dev_set[args.start_id:]
         else:
             dev_set = dev_set[args.start_id:args.end_id + 1]
-    if not os.path.exists(os.path.join(SAVE_ISSUE_DIR, args.save_subdir)):
-        os.makedirs(os.path.join(SAVE_ISSUE_DIR, args.save_subdir))
+    if not os.path.exists(os.path.join(args.save_dir)):
+        os.makedirs(os.path.join(args.save_dir))
     for item in dev_set:
         pred = handle_pred_selection(case_preds, item, args)
-        with open(os.path.join(SAVE_ISSUE_DIR, args.save_subdir, 'result%s_%s.txt' % (args.start_id, args.end_id)), "a") as f:
+        with open(os.path.join(args.save_dir, 'result%s_%s.txt' % (args.start_id, args.end_id)), "a") as f:
             f.write(pred + "\n")
 
 
@@ -135,7 +138,7 @@ if __name__ == '__main__':
     parser.add_argument("--input_spider_dev_set", type=str, required=True)
     parser.add_argument("--gpt_predictions_path", type=str, required=True)
     parser.add_argument("--benchmark", type=str, default=benchmark_type.spider)
-    parser.add_argument("--save_subdir", type=str, required=True)
+    parser.add_argument("--save_dir", type=str, required=True)
     parser.add_argument("--CEA", type=bool, default=True)
     parser.add_argument("--cea_path", type=str, required=True)
 
@@ -144,7 +147,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     
-    globals.LOG_SUBDIR = args.save_subdir
     globals.set_refine_step(refine_steps.gold_checked)
     
     main(args)

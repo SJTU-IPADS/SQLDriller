@@ -7,6 +7,7 @@ import random
 from tqdm import tqdm
 
 import globals
+from dataset_refine import log_gpt_reply
 from utils.llm_utils import GPT_4_TURBO
 from utils.utils import get_gpt_nl_res_list, pick_majority_result
 from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
@@ -16,42 +17,15 @@ from utils.sql_utils import order_matters
 from utils.sqlite_utils import exec_on_db_
 
 
-def log_gpt_response(args,
-                     case_id, 
-                     instance_id: int,
-                     res_tag: int,
-                     data_info_prompt: str,
-                     nlq: str,
-                     evidence: str,
-                     reply_list: list[str]):
-    # with open(os.path.join(args.save_dir, "reasons.tsv"), "a") as f:
-    #     f.write("%d\t%d\t%d\t-\n" % (case_id, instance_id, res_tag))
-
-    case_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
-    if not os.path.exists(case_dir):
-        os.makedirs(case_dir)
-        os.makedirs(os.path.join(case_dir, "log"))
-
-    with open(os.path.join(case_dir, "log", "instance_%d.txt" % instance_id), "w") as f:
-        f.write("-----DATA INFO-----\n")
-        f.write(data_info_prompt + "\n\n")
-        f.write("NLQ: " + nlq + "\n\n")
-        if evidence is not None:
-            f.write("Evidence: " + evidence + "\n\n")
-        for i in range(len(reply_list)):
-            f.write("----------REPLY %d----------\n" % i + reply_list[i] + "\n")
-        f.write("----------END----------\n")
-    
-    
-def log_exec(args,
-             case_id,
-             ground_truth_res: list,
-             gpt_exec_res: list,
-             instance_paths: list[str],
-             instance_cnt: int,
-             correct_instance_cnt: int,
-             res_tags: list[int]):
-    case_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
+def log_nl_exec(save_dir,
+                case_id,
+                ground_truth_res: list,
+                gpt_exec_res: list,
+                instance_paths: list[str],
+                instance_cnt: int,
+                correct_instance_cnt: int,
+                res_tags: list[int]):
+    case_dir = os.path.join(save_dir, "exec_res", str(case_id))
     if not os.path.exists(case_dir):
         os.makedirs(case_dir)
 
@@ -106,7 +80,7 @@ def check_nl_exec_res(args, case_id, db_id, nlq, evidence, sqls, order_matters_o
             # NL execution
             data_info_prompt = encode_schema_and_data_prompt(db_id, [sqls[0]], instance_path, args.benchmark)
             gpt_exec_nl_res_list, reply_list = \
-                get_gpt_nl_res_list(data_info_prompt, nlq, evidence=evidence, n=args.n, gpt_model=args.gpt_model, log=False)
+                get_gpt_nl_res_list(data_info_prompt, nlq, evidence=evidence, n=args.n, gpt_model=args.gpt_model)
             nl_exec_res = pick_majority_result(gpt_exec_nl_res_list, order_matters=order_matters_option)
             # SQL execution
             res_tag = 0
@@ -129,9 +103,18 @@ def check_nl_exec_res(args, case_id, db_id, nlq, evidence, sqls, order_matters_o
         finally:
             correct_instance_cnt += res_tag
             res_tags.append(res_tag)
-            log_gpt_response(args, case_id, i, res_tag, data_info_prompt, nlq, evidence, reply_list)
 
-    log_exec(args, case_id, ground_truth_res_list, nl_exec_res_list, instance_paths, instance_cnt, correct_instance_cnt, res_tags)
+            log_prompt = data_info_prompt + "\n\n" + nlq + ("\n\n" + evidence if evidence is not None else "")
+            log_gpt_reply(args.save_dir, case_id, i, log_prompt, reply_list)
+
+    log_nl_exec(args.save_dir,
+                case_id,
+                ground_truth_res_list,
+                nl_exec_res_list,
+                instance_paths,
+                instance_cnt,
+                correct_instance_cnt,
+                res_tags)
 
     return instance_cnt, correct_instance_cnt
 
