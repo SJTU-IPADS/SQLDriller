@@ -4,20 +4,16 @@ import sqlglot
 from sqlglot.expressions import Literal
 
 from .db_info.dbinfo import *
-from .path_utils import METADATA_FILE_PATHS, SCHEMA_DB_DIR, SCHEMA_FILE_DIR
 from .sqlite_utils import exec_on_db_
-import globals
 
 
-def get_schema_ddl(db_id: str, benchmark, mysql=False) -> str:
-    schema_file_dir = METADATA_FILE_PATHS[benchmark][globals.CURRENT_REFINE_STEP][SCHEMA_FILE_DIR]
+def get_schema_ddl(db_id: str, schema_file_dir: str) -> str:
     with open(os.path.join(schema_file_dir, db_id + ".sql")) as f:
         return f.read()
 
 
-def get_schema_properties(db_id: str, benchmark):
-    db_dir = METADATA_FILE_PATHS[benchmark][globals.CURRENT_REFINE_STEP][SCHEMA_DB_DIR]
-    sqlite_path = os.path.join(db_dir, db_id, db_id + '.sqlite')
+def get_schema_properties(db_id: str, schema_db_dir: str):
+    sqlite_path = os.path.join(schema_db_dir, db_id, db_id + '.sqlite')
     table2column_properties, child2parent = extract_table_column_properties_path(sqlite_path)
     pks, fks = OrderedDict(), OrderedDict()
     for table, columns in table2column_properties.items():
@@ -62,10 +58,8 @@ def order_matters(sql):
     except:
         return False
 
-def is_valid_sql(sql, db_id, benchmark) -> bool:
-    db_dir = METADATA_FILE_PATHS[benchmark][globals.CURRENT_REFINE_STEP][SCHEMA_DB_DIR]
-    db_path = os.path.join(db_dir, db_id, db_id + '.sqlite')
+
+def is_valid_sql(sql, db_id, schema_db_dir) -> bool:
+    db_path = os.path.join(schema_db_dir, db_id, db_id + '.sqlite')
     flag, _ = exec_on_db_(db_path, sql)
     return flag != "exception"
-
-

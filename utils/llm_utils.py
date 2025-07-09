@@ -1,4 +1,12 @@
+import os
 import openai
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+openai.api_base = os.getenv("OPENAI_API_BASE")
+openai.api_key = os.getenv("OPENAI_API_KEY")
+print("Config openai API KEY!")
+
 
 GPT_MAX_TRIALS = 5
 

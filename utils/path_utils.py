@@ -6,9 +6,9 @@ SPIDER_DATA_DIR = "./data/spider/"
 BIRD_DATA_DIR = "./data/bird/"
 BEAVER_DATA_DIR = "./data/beaver/"
 
-SAVE_INFER_DIR = "./infer/"
+# SAVE_INFER_DIR = "./infer/"
 SAVE_ISSUE_DIR = "./issues/"
-SAVE_MICROBENCH_DIR = "./microbench/"
+# SAVE_MICROBENCH_DIR = "./microbench/"
 
 # keys
 TABLE_FILE = "table_file"

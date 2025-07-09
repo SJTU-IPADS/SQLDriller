@@ -3,9 +3,9 @@ import json, os
 import pandas as pd
 from tqdm import tqdm
 
-import globals
 from python_scripts.utils.stat_utils import is_correct_case
 from utils.constants import *
+from utils.path_utils import METADATA_FILE_PATHS, SCHEMA_DB_DIR, TABLE_FILE
 from utils.utils import check_equivalence
 
 
@@ -19,13 +19,12 @@ def evaluate(args):
         records = f.readlines()
     assert len(records) == len(groundtruths)
 
+    schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_DB_DIR]
+
     tagged_records = []
     for record in tqdm(records):
         items = record.strip().split('\t')
         case_id, gold, fix = int(items[0]), items[1], items[2]
-
-        # if case_id not in [218, 289]:
-        #     continue
 
         print("Tagging case %d" % case_id)
 
@@ -37,7 +36,7 @@ def evaluate(args):
             if fix == '-':
                 fix_tag = '1'  # deterministic
             else:
-                eq_tag, _ = check_equivalence(groundtruth_sql, fix, None, args.fuzz_db_dir, db_id, sql_equiv_mode.exec, args.benchmark)
+                eq_tag, _ = check_equivalence(groundtruth_sql, fix, None, schema_db_dir, args.fuzz_db_dir, db_id, sql_equiv_mode.exec, args.benchmark)
                 if eq_tag == EQ_TAG:
                     fix_tag = '1*'
                 elif eq_tag == NEQ_TAG:
@@ -48,7 +47,7 @@ def evaluate(args):
             if fix == '-':
                 fix_tag = '0'  # deterministic
             else:
-                eq_tag, _ = check_equivalence(groundtruth_sql, fix, None, args.fuzz_db_dir, db_id, sql_equiv_mode.exec, args.benchmark)
+                eq_tag, _ = check_equivalence(groundtruth_sql, fix, None, schema_db_dir, args.fuzz_db_dir, db_id, sql_equiv_mode.exec, args.benchmark)
                 if eq_tag == EQ_TAG:
                     fix_tag = '0-1*'
                 elif eq_tag == NEQ_TAG:
@@ -75,7 +74,5 @@ if __name__ == '__main__':
     parser.add_argument("--dataset_type", type=str, default=dataset_type.train)
 
     args = parser.parse_args()
-
-    globals.set_refine_step(refine_steps.original)
 
     evaluate(args)

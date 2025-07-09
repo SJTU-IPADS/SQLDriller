@@ -7,10 +7,10 @@ from tqdm import tqdm
 
 from python_scripts.utils.stat_utils import is_correct_case
 from utils.constants import sql_equiv_mode, benchmark_type, EQ_TAG, NEQ_TAG, EMPTY_TAG
+from utils.path_utils import METADATA_FILE_PATHS, SCHEMA_DB_DIR, TABLE_FILE
 from utils.sql_utils import is_valid_sql
 from utils.utils import check_equivalence
 from utils.constants import refine_steps
-import globals
 
 
 def evaluate(args):
@@ -21,6 +21,8 @@ def evaluate(args):
         case_predictions = json.load(f)
     df = pd.read_csv(args.statistic_file_path, sep='\t')
     statistic = dict(zip(df['case_id'].astype(int), df['original gold tag']))
+
+    schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_DB_DIR]
 
     correct_case_statistics = {}
     incorrect_case_statistics = {}
@@ -36,13 +38,13 @@ def evaluate(args):
         sql_groups = {}
         # invalid_sql = []
         for sql in sql_set:
-            if not is_valid_sql(sql, db_id, args.benchmark):
+            if not is_valid_sql(sql, db_id, schema_db_dir):
                 # invalid_sql.append(sql)
                 continue
 
             found_group = False
             for group_id, group_sqls in sql_groups.items():
-                eq_tag, ce_path = check_equivalence(sql, group_sqls[0], None, args.fuzz_db_dir, db_id, sql_equiv_mode.exec, args.benchmark)
+                eq_tag, ce_path = check_equivalence(sql, group_sqls[0], None, schema_db_dir, args.fuzz_db_dir, db_id, sql_equiv_mode.exec, args.benchmark)
                 # if ce_path is not None:
                 #     os.unlink(ce_path)
 
@@ -90,7 +92,5 @@ if __name__ == '__main__':
 
     parser.add_argument("--benchmark", type=str, default=benchmark_type.spider)
     args = parser.parse_args()
-
-    globals.set_refine_step(refine_steps.original)
 
     evaluate(args)

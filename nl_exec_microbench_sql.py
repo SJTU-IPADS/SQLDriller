@@ -5,7 +5,6 @@ import random
 
 from tqdm import tqdm
 
-import globals
 from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
 from utils.constants import *
 from utils.sql_utils import order_matters
@@ -92,7 +91,5 @@ if __name__ == '__main__':
 
     if not os.path.exists(args.save_dir):
         os.makedirs(args.save_dir)
-
-    globals.set_refine_step(refine_steps.original)
 
     evaluate(args)

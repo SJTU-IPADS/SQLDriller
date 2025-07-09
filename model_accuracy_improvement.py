@@ -5,11 +5,10 @@ import os
 import sqlglot
 from sqlglot.expressions import Literal
 
-import globals
 from dataset_refine import get_pred_exec_results, ask_gpt_for_exec_res, get_pred_scores, log_exec_ce
 from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
 from utils.constants import *
-from utils.path_utils import SAVE_ISSUE_DIR
+from utils.path_utils import METADATA_FILE_PATHS, TABLE_FILE, SCHEMA_DB_DIR, SCHEMA_FILE_DIR
 from utils.sql_utils import order_matters, is_valid_sql, get_schema_ddl
 from utils.sqlite_utils import exec_on_db_
 from utils.utils import check_equivalence, simplify_ce
@@ -38,9 +37,14 @@ def judge_order_matters(infer_predictions: list[str]):
 def handle_pred_selection(case_preds, item, args) -> str:
         case_id, db_id, nlq, evidence = item['id'], item['db_id'], item['question'], item['evidence']
         assert case_preds[case_id]["id"] == case_id
+
+        schema_table_file_path = METADATA_FILE_PATHS[args.benchmark][refine_steps.gold_checked][TABLE_FILE]
+        schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.gold_checked][SCHEMA_DB_DIR]
+        schema_file_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.gold_checked][SCHEMA_FILE_DIR]
+        schema_ddl = get_schema_ddl(db_id, schema_file_dir)
+
         infer_predictions_unchecked = list(set(case_preds[case_id]["infer_predictions"][0]))
-        schema_ddl = get_schema_ddl(db_id, args.benchmark, True)
-        infer_predictions = [sql for sql in infer_predictions_unchecked if is_valid_sql(sql, db_id, args.benchmark)]
+        infer_predictions = [sql for sql in infer_predictions_unchecked if is_valid_sql(sql, db_id, schema_db_dir)]
         infer_predictions = [sql for sql in infer_predictions if get_limit_k(sql) < 10]
 
         order_matters_option = judge_order_matters(infer_predictions)
@@ -63,7 +67,7 @@ def handle_pred_selection(case_preds, item, args) -> str:
                 if already_has_ce:
                     continue
 
-                eq_tag, ce_path = check_equivalence(pred1, pred2, schema_ddl, None, db_id, args.sql_equiv_mode, args.benchmark, args.CEA, case_id, args.cea_path)
+                eq_tag, ce_path = check_equivalence(pred1, pred2, schema_ddl, schema_db_dir, None, db_id, args.sql_equiv_mode, args.benchmark, args.CEA, case_id, args.cea_path)
                 if eq_tag == EQ_TAG or eq_tag == EMPTY_TAG:
                     continue
                 assert ce_path is not None
@@ -72,8 +76,13 @@ def handle_pred_selection(case_preds, item, args) -> str:
                     candidate_pred_ce_paths.append(simplified_ce_path)
         if len(candidate_pred_ce_paths) != 0:
             candidate_pred_ce_res_list = get_pred_exec_results(candidate_preds, candidate_pred_ce_paths)
-            gpt_ce_res = ask_gpt_for_exec_res(args, case_id, nlq, db_id, candidate_preds, candidate_pred_ce_paths,
-                                              order_matters_option, benchmark=args.benchmark, evidence=evidence)
+
+            gpt_log_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
+            gpt_ce_res = ask_gpt_for_exec_res(nlq, candidate_preds,
+                                              db_id, schema_db_dir, candidate_pred_ce_paths, gpt_log_dir,
+                                              order_matters_option=order_matters_option,
+                                              column_slim_option=(args.benchmark == benchmark_type.bird),
+                                              evidence=evidence)
             candidate_pred_scores = get_pred_scores(candidate_preds, candidate_pred_ce_paths,
                                                     candidate_pred_ce_res_list,
                                                     gpt_ce_res, order_matters_option)
@@ -87,8 +96,7 @@ def handle_pred_selection(case_preds, item, args) -> str:
             if replaced_gold is None:
                 replaced_gold = candidate_preds[max_indexes[0]]
 
-            log_exec_ce(args.save_dir,
-                        case_id,
+            log_exec_ce(gpt_log_dir,
                         gpt_ce_res,
                         candidate_pred_ce_paths,
                         candidate_preds,
@@ -146,8 +154,6 @@ if __name__ == '__main__':
     parser.add_argument("--end_id", type=int, default=-1)
 
     args = parser.parse_args()
-    
-    globals.set_refine_step(refine_steps.gold_checked)
-    
+
     main(args)
     

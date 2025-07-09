@@ -4,8 +4,6 @@ from collections import OrderedDict
 import jpype
 import os
 
-import globals
-from third_party.c3 import api as C3_MODEL
 from third_party.test_suite_sql_eval.evaluation import evaluate_exec, exact_match
 from third_party.test_suite_sql_eval.minimize_ce import minimize_ce
 from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
@@ -46,10 +44,10 @@ def check_equivalence_by_sqlsolver(sql1: str, sql2: str, schema: str, timeout: i
 """
 SQL functions
 """
-def check_equivalence(gold, pred, ddl, db_dir, db_id, mode, benchmark, CEA=False, case_id=None, cea_path=None) -> (int, str):
+def check_equivalence(gold, pred, ddl, schema_db_dir, db_dir, db_id, mode, benchmark, CEA=False, case_id=None, cea_path=None) -> (int, str):
     if mode == sql_equiv_mode.exec:
         try:
-            exec_result, ce_path = evaluate_exec(gold, pred, db_dir, db_id, benchmark, CEA, case_id, cea_path)
+            exec_result, ce_path = evaluate_exec(gold, pred, schema_db_dir, db_dir, db_id, benchmark, CEA, case_id, cea_path)
             return (EQ_TAG, ce_path) if exec_result == 1 else ((NEQ_TAG, ce_path) if exec_result == 0 else (EMPTY_TAG, ce_path))
         except Exception as e:
             print("Exception in %s mode: %s" % (mode, e))
@@ -60,17 +58,21 @@ def check_equivalence(gold, pred, ddl, db_dir, db_id, mode, benchmark, CEA=False
             if str(result) == 'EQ':
                 return EQ_TAG, None
             else:
-                exec_result, ce_path = evaluate_exec(gold, pred, db_dir, db_id, benchmark, CEA, case_id, cea_path)
+                exec_result, ce_path = evaluate_exec(gold, pred, schema_db_dir, db_dir, db_id, benchmark, CEA, case_id, cea_path)
                 return (EQ_TAG, ce_path) if exec_result == 1 else ((NEQ_TAG, ce_path) if exec_result == 0 else (EMPTY_TAG, ce_path))
         except Exception as e:
             print("Exception in %s mode: %s" % (mode, e))
-            exec_result, ce_path = evaluate_exec(gold, pred, db_dir, db_id, benchmark, CEA, case_id, cea_path)
+            exec_result, ce_path = evaluate_exec(gold, pred, schema_db_dir, db_dir, db_id, benchmark, CEA, case_id, cea_path)
             return (EQ_TAG, ce_path) if exec_result == 1 else ((NEQ_TAG, ce_path) if exec_result == 0 else (EMPTY_TAG, ce_path))
     else:
         assert False, "Currently do not support %s mode" % mode
 
 
-def filter_meaningless_sql(candidates: list[str], db_dir: str, db_id: str, benchmark) -> list[str]:
+def filter_meaningless_sql(candidates: list[str],
+                           db_id: str,
+                           db_dir: str,
+                           schema_table_file_path: str,
+                           schema_db_dir: str) -> list[str]:
     """
     1. deduplicate by exact-match
     2. drop SQLs with invalid syntax (by execution)
@@ -83,14 +85,14 @@ def filter_meaningless_sql(candidates: list[str], db_dir: str, db_id: str, bench
             duplicate_flag = False
             for sql in res:
                 try:
-                    if exact_match(candidate, sql, db_dir, db_id, benchmark):
+                    if exact_match(candidate, sql, db_id, db_dir, schema_table_file_path):
                         duplicate_flag = True
                         break
                 except Exception as e:
                     duplicate_flag = False
             if not duplicate_flag:
                 res.append(candidate)
-    res = [sql for sql in res if is_valid_sql(sql, db_id, benchmark)]
+    res = [sql for sql in res if is_valid_sql(sql, db_id, schema_db_dir)]
     return res
 
 

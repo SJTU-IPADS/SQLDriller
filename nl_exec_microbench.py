@@ -6,9 +6,9 @@ import random
 
 from tqdm import tqdm
 
-import globals
 from dataset_refine import log_gpt_reply
 from utils.llm_utils import GPT_4_TURBO
+from utils.path_utils import METADATA_FILE_PATHS, SCHEMA_FILE_DIR, SCHEMA_DB_DIR
 from utils.utils import get_gpt_nl_res_list, pick_majority_result
 from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
 from utils.constants import *
@@ -48,7 +48,7 @@ def log_nl_exec(save_dir,
         json.dump([score, ground_truth_res_json, gpt_res_json], f, indent=2)
 
 
-def check_nl_exec_res(args, case_id, db_id, nlq, evidence, sqls, order_matters_option):
+def check_nl_exec_res(args, case_id, schema_db_dir, db_id, nlq, evidence, sqls, order_matters_option):
     instance_cnt = 0
     correct_instance_cnt = 0
 
@@ -78,7 +78,7 @@ def check_nl_exec_res(args, case_id, db_id, nlq, evidence, sqls, order_matters_o
         reply_list = []
         try:
             # NL execution
-            data_info_prompt = encode_schema_and_data_prompt(db_id, [sqls[0]], instance_path, args.benchmark)
+            data_info_prompt = encode_schema_and_data_prompt(db_id, [sqls[0]], schema_db_dir, instance_path)
             gpt_exec_nl_res_list, reply_list = \
                 get_gpt_nl_res_list(data_info_prompt, nlq, evidence=evidence, n=args.n, gpt_model=args.gpt_model)
             nl_exec_res = pick_majority_result(gpt_exec_nl_res_list, order_matters=order_matters_option)
@@ -105,7 +105,8 @@ def check_nl_exec_res(args, case_id, db_id, nlq, evidence, sqls, order_matters_o
             res_tags.append(res_tag)
 
             log_prompt = data_info_prompt + "\n\n" + nlq + ("\n\n" + evidence if evidence is not None else "")
-            log_gpt_reply(args.save_dir, case_id, i, log_prompt, reply_list)
+            log_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
+            log_gpt_reply(log_dir, i, log_prompt, reply_list)
 
     log_nl_exec(args.save_dir,
                 case_id,
@@ -127,6 +128,8 @@ def evaluate(args, seed=0):
     random.shuffle(metadata)
     metadata_microbench = sorted(metadata[:args.microbench_size], key=lambda x: x["id"])
 
+    schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_DB_DIR]
+
     total_instance_cnt = 0
     total_correct_instance_cnt = 0
     for item in tqdm(metadata_microbench):
@@ -140,7 +143,7 @@ def evaluate(args, seed=0):
         print("Evaluating case %s" % case_id)
 
         ce_cnt_case, correct_exec_cnt_case = \
-            check_nl_exec_res(args, case_id, db_id, nlq, evidence, sqls, order_matters_option)
+            check_nl_exec_res(args, case_id, schema_db_dir, db_id, nlq, evidence, sqls, order_matters_option)
         total_instance_cnt += ce_cnt_case
         total_correct_instance_cnt += correct_exec_cnt_case
 
@@ -170,7 +173,5 @@ if __name__ == '__main__':
 
     if not os.path.exists(args.save_dir):
         os.makedirs(args.save_dir)
-
-    globals.set_refine_step(refine_steps.original)
 
     evaluate(args)

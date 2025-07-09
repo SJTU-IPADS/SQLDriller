@@ -6,8 +6,7 @@ import traceback
 from tqdm import tqdm
 from collections import OrderedDict
 
-import globals
-from utils.path_utils import SAVE_ISSUE_DIR
+from utils.path_utils import METADATA_FILE_PATHS, TABLE_FILE, SCHEMA_DB_DIR, SCHEMA_FILE_DIR
 from utils.constants import *
 from utils.prompt_utils import encode_schema_and_data_prompt
 from utils.sql_utils import order_matters, is_valid_sql, get_schema_ddl
@@ -17,50 +16,48 @@ from utils.utils import check_equivalence, get_gpt_nl_res_list, pick_majority_re
 from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
 
 
-def ask_gpt_for_exec_res(args,
-                         case_id,
-                         nlq: str,
-                         db_id: str,
+def ask_gpt_for_exec_res(nlq: str,
                          sqls: list[str],
-                         all_ce_paths: list[str],
-                         order_matters_option: bool,
-                         benchmark: str,
+                         db_id: str,
+                         schema_db_dir: str,
+                         ce_paths: list[str],
+                         log_dir,
+                         order_matters_option: bool = False,
+                         column_slim_option: bool = False,
                          evidence=None) -> list:
-    case_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
-    if not os.path.exists(case_dir):
-        os.makedirs(case_dir)
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
 
     gpt_ce_res = []
-    for ce_path in all_ce_paths:
-        data_info_prompt = encode_schema_and_data_prompt(db_id, sqls, ce_path, benchmark, column_slim=(benchmark == benchmark_type.bird))
-        with open(os.path.join(case_dir, "ce.txt"), 'a') as f:
+    for ce_path in ce_paths:
+        data_info_prompt = encode_schema_and_data_prompt(db_id, sqls, schema_db_dir, ce_path, column_slim=column_slim_option)
+        with open(os.path.join(log_dir, "ce.txt"), 'a') as f:
             f.write("-----%s-----\n" % ce_path)
             f.write('%s\n' % data_info_prompt)
         try:
             gpt_ce_res_self_consistency, reply_list = \
-                get_gpt_nl_res_list(data_info_prompt, nlq, evidence=evidence, n=(1 if len(all_ce_paths) > 5 else 5))
+                get_gpt_nl_res_list(data_info_prompt, nlq, evidence=evidence, n=(1 if len(ce_paths) > 5 else 5))
             gpt_res_majority = pick_majority_result(gpt_ce_res_self_consistency, order_matters=order_matters_option)
         except Exception as e:
             gpt_ce_res_self_consistency, reply_list = None, [traceback.format_exc()]
             gpt_res_majority = None
 
         log_prompt = data_info_prompt + "\n\n" + nlq + ("\n\n" + evidence if evidence is not None else "")
-        log_gpt_reply(args.save_dir, case_id, all_ce_paths.index(ce_path), log_prompt, reply_list)
+        log_gpt_reply(log_dir, ce_paths.index(ce_path), log_prompt, reply_list)
 
         gpt_ce_res.append(gpt_res_majority)
 
     return gpt_ce_res
 
 
-def log_gpt_reply(save_dir,
-                  case_id,
+def log_gpt_reply(log_dir,
                   instance_id,
                   prompt,
                   reply_list):
-    case_log_dir = os.path.join(save_dir, "exec_res", str(case_id), "log")
-    if not os.path.exists(case_log_dir):
-        os.makedirs(case_log_dir)
-    with open(os.path.join(case_log_dir, f"exec_ce{instance_id}.log"), "w") as f:
+    log_subdir = os.path.join(log_dir, "log")
+    if not os.path.exists(log_subdir):
+        os.makedirs(log_subdir)
+    with open(os.path.join(log_subdir, f"exec_ce{instance_id}.log"), "w") as f:
         f.write("----------CURRENT_PROMPT----------\n" + prompt + "\n")
         for i in range(len(reply_list)):
             f.write("----------REPLY %d----------\n" % i + reply_list[i] + "\n")
@@ -110,16 +107,21 @@ def judge_gold(item, args):
     case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
     evidence = item["evidence"] if "evidence" in item else None
     infer_predictions = item['infer_predictions'][0]
-    infer_predictions = filter_meaningless_sql(infer_predictions, args.fuzz_db_dir, db_id, args.benchmark)
+
+    schema_table_file_path = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][TABLE_FILE]
+    schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_DB_DIR]
+    schema_file_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_FILE_DIR]
+    schema_ddl = get_schema_ddl(db_id, schema_file_dir)
+
+    infer_predictions = filter_meaningless_sql(infer_predictions, db_id, args.fuzz_db_dir, schema_table_file_path, schema_db_dir)
     order_matters_option = order_matters(gold)
-    schema_ddl = get_schema_ddl(db_id, args.benchmark, True)
 
     all_preds = []
     all_ce_paths = []
     gold_ce_res_list = OrderedDict()
     # Collect counterexamples
     for infer_pred in infer_predictions:
-        if infer_pred in all_preds or not is_valid_sql(infer_pred, db_id, args.benchmark):
+        if infer_pred in all_preds or not is_valid_sql(infer_pred, db_id, schema_db_dir):
             continue
         all_preds.append(infer_pred)
 
@@ -133,7 +135,7 @@ def judge_gold(item, args):
         if already_has_ce:
             continue
 
-        eq_tag, ce_path = check_equivalence(gold, infer_pred, schema_ddl, args.fuzz_db_dir, db_id, args.sql_equiv_mode, args.benchmark)
+        eq_tag, ce_path = check_equivalence(gold, infer_pred, schema_ddl, schema_db_dir, args.fuzz_db_dir, db_id, args.sql_equiv_mode, args.benchmark)
         if eq_tag == EQ_TAG or eq_tag == EMPTY_TAG:
             continue
         assert ce_path is not None
@@ -150,13 +152,17 @@ def judge_gold(item, args):
     # Collect exec results of gold, predictions, gpt
     pred_ce_res_list = get_pred_exec_results(all_preds, all_ce_paths)
 
-    gpt_ce_res = ask_gpt_for_exec_res(args, case_id, nlq, db_id, [gold] + all_preds, all_ce_paths, order_matters_option, args.benchmark, evidence)
+    gpt_log_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
+    gpt_ce_res = ask_gpt_for_exec_res(nlq, [gold] + all_preds,
+                                      db_id, schema_db_dir, all_ce_paths, gpt_log_dir,
+                                      order_matters_option=order_matters_option,
+                                      column_slim_option=(args.benchmark == benchmark_type.bird),
+                                      evidence=evidence)
 
     gold_score = get_gold_score(all_ce_paths, gold_ce_res_list, gpt_ce_res, order_matters_option)
     pred_scores = get_pred_scores(all_preds, all_ce_paths, pred_ce_res_list, gpt_ce_res, order_matters_option)
     
-    log_exec_ce(args.save_dir,
-                case_id,
+    log_exec_ce(gpt_log_dir,
                 gpt_ce_res,
                 all_ce_paths,
                 all_preds,
@@ -190,7 +196,7 @@ def judge_gold(item, args):
                     if already_has_ce:
                         continue
 
-                    eq_tag, ce_path = check_equivalence(pred1, pred2, schema_ddl, args.fuzz_db_dir, db_id, args.sql_equiv_mode, args.benchmark)
+                    eq_tag, ce_path = check_equivalence(pred1, pred2, schema_ddl, schema_db_dir, args.fuzz_db_dir, db_id, args.sql_equiv_mode, args.benchmark)
                     if eq_tag == EQ_TAG or eq_tag == EMPTY_TAG:
                         continue
                     assert ce_path is not None
@@ -199,7 +205,11 @@ def judge_gold(item, args):
                         candidate_pred_ce_paths.append(simplified_ce_path)
             if len(candidate_pred_ce_paths) != 0:
                 candidate_pred_ce_res_list = get_pred_exec_results(candidate_preds, candidate_pred_ce_paths)
-                gpt_ce_res = ask_gpt_for_exec_res(args, case_id, nlq, db_id, candidate_preds, candidate_pred_ce_paths, order_matters_option, args.benchmark, evidence)
+                gpt_ce_res = ask_gpt_for_exec_res(nlq, candidate_preds,
+                                                  db_id, schema_db_dir, candidate_pred_ce_paths, gpt_log_dir,
+                                                  order_matters_option=order_matters_option,
+                                                  column_slim_option=(args.benchmark == benchmark_type.bird),
+                                                  evidence=evidence)
                 candidate_pred_scores = get_pred_scores(candidate_preds, candidate_pred_ce_paths, candidate_pred_ce_res_list, gpt_ce_res, order_matters_option)
                 max_indexes = [i for i, x in enumerate(candidate_pred_scores) if x == max(candidate_pred_scores)]
                 if not order_matters_option:
@@ -210,8 +220,7 @@ def judge_gold(item, args):
                 if replaced_gold is None:
                     replaced_gold = candidate_preds[max_indexes[0]]
 
-                log_exec_ce(args.save_dir,
-                            case_id,
+                log_exec_ce(gpt_log_dir,
                             gpt_ce_res,
                             candidate_pred_ce_paths,
                             candidate_preds,
@@ -229,8 +238,7 @@ def judge_gold(item, args):
     return replaced_gold, exec_consistent
 
 
-def log_exec_ce(save_dir,
-                case_id,
+def log_exec_ce(log_dir,
                 gpt_ce_res: list,
                 ce_paths: list[str],
                 preds: list[str],
@@ -239,9 +247,8 @@ def log_exec_ce(save_dir,
                 gold=None,
                 gold_ce_res_list=None,
                 gold_score=-1):
-    case_dir = os.path.join(save_dir, "exec_res", str(case_id))
-    if not os.path.exists(case_dir):
-        os.makedirs(case_dir)
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
     ce_res_json = []
     gpt_res = {}
     for i in range(len(ce_paths)):
@@ -249,7 +256,7 @@ def log_exec_ce(save_dir,
     ce_res_json.append(gpt_res)
 
     task_name = "gold_pred_ce_res" if gold is not None else "pred_ce_res"
-    with open(os.path.join(case_dir, task_name + ".json"), "w") as f:
+    with open(os.path.join(log_dir, task_name + ".json"), "w") as f:
         if gold is not None:
             gold_res = {"gold": gold, "score": gold_score}
             for ce_path in ce_paths:
@@ -373,8 +380,6 @@ if __name__ == '__main__':
     parser.add_argument("--modified_gold_save_file", type=str, default="modified_gold.tsv")
     parser.add_argument("--modified_dataset_save_file", type=str, default="modified.json")
     args = parser.parse_args()
-
-    globals.set_refine_step(refine_steps.original)
 
     evaluate(args)
 

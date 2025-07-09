@@ -4,10 +4,9 @@ import json, os, random
 import time
 from tqdm import tqdm
 
-import globals
 from utils.constants import *
 from utils.llm_utils import *
-from utils.path_utils import SAVE_ISSUE_DIR
+from utils.path_utils import SAVE_ISSUE_DIR, METADATA_FILE_PATHS, SCHEMA_DB_DIR
 from utils.prompt_utils import encode_schema_and_data_prompt
 
 import asyncio
@@ -68,7 +67,7 @@ CHOSEN_TIMES_THRESHOLD = 2
 temperature = 1.0
 
 
-def get_multiple_prompts(args, db_id, nlq, evidence, infer_predictions, gold=None):
+def get_multiple_prompts(schema_db_dir, db_id, nlq, evidence, infer_predictions, gold=None):
     prompts = []
     prompt_templates = []
 
@@ -79,7 +78,7 @@ def get_multiple_prompts(args, db_id, nlq, evidence, infer_predictions, gold=Non
 
     for prompt_template in prompt_templates:
         all_sqls = infer_predictions if gold is None else infer_predictions + [gold]
-        schema = encode_schema_and_data_prompt(db_id, all_sqls, None, args.benchmark, concrete_data=False)
+        schema = encode_schema_and_data_prompt(db_id, all_sqls, schema_db_dir, None, concrete_data=False)
 
         sql_option_prompt = ""
         if gold is not None:  # Add gold SQL to the prompt
@@ -101,10 +100,10 @@ def get_multiple_prompts(args, db_id, nlq, evidence, infer_predictions, gold=Non
     return prompts
 
 
-def infer_confidence_scores(args, db_id, nlq, evidence, infer_predictions, gold=None):
+def infer_confidence_scores(schema_db_dir, db_id, nlq, evidence, infer_predictions, gold=None):
     confidence_score_list = {}
 
-    prompts = get_multiple_prompts(args, db_id, nlq, evidence, infer_predictions, gold=gold)
+    prompts = get_multiple_prompts(schema_db_dir, db_id, nlq, evidence, infer_predictions, gold=gold)
     # Run async processing
     results = []
     for i in range(0, len(prompts), BATCH_SIZE):
@@ -151,6 +150,8 @@ def evaluate(args):
         os.makedirs(save_dir_path)
         os.makedirs(os.path.join(save_dir_path, "exec_res"))
 
+    schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_DB_DIR]
+
     for _, item in tqdm(enumerate(data_items)):
         case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
         evidence = item['evidence'] if args.benchmark == benchmark_type.bird else None
@@ -163,7 +164,6 @@ def evaluate(args):
 
         if (args.start_id >= 0 and case_id < args.start_id) or (args.end_id >= 0 and case_id > args.end_id):
             continue
-        # globals.CURRENT_CASE_ID = case_id
         print("Check LLM consistency baseline for case %d" % case_id)
 
         if len(infer_predictions) == 0:
@@ -176,7 +176,7 @@ def evaluate(args):
                     # f.write("%d\t%s\n" % (case_id, "sql placeholder"))
             continue
 
-        confidence_scores = infer_confidence_scores(args, db_id, nlq, evidence, infer_predictions, gold=gold if args.contain_gold else None)
+        confidence_scores = infer_confidence_scores(schema_db_dir, db_id, nlq, evidence, infer_predictions, gold=gold if args.contain_gold else None)
         log_exec_ce(args, case_id, gold, infer_predictions, confidence_scores)
 
         # Candidates chosen at least CHOSEN_TIMES_THRESHOLD times are concerned
@@ -214,7 +214,5 @@ if __name__ == '__main__':
     parser.add_argument("--save_subdir", type=str, default="run" + datetime.datetime.now().strftime("%Y%m%d-%H:%M"))
     parser.add_argument("--save_file", type=str, default="modified_gold.tsv")
     args = parser.parse_args()
-
-    globals.set_refine_step(refine_steps.original)
 
     evaluate(args)

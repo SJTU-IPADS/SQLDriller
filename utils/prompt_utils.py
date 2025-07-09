@@ -15,15 +15,15 @@ select_all_query = "SELECT * from `%s`;"
 
 def encode_schema_and_data_prompt(
         db_id,
-        sqls: list[str],
+        sqls,
+        schema_db_dir,
         ce_path,
-        benchmark: str,
         concrete_data=True,
         cascade=False,
         column_slim=False):
     assert not concrete_data or ce_path is not None
 
-    table2column_properties, pks, fks = get_schema_properties(db_id, benchmark)
+    table2column_properties, pks, fks = get_schema_properties(db_id, schema_db_dir)
     sqls = [sql.strip().strip(";") for sql in sqls]
     all_used_tables = \
         [tbl_name for tbl_name in table2column_properties.keys()

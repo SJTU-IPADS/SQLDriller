@@ -22,17 +22,13 @@
 import json
 import os
 import sqlite3
-import uuid
-from shutil import copyfile
 
 from utils.db_info.writedb import init_empty_db_from_orig_
 from third_party.test_suite_sql_eval.utils.exec_eval import eval_exec_match, eval_exec_match_on_one_sqlite
 from third_party.test_suite_sql_eval.utils.process_sql import get_schema, Schema, get_sql
-from utils.constants import *
 from third_party.test_suite_sql_eval.check_equivance_by_verieql import check_equivalence_by_verieql
 from utils.sql_utils import get_schema_properties, order_matters
-from utils.path_utils import METADATA_FILE_PATHS, TABLE_FILE, SCHEMA_DB_DIR
-import globals
+
 
 # Flag to disable value evaluation
 DISABLE_VALUE = True
@@ -572,15 +568,15 @@ def build_foreign_key_map_from_json(table):
     return tables
 
 
-def exact_match(gold: str, pred: str, db_dir: str, db_name: str, benchmark) -> bool:
+def exact_match(gold, pred, db_name, db_dir_path, schema_table_file_path) -> bool:
     if gold.strip() == pred.strip():
         return True
 
-    if not os.path.exists(os.path.join(db_dir, db_name)):
+    if not os.path.exists(db_dir_path):
         return False
 
-    db_file = os.path.join(db_dir, db_name, [file for file in os.listdir(os.path.join(db_dir, db_name)) if '.sqlite' in file][0])
-    kmaps = build_foreign_key_map_from_json(METADATA_FILE_PATHS[benchmark][globals.CURRENT_REFINE_STEP][TABLE_FILE])
+    db_file = os.path.join(db_dir_path, [file for file in os.listdir(db_dir_path) if '.sqlite' in file][0])
+    kmaps = build_foreign_key_map_from_json(schema_table_file_path)
     return evaluate_exact_match(gold, pred, db_name, db_file, kmaps)
 
 
@@ -609,11 +605,18 @@ INVOKE_TEST_SUITE_COUNT = 0
 INVOKE_VERIEQL_COUNT = 0
 
 
-def evaluate_exec(gold: str, pred: str, db_dir: str, db_name: str, benchmark: str, CEA=False, case_id=None, cea_path=None):
+def evaluate_exec(gold: str,
+                  pred: str,
+                  schema_db_dir: str,
+                  db_dir: str,
+                  db_name: str,
+                  benchmark: str,
+                  CEA=False,
+                  case_id=None,
+                  cea_path=None):
     global INVOKE_VERIEQL_COUNT, INVOKE_TEST_SUITE_COUNT
 
-    schema_properties = get_schema_properties(db_name, benchmark)
-    schema_db_dir = METADATA_FILE_PATHS[benchmark][globals.CURRENT_REFINE_STEP][SCHEMA_DB_DIR]
+    schema_properties = get_schema_properties(db_name, schema_db_dir)
 
     # VeriEQL
     eq_tag_verieql, insert_queries = check_equivalence_by_verieql(gold, pred, schema_properties, db_name, 3, benchmark)
