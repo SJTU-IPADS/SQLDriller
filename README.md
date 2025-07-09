@@ -100,21 +100,21 @@ The results are shown in `./results/study/`:
 ### 2. Natural Language (NL) Execution
 
 Run the following scripts to perform Spider and BIRD's NL execution tasks on generated database instances.
-(The generated database instances for NL execution have been prepared in `./prepared/{dataset}/microbench/`.)
+(The generated database instances for NL execution have been prepared in `./prepared/{benchmark}/microbench/`.)
 ```shell
 ./click_to_run/nl.exec.sh spider gpt-4o
 ./click_to_run/nl.exec.sh bird gpt-4o
 ```
-- The first parameter represents the dataset name (Options: `spider`, `bird`).
+- The first parameter represents the benchmark name (Options: `spider`, `bird`).
 - The second parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1-preview`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
 
 As to evaluating the scalability to enterprise dataset **Beaver**, run:
 ```shell
 ./click_to_run/nl_exec_enterprise.sh gpt-4o
 ```
-All the related results are shown in `./results/nl_exec/{dataset_name}_{LLM_name}/`:
+All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/`:
 ```
-./results/microbench/{dataset_name}_{LLM_name}/
+./results/microbench/{benchmark}_{LLM_name}/
 |-- exec_res/                   # Execution logs of each case
 |-- nl_exec_accuracy.txt        # Results of NL exeuction accuracy
 ```
@@ -129,7 +129,7 @@ Run the following command to ***detect and fix*** errors in the datasets.
 ./click_to_run/dataset_refine.sh spider train
 ./click_to_run/dataset_refine.sh bird train
 ```
-- The first parameter represents the dataset name (Options: `spider`, `bird`). 
+- The first parameter represents the benchmark name (Options: `spider`, `bird`). 
 - The second parameter represents the dataset split (Options: `train`, `dev`, `test`). We here only fix the train set. The dev and test set have been manually checked for accuracy evaluation as mentioned in the paper. 
 
 Optional: run the following command to do the same thing using LLM Consistency-based baseline:
@@ -144,9 +144,9 @@ Then run the following command to evaluate the effectiveness of SQLDriller and t
 ./click_to_run/dataset_refine_eval.sh bird
 ```
 
-The results are shown in `./results/issues/{dataset_name}_train/`:
+The results are shown in `./results/dataset_refine/{benchmark}_train/`:
 ```
-./results/issues/{dataset_name}_train/
+./results/dataset_refine/{benchmark}_train/
 |-- SQLDriller/     # SQLDriller's results
     |-- exec_res/           # Logs of checking each Text-to-SQL case in the dataset
       |-- 0/                    # A subdir for each case id
@@ -156,11 +156,14 @@ The results are shown in `./results/issues/{dataset_name}_train/`:
       |-- 1/
       |-- ...
     |-- modified_gold.tsv   # The fixed gold SQLs in fixed cases
+    |-- modified_gold_tagged.tsv   # The fixed gold SQLs in fixed cases w/ tagged fix results
     |-- train.json          # The fixed dataset file
-|-- baseline/       # Baseline's results
+|-- LLMConsis_baseline/     # Baseline's results
     |-- exec_res/           # Logs of checking each Text-to-SQL case w/ baseline
       |-- ...
-|-- stats.json      # The statistics of SQLDriller and LLM Consistency baseline's effectiveness on error detection and fixing
+    |-- modified_gold.tsv   # The fixed gold SQLs in fixed cases
+    |-- modified_gold_tagged.tsv   # The fixed gold SQLs in fixed cases w/ tagged fix results
+|-- statistics.txt    # The statistics of SQLDriller and LLM Consistency baseline's effectiveness on error detection and fixing
 ```
 
 #### 3.2 Model Accuracy Evaluation

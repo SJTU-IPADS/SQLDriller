@@ -316,7 +316,7 @@ def evaluate(args):
             replaced_gold if replaced_gold is not None else gold
         fixed_dataset_items.append(fixed_case_item)
         if case_id % 10 == 0:  # dump results for each 10 cases as checkpoint
-            with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'w') as f:
+            with open(os.path.join(args.save_dir, args.modified_dataset_save_file), 'w') as f:
                 json.dump(fixed_dataset_items, f, indent=2)
 
     # After all partitions are processed, combine results if all records are present

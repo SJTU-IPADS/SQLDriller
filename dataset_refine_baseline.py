@@ -2,11 +2,13 @@ import argparse
 import datetime
 import json, os, random
 import time
+
+import pandas as pd
 from tqdm import tqdm
 
 from utils.constants import *
 from utils.llm_utils import *
-from utils.path_utils import SAVE_ISSUE_DIR, METADATA_FILE_PATHS, SCHEMA_DB_DIR
+from utils.path_utils import METADATA_FILE_PATHS, SCHEMA_DB_DIR
 from utils.prompt_utils import encode_schema_and_data_prompt
 
 import asyncio
@@ -122,14 +124,12 @@ def infer_confidence_scores(schema_db_dir, db_id, nlq, evidence, infer_predictio
     return confidence_scores
 
 
-def log_exec_ce(args, case_id, gold, preds, confidence_scores: dict):
-    case_dir = os.path.join(SAVE_ISSUE_DIR, args.save_subdir, "exec_res", str(case_id))
-    if not os.path.exists(case_dir):
-        os.makedirs(case_dir)
+def log_exec_ce(log_dir, gold, preds, confidence_scores: dict):
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
 
     llm_confidence_res_json = []
-    task_name = "llm_confidence"
-    with open(os.path.join(case_dir, task_name + ".json"), "w") as f:
+    with open(os.path.join(log_dir, "llm_confidence.json"), "w") as f:
         if gold is not None:
             if "g" in confidence_scores.keys():
                 gold_res = {"gold": gold, "output times": confidence_scores["g"][0], "logprob": confidence_scores["g"][1]}
@@ -142,17 +142,21 @@ def log_exec_ce(args, case_id, gold, preds, confidence_scores: dict):
 
 
 def evaluate(args):
-    with open(args.gpt_predictions_path) as f:
-        data_items = json.load(f)
+    with open(args.sql_candidates_path) as f:
+        candidate_items = json.load(f)
 
-    save_dir_path = os.path.join(SAVE_ISSUE_DIR, args.save_subdir)
-    if not os.path.exists(save_dir_path):
-        os.makedirs(save_dir_path)
-        os.makedirs(os.path.join(save_dir_path, "exec_res"))
+    if not os.path.exists(args.save_dir):
+        os.makedirs(args.save_dir)
+        os.makedirs(os.path.join(args.save_dir, "exec_res"))
+
+    sampled_case_ids = None
+    if args.sample_case_ref_file is not None:
+        sampled_case_records = pd.read_csv(args.groundtruth_file, sep='\t', usecols=['case_id']).to_dict(orient='records')
+        sampled_case_ids = sorted([int(record['case_id']) for record in sampled_case_records])
 
     schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_DB_DIR]
 
-    for _, item in tqdm(enumerate(data_items)):
+    for _, item in tqdm(enumerate(candidate_items)):
         case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
         evidence = item['evidence'] if args.benchmark == benchmark_type.bird else None
         infer_predictions = item['infer_predictions'][0]
@@ -164,20 +168,24 @@ def evaluate(args):
 
         if (args.start_id >= 0 and case_id < args.start_id) or (args.end_id >= 0 and case_id > args.end_id):
             continue
+
+        if sampled_case_ids is not None and case_id not in sampled_case_ids:
+            continue
+
         print("Check LLM consistency baseline for case %d" % case_id)
 
+        log_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
         if len(infer_predictions) == 0:
-            log_exec_ce(args, case_id, gold, [], {})
-            with open(os.path.join(save_dir_path, args.save_file), 'a') as f:
+            log_exec_ce(log_dir, gold, [], {})
+            with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'a') as f:
                 if args.contain_gold:
                     f.write("%d\t%s\t%s\n" % (case_id, gold, "-"))
                 else:
                     f.write("sql placeholder" + "\n")
-                    # f.write("%d\t%s\n" % (case_id, "sql placeholder"))
             continue
 
         confidence_scores = infer_confidence_scores(schema_db_dir, db_id, nlq, evidence, infer_predictions, gold=gold if args.contain_gold else None)
-        log_exec_ce(args, case_id, gold, infer_predictions, confidence_scores)
+        log_exec_ce(log_dir, gold, infer_predictions, confidence_scores)
 
         # Candidates chosen at least CHOSEN_TIMES_THRESHOLD times are concerned
         if len(confidence_scores) == 0:
@@ -187,9 +195,9 @@ def evaluate(args):
                            key=lambda x: confidence_scores.get(x)[1] if confidence_scores.get(x)[0] >= CHOSEN_TIMES_THRESHOLD
                            else float('-inf'))
 
-        with open(os.path.join(save_dir_path, args.save_file), 'a') as f:
+        with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'a') as f:
             if args.contain_gold:
-                f.write("%d\t%s\t%s\n" % (case_id, gold, "-" if pred_idx == "g" else infer_predictions[pred_idx]))
+                f.write("%d\t-1\t%s\t%s\n" % (case_id, gold, "-" if pred_idx == "g" else infer_predictions[pred_idx]))
             else:
                 assert pred_idx != -1
                 # f.write(infer_predictions[pred_idx] + "\n")
@@ -205,14 +213,15 @@ if __name__ == '__main__':
     parser.add_argument("--start_id", type=int, default=-1)
     parser.add_argument("--end_id", type=int, default=-1)
 
-    parser.add_argument("--gpt_predictions_path", type=str, required=True)
-    parser.add_argument("--contain_gold", default=False, action="store_true")
+    parser.add_argument("--sql_candidates_path", type=str, required=True)
+    parser.add_argument("--contain_gold", type=bool, default=False, action="store_true")
+    parser.add_argument("--sample_case_reference_file", type=str)
 
     parser.add_argument("--benchmark", type=str, default=benchmark_type.spider)
     parser.add_argument("--dataset_type", type=str, default=dataset_type.train)
 
-    parser.add_argument("--save_subdir", type=str, default="run" + datetime.datetime.now().strftime("%Y%m%d-%H:%M"))
-    parser.add_argument("--save_file", type=str, default="modified_gold.tsv")
+    parser.add_argument("--save_dir", type=str, required=True)
+    parser.add_argument("--modified_gold_save_file", type=str, default="modified_gold.tsv")
     args = parser.parse_args()
 
     evaluate(args)
