@@ -9,7 +9,7 @@ benchmark=$1
 dataset_type="train"
 
 if [[ "$benchmark" != "spider" && "$benchmark" != "bird" ]]; then
-    echo "Not supported dataset. Please specify 'spider' or 'bird' dataset."
+    echo "Not supported benchmark. Please specify 'spider' or 'bird' benchmark."
     exit 1
 
 groundtruth_file="./prepared/${benchmark}/dataset_refine/stats/${dataset_type}.tsv"

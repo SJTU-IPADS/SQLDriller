@@ -90,7 +90,7 @@ As to the statistics of error study, run the following scripts to achieve the re
 ```shell
 ./click_to_run/err_study.sh
 ```
-The results are shown in `./results/study/`:
+The results are shown in `./results/study/` (refer to results of **Figure 2 and 3, and Table 2** in the paper):
 ```
 ./results/study/
 |-- error/    # Error rates of each hardness level, and each schemas.
@@ -105,19 +105,21 @@ Run the following scripts to perform Spider and BIRD's NL execution tasks on gen
 ./click_to_run/nl.exec.sh spider gpt-4o
 ./click_to_run/nl.exec.sh bird gpt-4o
 ```
-- The first parameter represents the benchmark name (Options: `spider`, `bird`).
-- The second parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1-preview`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
+- The 1st parameter represents the benchmark name (Options: `spider`, `bird`).
+- The 2nd parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1-preview`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
 
 As to evaluating the scalability to enterprise dataset **Beaver**, run:
 ```shell
 ./click_to_run/nl_exec_enterprise.sh gpt-4o
 ```
-All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/`:
+
+All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/` (refer to results of **Table 3** in the paper):
 ```
 ./results/microbench/{benchmark}_{LLM_name}/
 |-- exec_res/                   # Execution logs of each case
 |-- nl_exec_accuracy.txt        # Results of NL exeuction accuracy
 ```
+We only evaluate `gpt-4o` by default since other LLMs show comparable NL execution accuracy (**Table 3** in the paper), and `gpt-4o` has relatively low cost and latency.
 
 ### 3. Dataset Refine and Model Accuracy Evaluation
 
@@ -129,10 +131,10 @@ Run the following command to ***detect and fix*** errors in the datasets.
 ./click_to_run/dataset_refine.sh spider train
 ./click_to_run/dataset_refine.sh bird train
 ```
-- The first parameter represents the benchmark name (Options: `spider`, `bird`). 
-- The second parameter represents the dataset split (Options: `train`, `dev`, `test`). We here only fix the train set. The dev and test set have been manually checked for accuracy evaluation as mentioned in the paper. 
+- The 1st parameter represents the benchmark name (Options: `spider`, `bird`). 
+- The 2nd parameter represents the dataset split (Options: `train`, `dev`, `test`). We here only fix the train set. The dev and test set have been manually checked for accuracy evaluation as mentioned in the paper. 
 
-Optional: run the following command to do the same thing using LLM Consistency-based baseline:
+Optional: run the following command to do the same thing using LLM consistency-based baseline:
 ```shell
 ./click_to_run/dataset_refine_baseline.sh spider train
 ./click_to_run/dataset_refine_baseline.sh bird train
@@ -150,7 +152,7 @@ The results are shown in `./results/dataset_refine/{benchmark}_train/`:
 |-- SQLDriller/     # SQLDriller's results
     |-- exec_res/           # Logs of checking each Text-to-SQL case in the dataset
       |-- 0/                    # A subdir for each case id
-        |-- ce.txt                 # Generated counterexample of the case (text form)
+        |-- ce.txt                 # Generated counterexample of the case (qtext form)
         |-- gold_pred_ce_res.json  # Gold and predicted SQLs' exec. results on counterexamples
         |-- pred_ce_res.json       # Predicted SQL's exec. results on counterexamples among them, when ties of their scores happens (see paper for details)
       |-- 1/
@@ -163,14 +165,50 @@ The results are shown in `./results/dataset_refine/{benchmark}_train/`:
       |-- ...
     |-- modified_gold.tsv   # The fixed gold SQLs in fixed cases
     |-- modified_gold_tagged.tsv   # The fixed gold SQLs in fixed cases w/ tagged fix results
-|-- statistics.txt    # The statistics of SQLDriller and LLM Consistency baseline's effectiveness on error detection and fixing
+|-- statistics.txt    # The statistics of SQLDriller and LLM consistency baseline's effectiveness on error detection and fixing
 ```
+View `statistics.txt` for a summary of effectiveness evaluation (refer to results of **Table 5 and 6** in the paper).
+
+Then, `./results/dataset_refine/{benchmark}_train/SQLDriller/train.json` can be used to fine-tune existing models.
+We temporarily omit such scripts of model re-tuning and re-inference in this repo. Refer to the repo of each developed model, and put refined train set file into their repos instead.
 
 #### 3.2 Model Accuracy Evaluation
 
-See `model_accuracy_improvement.py` for SQLDriller's accuracy improvement directly on model inference.
+Run the following command to ***use SQLDriller to improve model inference accuracy directly***.
+```shell
+./click_to_run/inference_optimize.sh spider test dail
+./click_to_run/inference_optimize.sh spider test din
+./click_to_run/inference_optimize.sh spider test resd
 
-**Automatic shell scripts will come out soon.**
+./click_to_run/inference_optimize.sh bird dev sftcodes
+./click_to_run/inference_optimize.sh bird dev codes
+```
+- The 1st parameter represents the benchmark name (Options: `spider`, `bird`). 
+- The 2nd parameter represents the dataset split. `test` set for Spider and `dev` set for BIRD.
+- The 3rd parameter represents the model. We evaluate 5 models in this step, each model providing a file w/ multiple prediction candidates for each test case.
+
+Optional: run the following command to do the same thing using LLM consistency-based baseline:
+```shell
+./click_to_run/inference_optimize_baseline.sh spider test dail
+./click_to_run/inference_optimize_baseline.sh spider test din
+./click_to_run/inference_optimize_baseline.sh spider test resd
+
+./click_to_run/inference_optimize_baseline.sh bird dev sftcodes
+./click_to_run/inference_optimize_baseline.sh bird dev codes
+```
+
+Then run the following command to evaluate the accuracy improvements of all the models:
+```shell
+./click_to_run/inference_accuracy_eval.sh
+``` 
+
+View `statistics.txt` for a summary of accuracy improvements (refer to results of **Table 4 and Figure 11** in the paper).
+
+Note that for each model, it outputs 4 numbers of model accuracy: 
+- accuracy w/ original train set
+- accuracy w/ refined train set
+- accuracy w/ refined train set and SQLDriller's inference optimization
+- accuracy w/ refined train set and LLM consistency baseline's inference optimization
 
 
 ## Reference

@@ -9,15 +9,16 @@ benchmark=$1
 dataset_type=${2:-train}  # Use second parameter if provided, otherwise default to 'train'
 
 if [[ "$benchmark" != "spider" && "$benchmark" != "bird" ]]; then
-    echo "Not supported dataset. Please specify 'spider' or 'bird' dataset."
+    echo "Not supported benchmark. Please specify 'spider' or 'bird' benchmark."
     exit 1
 
-sql_candidates_path="./prepared/${benchmark}/dataset_refine/sqls/${dataset_type}_data.json"
+# only refine sampled cases for comparison
+sql_candidates_path="./prepared/${benchmark}/dataset_refine/sqls/${dataset_type}_data_sampled.json"
 sample_case_reference_file="./prepared/${benchmark}/dataset_refine/stats/${dataset_type}.tsv"
 save_dir="./results/dataset_refine/${benchmark}_${dataset_type}/LLMConsis_baseline"
 
 echo "Run LLM-consistency dataset refining on ${benchmark} ${dataset_type}."
-python dataset_refine_baseline.py \
+python llm_consistency_baseline.py \
     --sql_candidates_path ${sql_candidates_path} \
     --contain_gold \
     --sample_case_reference_file ${sample_case_reference_file} \

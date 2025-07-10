@@ -13,7 +13,7 @@ if [ "$benchmark" = "spider" ]; then
 elif [ "$benchmark" = "bird" ]; then
     dataset_type="dev"
 else
-    echo "Not supported dataset. Please specify 'spider', 'bird' dataset."
+    echo "Not supported benchmark. Please specify 'spider', 'bird' benchmark."
     exit 1
 fi
 

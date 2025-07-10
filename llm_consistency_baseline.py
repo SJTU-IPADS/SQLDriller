@@ -150,7 +150,7 @@ def evaluate(args):
         os.makedirs(os.path.join(args.save_dir, "exec_res"))
 
     sampled_case_ids = None
-    if args.sample_case_ref_file is not None:
+    if args.sample_case_reference_file is not None:
         sampled_case_records = pd.read_csv(args.groundtruth_file, sep='\t', usecols=['case_id']).to_dict(orient='records')
         sampled_case_ids = sorted([int(record['case_id']) for record in sampled_case_records])
 

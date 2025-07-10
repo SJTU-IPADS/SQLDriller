@@ -9,7 +9,7 @@ benchmark=$1
 dataset_type=${2:-train}  # Use second parameter if provided, otherwise default to 'train'
 
 if [[ "$benchmark" != "spider" && "$benchmark" != "bird" ]]; then
-    echo "Not supported dataset. Please specify 'spider' or 'bird' dataset."
+    echo "Not supported benchmark. Please specify 'spider' or 'bird' benchmark."
     exit 1
 
 partition_num = 8
