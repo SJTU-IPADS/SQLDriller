@@ -59,3 +59,4 @@ python nl_exec_microbench_sql.py \
     --dataset_type ${dataset_type} \
     --save_dir ${save_dir_large_table}
 
+echo "[Done] Results are saved in ${save_dir}, and ${save_dir_large_table} for large table size (100)."

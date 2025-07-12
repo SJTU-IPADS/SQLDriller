@@ -40,3 +40,5 @@ for i in $(seq 0 $((${partition_num}-1))); do
         --modified_dataset_save_file "${dataset_type}_${i}.json" \
         >"${log_dir}/log_${i}" 2>&1 &
 done
+
+echo "[Note] Results will be saved in ${save_dir} after the ${partition_num} processes finish."

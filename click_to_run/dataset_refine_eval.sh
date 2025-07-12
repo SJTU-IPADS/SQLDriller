@@ -28,3 +28,5 @@ python dataset_refine_eval.py \
     --output_stat_file ${output_stat_file} \
     --benchmark ${benchmark} \
     --dataset_type ${dataset_type}
+
+echo "[Done] Results are saved in ${output_stat_file} ."

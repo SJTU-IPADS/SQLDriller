@@ -30,3 +30,4 @@ python nl_exec_microbench.py \
     --gpt_model ${gpt_model} \
     --save_dir ${save_dir}
 
+echo "[Done] Results are saved in ${save_dir} ."

@@ -52,3 +52,5 @@ python inference_optimize.py \
     --sql_equiv_mode "mixed" \
     --save_dir ${save_dir} \
     --inference_result_save_file "${model_name}_opt_SQLDriller.sql"
+
+echo "[Done] Results are saved in ${save_dir}/${inference_result_save_file} ."

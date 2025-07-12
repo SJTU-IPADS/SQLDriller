@@ -47,3 +47,5 @@ python llm_consistency_baseline.py \
     --dataset_type ${dataset_type} \
     --save_dir ${save_dir} \
     --modified_gold_save_file "${model_name}_opt_baseline.sql"
+
+echo "[Done] Results are saved in ${save_dir}/${modified_gold_save_file} ."

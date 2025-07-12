@@ -26,3 +26,5 @@ python llm_consistency_baseline.py \
     --dataset_type ${dataset_type} \
     --save_dir ${save_dir} \
     --modified_gold_save_file "modified_gold.tsv"
+
+echo "[Done] Results are saved in ${save_dir} ."
