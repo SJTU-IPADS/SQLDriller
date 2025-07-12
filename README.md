@@ -3,10 +3,10 @@
 SQLDRILLER is a Text-to-SQL translation checking tool. It uses execution consistency to automatically discover and fix errors in Text-to-SQL datasets, and in Text-to-SQL model inference result to improve model accuracy. 
 It is presented in the paper "Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency" (SIGMOD '25).
 
-[//]: # ([Paper link]&#40;to be updated&#41;)
+Paper link: https://dl.acm.org/doi/10.1145/3725271
 
 ## Repaired Text-to-SQL Datasets Available
-See `./data/bird/opt/{train/dev/test}.json` and `./data/spider/opt/{train/dev/test}.json` for the repaired Text-to-SQL datasets.
+See `./data/bird/opt/{train/dev}.json` and `./data/spider/opt/{train/dev/test}.json` for the repaired Text-to-SQL datasets.
 
 [//]: # (## CodeBase)
 
@@ -33,16 +33,25 @@ cd ./third_party/test_suite_sql_eval/test_prover/VeriEQL/
 sh verieql.sh
 cd $CURRENT_PATH
 ```
+
 ### 2. OpenAI Key Configuration
-Create a `.env` file in the root path of this repo and add your key information to the file:
+Create a `.env` file in the root path of this repo and add your own api key information to the file:
+```shell
+touch .env
+echo "OPENAI_API_KEY = {your-api-key}" >> .env
+echo "OPENAI_API_BASE = {your-api-url}" >> .env
 ```
-OPENAI_API_KEY = [your-api-key]
-OPENAI_API_BASE = [your-api-url]
-```
+
 ### 3. Resource Downloading:
 We have prepared the following resources for experiments:
-- Download the prepared resource files for quick-start and result preview: [link](https://drive.google.com/file/d/1VyyQdeJWTK-_F5EoXcoFockDvptOttio/view?usp=sharing), unzip it to `./prepared/`.
-- Download the prepared generated sqlite files for SQL execution: [link](https://drive.google.com/file/d/148GDu6nYFF8trqa-UlYR9mq-QH-r2kvq/view?usp=sharing), unzip it to `./dbs/`.
+- Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1n3Z2uwCLqO8apglKT_ylyizpwSM2cupl/view?usp=drive_link).
+- Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1x4PpI-DYwO-JDA7B1ztJGWF8nE859-G9/view?usp=sharing).
+
+Unzip them by:
+```shell
+unzip prepared.zip -d .
+unzip dbs.zip -d .
+```
 
 ## Result Previewing
 Since running SQLDriller on the whole large dataset and re-training and re-evaluating models are time-consuming and costly, we provide our evaluated results for quick previewing. 
@@ -57,7 +66,7 @@ The results are exactly in the downloaded `./prepared/` directory:
           |-- original_test/        # Accuracy on original test set
             |-- ...
           |-- refined_test/         # Accuracy on fixed test set
-            |-- {model_name}_baseline.tsv   
+            |-- {model_name}.tsv   
             |-- {model_name}_SQLDRILLER.tsv # Accuracy of using SQLDriller to further optimize model inference
         |-- pred_original_train/ # Accuracy result of model trained by original training set
           |-- ...

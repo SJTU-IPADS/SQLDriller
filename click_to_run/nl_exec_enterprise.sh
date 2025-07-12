@@ -16,7 +16,7 @@ sql_prediction_path="./prepared/beaver/accuracy/pred/dev/chess.sql"
 
 # Table size 5
 db_instance_dir="./dbs/microbench/beaver/dev/"
-save_dir="./results/nl_exec/${benchmark}_${dataset_type}_${gpt_model}"
+save_dir="./results/nl_exec/${benchmark}_${dataset_type}_${gpt_model}_table_size_5"
 
 echo "Run NL execution on db instances of ${benchmark} with ${gpt_model} model, table size: 5."
 python nl_exec_microbench.py \
@@ -39,7 +39,7 @@ python nl_exec_microbench_sql.py \
 
 # Table size 100
 db_instance_dir_large_table="./dbs/microbench/beaver/dev_size_100/"
-save_dir_large_table="./results/nl_exec/${benchmark}_${dataset_type}_${gpt_model}_size_100"
+save_dir_large_table="./results/nl_exec/${benchmark}_${dataset_type}_${gpt_model}_table_size_100"
 
 echo "Run NL execution on db instances of ${benchmark} with ${gpt_model} model, table size: 100."
 python nl_exec_microbench.py \

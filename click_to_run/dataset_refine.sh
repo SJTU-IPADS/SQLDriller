@@ -15,7 +15,7 @@ if [[ "$benchmark" != "spider" && "$benchmark" != "bird" ]]; then
 partition_num = 8
 
 dataset_file_path="./data/${benchmark}/raw/${dataset_type}.json"
-sql_candidates_path="./prepared/${benchmark}/dataset_refine/sqls/${dataset_type}_data.json"
+sql_candidates_path="./prepared/${benchmark}/dataset_refine/sqls/${dataset_type}_candidates.json"
 fuzz_db_dir="./dbs/fuzz/${benchmark}/${dataset_type}"
 save_dir="./results/dataset_refine/${benchmark}_${dataset_type}/SQLDriller"
 save_ce_dir="${save_dir}/ce"

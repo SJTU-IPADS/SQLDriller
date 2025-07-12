@@ -29,7 +29,7 @@ elif [[ "$benchmark" == "bird" ]]; then
     if [[ "$model_name" == "sftcodes" || "$model_name" == "codes" ]]; then
         echo "Running inference optimization for model: $model_name"
     else
-        echo "Not supported model. Please specify 'sftcode', 'codes' for benchmark bird."
+        echo "Not supported model. Please specify 'sftcodes', 'codes' for benchmark bird."
         exit 1
     fi
     test_dataset_file_path="./data/bird/opt/dev.json"

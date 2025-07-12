@@ -13,7 +13,7 @@ if [[ "$benchmark" != "spider" && "$benchmark" != "bird" ]]; then
     exit 1
 
 # only refine sampled cases for comparison
-sql_candidates_path="./prepared/${benchmark}/dataset_refine/sqls/${dataset_type}_data_sampled.json"
+sql_candidates_path="./prepared/${benchmark}/dataset_refine/sqls/${dataset_type}_sampled_candidates.json"
 sample_case_reference_file="./prepared/${benchmark}/dataset_refine/stats/${dataset_type}.tsv"
 save_dir="./results/dataset_refine/${benchmark}_${dataset_type}/LLMConsis_baseline"
 
