@@ -32,6 +32,11 @@ export CURRENT_PATH=$(pwd)
 cd ./third_party/test_suite_sql_eval/test_prover/VeriEQL/
 sh verieql.sh
 cd $CURRENT_PATH
+
+# clone repo for model accuracy evaluation 
+cd ./third_party/
+git clone git@github.com:yicun0720/SD-test-suite-accuracy.git test-suite-accuracy
+cd ..
 ```
 
 ### 2. OpenAI Key Configuration
@@ -99,7 +104,7 @@ As to the statistics of error study, run the following scripts to achieve the re
 ```shell
 ./click_to_run/err_study.sh
 ```
-The results are shown in `./results/study/` (refer to results of **Figure 2 and 3, and Table 2** in the paper):
+The results are shown in `./results/study/` (refer to results of **Figure 2 and 3, and Table 1** in the paper):
 ```
 ./results/study/
 |-- error/    # Error rates of each hardness level, and each schemas.
@@ -206,7 +211,7 @@ Optional: run the following command to do the same thing using LLM consistency-b
 ./click_to_run/inference_optimize_baseline.sh bird dev codes
 ```
 
-Then run the following command to evaluate the accuracy improvements of all the models:
+Then run the following command to conclude the accuracy improvements of all the evaluated models:
 ```shell
 ./click_to_run/inference_accuracy_eval.sh
 ``` 

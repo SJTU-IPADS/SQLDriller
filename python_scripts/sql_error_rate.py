@@ -96,6 +96,6 @@ if __name__ == "__main__":
     plt.tick_params(axis='y', labelsize=24)
     plt.tick_params(axis='x', labelsize=24)
     plt.tight_layout()
-    plt.savefig("./results/study/error/Figure2:error_per_schema.pdf")
+    plt.savefig("./results/study/error/Figure2_error_per_schema.pdf")
     plt.close()
 

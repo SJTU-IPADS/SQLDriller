@@ -197,5 +197,5 @@ if __name__ == "__main__":
     plt.tick_params(axis='y', labelsize=24)
     plt.tick_params(axis='x', labelsize=24)
     plt.tight_layout()
-    plt.savefig("./results/study/jaccard/Figure3:Jaccard-similarity.pdf")
+    plt.savefig("./results/study/jaccard/Figure3_Jaccard-similarity.pdf")
     plt.close()
