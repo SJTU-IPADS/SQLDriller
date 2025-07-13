@@ -1,8 +1,8 @@
 import random
 import sqlglot
 import copy
-from third_party.test_suite_sql_eval.test_prover.process_sql import find_col_related_literals, get_type_of_col, DataType
-from third_party.test_suite_sql_eval.test_prover.VeriEQL.app import VerieqlApp
+from third_party.ce_gen.solver.process_sql import find_col_related_literals, get_type_of_col, DataType
+from third_party.ce_gen.solver.VeriEQL.app import VerieqlApp
 from sqlglot.optimizer.scope import build_scope
 from sqlglot.optimizer.qualify import qualify
 from utils.llm_utils import gpt_reply_n, GPT_3_5_TURBO
@@ -50,7 +50,7 @@ def generate_values_for_column(tables: list,
             try:
                 candidate_values_list = []
                 if benchmark == "spider" or benchmark == "beaver":
-                    conn = sqlite3.connect("third_party/test_suite_sql_eval/test_prover/column_values.sqlite")
+                    conn = sqlite3.connect("third_party/ce_gen/solver/column_values.sqlite")
                     cursor = conn.cursor()
                     get_col_vals = f"SELECT COL_VALS FROM COL_VALS WHERE db_name='{db_name}' and table_name='{table}' and col_name='{col}'"
                     cursor.execute(get_col_vals)

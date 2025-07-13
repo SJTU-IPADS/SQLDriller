@@ -13,8 +13,8 @@ infer/
 fig/
 
 models/
-third_party/test_suite_sql_eval/database/
-third_party/test_suite_sql_eval/microbench/
+third_party/ce_gen/database/
+third_party/ce_gen/microbench/
 
 
 temp*.*

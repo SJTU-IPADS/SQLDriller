@@ -5,7 +5,7 @@ import random
 
 from tqdm import tqdm
 
-from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
+from third_party.ce_gen.utils import exec_eval as EXEC_EVAL
 from utils.constants import *
 from utils.sql_utils import order_matters
 from utils.sqlite_utils import exec_on_db_

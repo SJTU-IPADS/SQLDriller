@@ -6,7 +6,7 @@ import sqlglot
 from sqlglot.expressions import Literal
 
 from dataset_refine import get_pred_exec_results, ask_gpt_for_exec_res, get_pred_scores, log_exec_ce
-from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
+from third_party.ce_gen.utils import exec_eval as EXEC_EVAL
 from utils.constants import *
 from utils.path_utils import METADATA_FILE_PATHS, TABLE_FILE, SCHEMA_DB_DIR, SCHEMA_FILE_DIR
 from utils.sql_utils import order_matters, is_valid_sql, get_schema_ddl

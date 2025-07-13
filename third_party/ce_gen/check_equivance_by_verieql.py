@@ -1,5 +1,5 @@
-from third_party.test_suite_sql_eval.test_prover.prove_api import prove
-from third_party.test_suite_sql_eval.test_prover.process_sql import get_schema_constraints
+from third_party.ce_gen.solver.prove_api import prove
+from third_party.ce_gen.solver.process_sql import get_schema_constraints
 
 
 def filter_insert(text):

@@ -13,7 +13,7 @@ from utils.sql_utils import order_matters, is_valid_sql, get_schema_ddl
 from utils.sqlite_utils import exec_on_db_
 from utils.utils import check_equivalence, get_gpt_nl_res_list, pick_majority_result, filter_meaningless_sql, \
     simplify_ce
-from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
+from third_party.ce_gen.utils import exec_eval as EXEC_EVAL
 
 
 def ask_gpt_for_exec_res(nlq: str,

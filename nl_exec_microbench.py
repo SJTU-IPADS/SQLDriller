@@ -10,7 +10,7 @@ from dataset_refine import log_gpt_reply
 from utils.llm_utils import GPT_4_TURBO
 from utils.path_utils import METADATA_FILE_PATHS, SCHEMA_FILE_DIR, SCHEMA_DB_DIR
 from utils.utils import get_gpt_nl_res_list, pick_majority_result
-from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
+from third_party.ce_gen.utils import exec_eval as EXEC_EVAL
 from utils.constants import *
 from utils.prompt_utils import encode_schema_and_data_prompt
 from utils.sql_utils import order_matters

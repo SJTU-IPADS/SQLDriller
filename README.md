@@ -29,7 +29,7 @@ python nltk_downloader.py
 
 # Setup docker container for VeriEQL solver
 export CURRENT_PATH=$(pwd)
-cd ./third_party/test_suite_sql_eval/test_prover/VeriEQL/
+cd ./third_party/ce_gen/solver/VeriEQL/
 sh verieql.sh
 cd $CURRENT_PATH
 

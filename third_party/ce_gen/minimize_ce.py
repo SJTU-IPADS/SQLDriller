@@ -3,7 +3,7 @@ import os
 import sqlite3
 from shutil import copyfile
 
-from third_party.test_suite_sql_eval.utils.exec_eval import eval_exec_match_on_one_sqlite
+from third_party.ce_gen.utils.exec_eval import eval_exec_match_on_one_sqlite
 from utils.sql_utils import order_matters
 
 

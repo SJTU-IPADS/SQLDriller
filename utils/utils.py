@@ -4,9 +4,9 @@ from collections import OrderedDict
 import jpype
 import os
 
-from third_party.test_suite_sql_eval.evaluation import evaluate_exec, exact_match
-from third_party.test_suite_sql_eval.minimize_ce import minimize_ce
-from third_party.test_suite_sql_eval.utils import exec_eval as EXEC_EVAL
+from third_party.ce_gen.evaluation import evaluate_exec, exact_match
+from third_party.ce_gen.minimize_ce import minimize_ce
+from third_party.ce_gen.utils import exec_eval as EXEC_EVAL
 from .constants import *
 from .llm_utils import GPT_MAX_TRIALS, GPT_4_TURBO
 from .prompt_utils import exec_ce_by_gpt

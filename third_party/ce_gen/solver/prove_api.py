@@ -1,5 +1,5 @@
 import sqlglot
-from third_party.test_suite_sql_eval.test_prover.counter_example import generate_counter_example
+from third_party.ce_gen.solver.counter_example import generate_counter_example
 
 
 def fast_judge(ast0: sqlglot.Expression, ast1: sqlglot.Expression) -> bool:

@@ -8,7 +8,7 @@ from itertools import product
 from collections import defaultdict
 import tqdm
 import random
-from third_party.test_suite_sql_eval.utils.parse import get_all_preds_for_execution, remove_distinct
+from third_party.ce_gen.utils.parse import get_all_preds_for_execution, remove_distinct
 from itertools import chain
 
 TIMEOUT = 60

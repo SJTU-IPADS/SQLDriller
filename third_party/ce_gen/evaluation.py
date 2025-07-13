@@ -24,9 +24,9 @@ import os
 import sqlite3
 
 from utils.db_info.writedb import init_empty_db_from_orig_
-from third_party.test_suite_sql_eval.utils.exec_eval import eval_exec_match, eval_exec_match_on_one_sqlite
-from third_party.test_suite_sql_eval.utils.process_sql import get_schema, Schema, get_sql
-from third_party.test_suite_sql_eval.check_equivance_by_verieql import check_equivalence_by_verieql
+from third_party.ce_gen.utils.exec_eval import eval_exec_match, eval_exec_match_on_one_sqlite
+from third_party.ce_gen.utils.process_sql import get_schema, Schema, get_sql
+from third_party.ce_gen.check_equivance_by_verieql import check_equivalence_by_verieql
 from utils.sql_utils import get_schema_properties, order_matters
 
 
