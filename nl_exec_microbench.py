@@ -171,7 +171,12 @@ if __name__ == '__main__':
     parser.add_argument("--save_dir", type=str, required=True)
     args = parser.parse_args()
 
-    if not os.path.exists(args.save_dir):
-        os.makedirs(args.save_dir)
+    for path_key in vars(args).keys():
+        if path_key in ["metadata_path", "db_instance_dir"]:
+            if not os.path.exists(vars(args)[path_key]):
+                print(f"args.{path_key}: `{vars(args)[path_key]}` does not exist. Please check carefully.")
+                exit(1)
+
+    os.makedirs(args.save_dir, exist_ok=True)
 
     evaluate(args)

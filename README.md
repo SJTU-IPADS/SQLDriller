@@ -1,9 +1,10 @@
 # SQLDRILLER: Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency
 
-SQLDRILLER is a Text-to-SQL translation checking tool. It uses execution consistency to automatically discover and fix errors in Text-to-SQL datasets, and in Text-to-SQL model inference result to improve model accuracy. 
-It is presented in the paper "Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency" (SIGMOD '25).
+SQLDRILLER is a Text-to-SQL translation checking tool. 
+It introduces and applies **Execution Consistency** to automatically discover and fix errors in Text-to-SQL datasets, and in Text-to-SQL model inference results to improve model accuracy. 
+It is presented in the paper "Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency" (SIGMOD '25, [paper link](https://dl.acm.org/doi/10.1145/3725271)).
 
-Paper link: https://dl.acm.org/doi/10.1145/3725271
+Contact: yangyicun@sjtu.edu.cn
 
 ## Repaired Text-to-SQL Datasets Available
 See `./data/bird/opt/{train/dev}.json` and `./data/spider/opt/{train/dev/test}.json` for the repaired Text-to-SQL datasets.
@@ -48,14 +49,19 @@ echo "OPENAI_API_BASE = {your-api-url}" >> .env
 ```
 
 ### 3. Resource Downloading:
-We have prepared the following resources for experiments:
-- Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1n3Z2uwCLqO8apglKT_ylyizpwSM2cupl/view?usp=drive_link).
+We have prepared the following resources for experiments, download them into project root dir `./`:
+- Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1n3Z2uwCLqO8apglKT_ylyizpwSM2cupl/view?usp=sharing).
 - Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1x4PpI-DYwO-JDA7B1ztJGWF8nE859-G9/view?usp=sharing).
+- Download the sqlite files of each schema of each benchmark:
+  - [Spider link](https://drive.google.com/file/d/1-64iuFrEKt9hm3zHMyJNnuhtkdgdLsR4/view?usp=sharing), [BIRD link](https://drive.google.com/file/d/16-3hnWEsXpofwVLmhoS85w3bH_G1xiqV/view?usp=sharing), [Beaver link](https://drive.google.com/file/d/15hesi2DYKT1FjtD_QM6Uay41tpkES0aK/view?usp=sharing)
 
 Unzip them by:
 ```shell
 unzip prepared.zip -d .
 unzip dbs.zip -d .
+unzip schema_for_sample_values_spider.zip -d ./data/spider/
+unzip schema_for_sample_values_bird.zip -d ./data/bird/
+unzip schema_for_sample_values_beaver.zip -d ./data/beaver/
 ```
 
 ## Result Previewing

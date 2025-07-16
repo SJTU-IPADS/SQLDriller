@@ -213,6 +213,12 @@ if __name__ == '__main__':
     parser.add_argument("--save_dir", type=str, required=True)
     args = parser.parse_args()
 
+    for path_key in vars(args).keys():
+        if path_key in ["save_dir"]:
+            if not os.path.exists(vars(args)[path_key]):
+                print(f"args.{path_key}: `{vars(args)[path_key]}` does not exist. Please check carefully.")
+                exit(1)
+
     stats = get_statistics(args.save_dir)
 
     accuracy_improvement_save_file = os.path.join(args.save_dir, "accuracy_improvement.tsv")

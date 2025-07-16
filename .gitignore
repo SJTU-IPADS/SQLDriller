@@ -27,6 +27,7 @@ local_scripts/
 
 _*.py
 .env
+data/spider/schema_for_sample_values
 data/bird/schema_for_sample_values
 data/beaver/schema_for_sample_values
 

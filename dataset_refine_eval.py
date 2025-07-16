@@ -184,4 +184,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    for path_key in vars(args).keys():
+        if path_key in ["groundtruth_file", "fuzz_db_dir", "SQLDriller_modified_gold_file", "baseline_modified_gold_file"]:
+            if not os.path.exists(vars(args)[path_key]):
+                print(f"args.{path_key}: `{vars(args)[path_key]}` does not exist. Please check carefully.")
+                exit(1)
+
     evaluate(args)

@@ -381,5 +381,14 @@ if __name__ == '__main__':
     parser.add_argument("--modified_dataset_save_file", type=str, default="modified.json")
     args = parser.parse_args()
 
+    for path_key in vars(args).keys():
+        if path_key in ["dataset_file_path", "sql_candidates_path", "fuzz_db_dir"]:
+            if not os.path.exists(vars(args)[path_key]):
+                print(f"args.{path_key}: `{vars(args)[path_key]}` does not exist. Please check carefully.")
+                exit(1)
+
+    os.makedirs(args.save_dir, exist_ok=True)
+    os.makedirs(args.save_ce_dir, exist_ok=True)
+
     evaluate(args)
 
