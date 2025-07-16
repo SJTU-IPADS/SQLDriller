@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 models = ["DAIL-SQL", "DIN-SQL", "RESDSQL", "Graphix-T5", "SFT CODES", "CODES"]
-fixed_training_set = [3.7, 3.2, 7.2, 3.6, 6.5, 3.3]
-fixed_training_set_with_ec = [9.2, 9.1, 6.4, 0.0, 4.7, 2.8]
+accuracy_list_refined_train = [3.7, 3.2, 7.2, 3.6, 6.5, 3.3]
+accuracy_delta_list_opt_SQLDriller = [9.2, 9.1, 6.4, 0.0, 4.7, 2.8]
 
-llm_consis_baseline = [-0.2, -0.6, 2.7, 0.0, 0.3, -0.2]  # -0.1 -> -0.2
+accuracy_delta_list_opt_llmconsis = [-0.2, -0.6, 2.7, 0.0, 0.3, -0.2]  # -0.1 -> -0.2
 
 x = np.arange(len(models))
 
@@ -27,7 +27,7 @@ print(f"Current figsize: {current_figsize[0]} inches wide by {current_figsize[1]
 # 绘制第一段
 x_1 = x - width / 2 - 0.02
 x_1[Graphix_T5_index] = x[Graphix_T5_index]
-rects1 = ax.bar(x_1, fixed_training_set, width,
+rects1 = ax.bar(x_1, accuracy_list_refined_train, width,
                 label='Fixed Training Dataset', color='#6A99D0', edgecolor='#6A99D0', linewidth=0.5)
 for i in range(len(rects1)):
     if i in [Graphix_T5_index]:
@@ -38,15 +38,15 @@ for i in range(len(rects1)):
             color='grey', linewidth=1.2, linestyle='--')  # Draw line on top
 
 # 绘制第二段（堆叠在第一段上）
-rects2 = ax.bar(x_1, fixed_training_set_with_ec, width,
-                bottom=fixed_training_set, label='w/ EC', color='#B4C7E7', edgecolor='#B4C7E7', linewidth=0.5)
+rects2 = ax.bar(x_1, accuracy_delta_list_opt_SQLDriller, width,
+                bottom=accuracy_list_refined_train, label='w/ EC', color='#B4C7E7', edgecolor='#B4C7E7', linewidth=0.5)
 
 # 绘制第三段: LLM consis baseline
 x_3 = x + width / 2 + 0.02
 x_3[Graphix_T5_index] = x[Graphix_T5_index]
-rects3 = ax.bar(x_3, fixed_training_set, width, color='#6A99D0', edgecolor='#6A99D0', linewidth=0.5)
-rects4 = ax.bar(x_3, llm_consis_baseline, width,
-                bottom=fixed_training_set, label='w/ LC (baseline)', color='#E3E3E3', edgecolor='#E3E3E3', linewidth=0.5)
+rects3 = ax.bar(x_3, accuracy_list_refined_train, width, color='#6A99D0', edgecolor='#6A99D0', linewidth=0.5)
+rects4 = ax.bar(x_3, accuracy_delta_list_opt_llmconsis, width,
+                bottom=accuracy_list_refined_train, label='w/ LC (baseline)', color='#E3E3E3', edgecolor='#E3E3E3', linewidth=0.5)
 
 
 # 添加一些文本标签
@@ -96,11 +96,11 @@ def autolabel_value(rects, heights, ignore_index=None):
                         ha='center', va='bottom', fontsize=10)
 
 
-autolabel_value(rects1, heights=[0] * len(fixed_training_set))
-autolabel_value(rects2, heights=fixed_training_set, ignore_index=[Graphix_T5_index])
+autolabel_value(rects1, heights=[0] * len(accuracy_list_refined_train))
+autolabel_value(rects2, heights=accuracy_list_refined_train, ignore_index=[Graphix_T5_index])
 # autolabel_no_value(rects3)
-autolabel_value(rects4, heights=fixed_training_set, ignore_index=[Graphix_T5_index])
-for bar, value in zip(rects4, llm_consis_baseline):
+autolabel_value(rects4, heights=accuracy_list_refined_train, ignore_index=[Graphix_T5_index])
+for bar, value in zip(rects4, accuracy_delta_list_opt_llmconsis):
     if value < 0:
         bar.set_hatch('///')
         bar.set_color('white')
@@ -108,7 +108,7 @@ for bar, value in zip(rects4, llm_consis_baseline):
         bar.set_edgecolor('#A8A8A8')
 
 # 调整 y 轴范围以确保数字不会超过图表的最上方
-max_height = max([sum(x) for x in zip(fixed_training_set, fixed_training_set_with_ec)])
+max_height = max([sum(x) for x in zip(accuracy_list_refined_train, accuracy_delta_list_opt_SQLDriller)])
 ax.set_ylim(0, max_height * 1.25)  # 增加 10% 的空间
 
 

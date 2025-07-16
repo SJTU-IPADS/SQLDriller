@@ -181,7 +181,7 @@ The results are shown in `./results/dataset_refine/{benchmark}_train/`:
     |-- modified_gold_tagged.tsv   # The fixed gold SQLs in fixed cases w/ tagged fix results
 |-- statistics.txt    # The statistics of SQLDriller and LLM consistency baseline's effectiveness on error detection and fixing
 ```
-View `statistics.txt` for a summary of effectiveness evaluation (refer to results of **Table 5 and 6** in the paper).
+In `./results/dataset_refine/{benchmark}_train/`, view `statistics.txt` for a summary of effectiveness evaluation (refer to results of **Table 5 and 6** in the paper).
 
 Then, `./results/dataset_refine/{benchmark}_train/SQLDriller/train.json` can be used to fine-tune existing models.
 We temporarily omit such scripts of model re-tuning and re-inference in this repo. Refer to the repo of each developed model, and put refined train set file into their repos instead.
@@ -216,9 +216,9 @@ Then run the following command to conclude the accuracy improvements of all the 
 ./click_to_run/inference_accuracy_eval.sh
 ``` 
 
-View `statistics.txt` for a summary of accuracy improvements (refer to results of **Table 4 and Figure 11** in the paper).
+In `./results/inference/`, view `accuracy_improvement.tsv` for a summary of accuracy improvements (refer to **Table 4** in the paper) and `Figure11_accuracy_improvement_breakdown.pdf` for accuracy improvement breakdown results (refer to **Figure 11** in the paper).
 
-Note that for each model, it outputs 4 numbers of model accuracy: 
+Note: for each model, it outputs 4 results of model accuracy: 
 - accuracy w/ original train set
 - accuracy w/ refined train set
 - accuracy w/ refined train set and SQLDriller's inference optimization
