@@ -15,7 +15,7 @@ Preview `./data/bird/opt/{train/dev}.json` and `./data/spider/opt/{train/dev/tes
 ### 1. Environment Setup
  - Ubuntu 20.04 is preferred, other Linux OS is also feasible.
  - Anaconda, Python 3.10 (> 3.9 is feasible)
- - Docker (to run VeriEQL for SQL counterexample generation)
+ - Docker, Docker Compose (to run VeriEQL for SQL counterexample generation)
  - Java JDK 17, Gradle 7.3.3 (optional, to run SQLSolver for SQL equivalence)
 
 Then, run the following commands to set up:
