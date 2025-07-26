@@ -7,22 +7,24 @@ It is presented in the paper "Automated Validating and Fixing of Text-to-SQL Tra
 Contact: yangyicun@sjtu.edu.cn
 
 ## Repaired Text-to-SQL Datasets Available
-See `./data/bird/opt/{train/dev}.json` and `./data/spider/opt/{train/dev/test}.json` for the repaired Text-to-SQL datasets.
+Preview `./data/bird/opt/{train/dev}.json` and `./data/spider/opt/{train/dev/test}.json` for the repaired Text-to-SQL datasets.
 
 [//]: # (## CodeBase)
 
 ## Prerequisites
-### 1. Environments
+### 1. Environment Setup
+ - Ubuntu 20.04 is preferred, other Linux OS is also feasible.
  - Anaconda, Python 3.10 (> 3.9 is feasible)
  - Docker (to run VeriEQL for SQL counterexample generation)
  - Java JDK 17, Gradle 7.3.3 (optional, to run SQLSolver for SQL equivalence)
 
-Run the following commands to set up:
+Then, run the following commands to set up:
 ```shell
 # Create and activate Python environment
 conda create -n SQLDriller python=3.10
-## If this failed, try `source activate SQLDriller` instead
 conda activate SQLDriller
+# If this failed, try this instead:
+#source activate SQLDriller
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
@@ -98,15 +100,12 @@ The results are exactly in the downloaded `./prepared/` directory:
 |-- stat.xlsx    # The summary of dataset refining results
 ```
 
-For detailed guides of reproducing the results, you can still view [sec. 3](#3-dataset-fix-and-model-accuracy-evaluation) to follow. 
+For detailed guides of reproducing the results, please view the following `Scripts to Run` section to follow. 
 
 
 ## Scripts to Run
 
 ### 1. Text-to-SQL Error Study
-
-[//]: # (#### 1.1 Error Distribution)
-[//]: # (#### 1.2 SQL Similarity of Error and Fixed Ones)
 
 For the sampled cases in the training datasets, you can view the file `data/spider/opt/train_sampled_all.json` and `data/bird/opt/train_sampled_all.json` to check the original and our fixed SQLs. The value of the key "fixed" is `None` means the original SQL is correct.
 
@@ -159,7 +158,7 @@ Run the following command to ***detect and fix*** errors in the datasets.
 - The 1st parameter represents the benchmark name (Options: `spider`, `bird`). 
 - The 2nd parameter represents the dataset split (Options: `train`, `dev`, `test`). We here only fix the train set. The dev and test set have been manually checked for accuracy evaluation as mentioned in the paper. 
 
-Optional: run the following command to do the same thing using LLM consistency-based baseline:
+Rrun the following command to do the same thing using LLM consistency-based baseline:
 ```shell
 ./click_to_run/dataset_refine_baseline.sh spider train
 ./click_to_run/dataset_refine_baseline.sh bird train
@@ -212,7 +211,7 @@ Run the following command to ***use SQLDriller to improve model inference accura
 - The 2nd parameter represents the dataset split. `test` set for Spider and `dev` set for BIRD.
 - The 3rd parameter represents the model. We evaluate 5 models in this step, each model providing a file w/ multiple prediction candidates for each test case.
 
-Optional: run the following command to do the same thing using LLM consistency-based baseline:
+Run the following command to do the same thing using LLM consistency-based baseline:
 ```shell
 ./click_to_run/inference_optimize_baseline.sh spider test dail
 ./click_to_run/inference_optimize_baseline.sh spider test din
