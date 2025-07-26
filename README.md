@@ -21,6 +21,7 @@ Run the following commands to set up:
 ```shell
 # Create and activate Python environment
 conda create -n SQLDriller python=3.10
+## If this failed, try `source activate SQLDriller` instead
 conda activate SQLDriller
 python -m pip install --upgrade pip
 pip install -r requirements.txt
@@ -37,11 +38,14 @@ cd $CURRENT_PATH
 # clone repo for model accuracy evaluation 
 cd ./third_party/
 git clone git@github.com:yicun0720/SD-test-suite-accuracy.git test-suite-accuracy
-cd ..
+cd $CURRENT_PATH
+
+# grant exec permission for shell scripts
+chmod 755 ./click_to_run/*.sh
 ```
 
 ### 2. OpenAI Key Configuration
-Create a `.env` file in the root path of this repo and add your own api key information to the file:
+Create an `.env` file in the root path of this repo, replace the placeholder below to add your own api key information into the file:
 ```shell
 touch .env
 echo "OPENAI_API_KEY = {your-api-key}" >> .env
@@ -112,15 +116,17 @@ As to the statistics of error study, run the following scripts to achieve the re
 ```
 The results are shown in `./results/study/` (refer to results of **Figure 2 and 3, and Table 1** in the paper):
 ```
-./results/study/
-|-- error/    # Error rates of each hardness level, and each schemas.
-|-- jaccard/  # Jaccard similarity of original and fixed SQLs in sampled error cases
+./results/study/error/
+|-- Table1_error_rate_by_difficulty.txt
+|-- Figure2_error_rate_per_schema.txt
+|-- Figure2_error_rate_per_schema_cdf.pdf
+|-- Figure3_Jaccard_similarity.pdf  # Jaccard similarity of original and fixed SQLs in sampled error cases
 ```
 
 ### 2. Natural Language (NL) Execution
 
 Run the following scripts to perform Spider and BIRD's NL execution tasks on generated database instances.
-(The generated database instances for NL execution have been prepared in `./prepared/{benchmark}/microbench/`.)
+(The database instances for NL execution have been prepared in `./dbs/microbench/{benchmark}/`.)
 ```shell
 ./click_to_run/nl.exec.sh spider gpt-4o
 ./click_to_run/nl.exec.sh bird gpt-4o
@@ -128,7 +134,7 @@ Run the following scripts to perform Spider and BIRD's NL execution tasks on gen
 - The 1st parameter represents the benchmark name (Options: `spider`, `bird`).
 - The 2nd parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1-preview`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
 
-As to evaluating the scalability to enterprise dataset **Beaver**, run:
+As to evaluating the scalability to enterprise dataset **Beaver** (discussed in Discussion section in the paper), run:
 ```shell
 ./click_to_run/nl_exec_enterprise.sh gpt-4o
 ```
@@ -140,10 +146,9 @@ All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/`
 |-- nl_exec_accuracy.txt        # Results of NL exeuction accuracy
 ```
 We only evaluate `gpt-4o` by default since other LLMs show comparable NL execution accuracy (**Table 3** in the paper), and `gpt-4o` has relatively low cost and latency.
+You can also experiment by changing the 2nd parameter to other LLMs.
 
 ### 3. Dataset Refine and Model Accuracy Evaluation
-
-See `dataset_refine.py` for dataset error detection and fixing functionality.
 
 #### 3.1 Dataset Refine
 Run the following command to ***detect and fix*** errors in the datasets.

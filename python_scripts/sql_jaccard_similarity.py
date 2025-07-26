@@ -1,6 +1,7 @@
 import collections
 import json
 import re
+import os
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -157,13 +158,6 @@ def cal_similarity(schema_file_path, sql_fix_file_path, isSkeleton):
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--schema_file_path", type=str, required=True)
-    # parser.add_argument("--sql_pair_file_path", type=str, required=True)
-    # parser.add_argument("--benchmark", type=str, default=benchmark_type.spider)
-    # parser.add_argument("--dataset_type", type=str, default=dataset_type.test)
-    # args = parser.parse_args()
-
     spider_schema_file_path = "./data/spider/tables.json"
     spider_sql_fix_file_path = "./data/spider/opt/train_sampled_all.json"
     spider_similarities = cal_similarity(spider_schema_file_path, spider_sql_fix_file_path, False)
@@ -172,11 +166,14 @@ if __name__ == "__main__":
     bird_sql_fix_file_path = "./data/bird/opt/train_sampled_all.json"
     bird_similarities = cal_similarity(bird_schema_file_path, bird_sql_fix_file_path, False)
 
-    with open("./results/study/jaccard/stat.txt", "w") as f:
-        f.write("Percentage of Spider sampled error train cases where the Jaccard similarity between original and fixed SQLs < 0.5: \n{:f}\n"
-                .format(len([i for i in spider_similarities if i < 0.5]) / len(spider_similarities)))
-        f.write("Percentage of BIRD sampled error train cases where the Jaccard similarity between original and fixed SQLs < 0.5: \n{:f}\n"
-                .format(len([i for i in bird_similarities if i < 0.5]) / len(bird_similarities)))
+    result_save_dir = "./results/study/error/"
+    os.makedirs(result_save_dir, exist_ok=True)
+
+    # with open(os.path.join(result_save_dir, "stat.txt"), "w") as f:
+    #     f.write("Percentage of Spider sampled error train cases where the Jaccard similarity between original and fixed SQLs < 0.5: \n{:f}\n"
+    #             .format(len([i for i in spider_similarities if i < 0.5]) / len(spider_similarities)))
+    #     f.write("Percentage of BIRD sampled error train cases where the Jaccard similarity between original and fixed SQLs < 0.5: \n{:f}\n"
+    #             .format(len([i for i in bird_similarities if i < 0.5]) / len(bird_similarities)))
 
     hist1, bin_edges1 = np.histogram(spider_similarities, bins=len(spider_similarities))
     cdf1 = np.cumsum(hist1 / sum(hist1))
@@ -197,5 +194,5 @@ if __name__ == "__main__":
     plt.tick_params(axis='y', labelsize=24)
     plt.tick_params(axis='x', labelsize=24)
     plt.tight_layout()
-    plt.savefig("./results/study/jaccard/Figure3_Jaccard-similarity.pdf")
+    plt.savefig(os.path.join(result_save_dir, "Figure3_Jaccard_similarity.pdf"))
     plt.close()
