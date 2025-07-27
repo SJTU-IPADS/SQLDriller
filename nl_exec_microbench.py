@@ -54,7 +54,7 @@ def check_nl_exec_res(args, case_id, schema_db_dir, db_id, nlq, evidence, sqls, 
 
     case_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
     if os.path.exists(os.path.join(case_dir, "microbench_exec_res.json")):
-        with open(os.path.join(case_dir, "microbench_exec_res.json")) as f:
+        with open(os.path.join(case_dir, "microbench_exec_res.json"), "r") as f:
             stored_data = json.load(f)
             instance_cnt, correct_instance_cnt = stored_data[0]["total"], stored_data[0]["score"]
             return instance_cnt, correct_instance_cnt
@@ -148,12 +148,10 @@ def evaluate(args, seed=0):
         total_correct_instance_cnt += correct_exec_cnt_case
 
     print("Instance count: %d, correctly execute count: %d" % (total_instance_cnt, total_correct_instance_cnt))
-    print("Instance exec accuracy on %s %s set: %f" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
+    print("Instance exec accuracy on %s %s set: %.3f" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
     with open(os.path.join(args.save_dir, "nl_exec_accuracy.txt"), "w") as f:
         f.write("Instance count: %d, correctly execute count: %d\n" % (total_instance_cnt, total_correct_instance_cnt))
-        f.write("Instance exec accuracy on %s %s set: %f\n" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
-
-    return total_correct_instance_cnt / total_instance_cnt
+        f.write("Instance exec accuracy on %s %s set: %.3f\n" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
 
 
 if __name__ == '__main__':

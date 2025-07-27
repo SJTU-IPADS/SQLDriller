@@ -13,6 +13,7 @@ Preview `./data/bird/opt/{train/dev}.json` and `./data/spider/opt/{train/dev/tes
 
 ## Prerequisites
 ### 1. Environment Setup
+Basic requirements:
  - Ubuntu 20.04 is preferred, other Linux OS is also feasible.
  - Anaconda, Python 3.10 (> 3.9 is feasible)
  - Docker, Docker Compose (to run VeriEQL for SQL counterexample generation)
@@ -127,25 +128,25 @@ The results are shown in `./results/study/` (refer to results of **Figure 2 and 
 Run the following scripts to perform Spider and BIRD's NL execution tasks on generated database instances.
 (The database instances for NL execution have been prepared in `./dbs/microbench/{benchmark}/`.)
 ```shell
-./click_to_run/nl.exec.sh spider gpt-4o
-./click_to_run/nl.exec.sh bird gpt-4o
+./click_to_run/nl_exec.sh spider gpt-4o
+./click_to_run/nl_exec.sh bird gpt-4o
 ```
 - The 1st parameter represents the benchmark name (Options: `spider`, `bird`).
 - The 2nd parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1-preview`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
 
-As to evaluating the scalability to enterprise dataset **Beaver** (discussed in Discussion section in the paper), run:
+As to evaluating the scalability to enterprise dataset **Beaver** (refer to section 7 `Discussion` in the paper), run:
 ```shell
-./click_to_run/nl_exec_enterprise.sh gpt-4o
+./click_to_run/nl_exec_enterprise_db.sh gpt-4o
 ```
 
-All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/` (refer to results of **Table 3** in the paper):
+All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/`. Check `nl_exec_accuracy.txt` of each subdirectory and refer to results of **Table 3** in the paper:
 ```
 ./results/microbench/{benchmark}_{LLM_name}/
 |-- exec_res/                   # Execution logs of each case
 |-- nl_exec_accuracy.txt        # Results of NL exeuction accuracy
 ```
-We only evaluate `gpt-4o` by default since other LLMs show comparable NL execution accuracy (**Table 3** in the paper), and `gpt-4o` has relatively low cost and latency.
-You can also experiment by changing the 2nd parameter to other LLMs.
+Note that the script only evaluates `gpt-4o` by default for time and `$` overhead, because other LLMs show comparable NL execution accuracy (**Table 3** in the paper), while `gpt-4o` has relatively low cost and latency.
+You can also experiment by changing the 2nd parameter to other LLMs mentioned above.
 
 ### 3. Dataset Refine and Model Accuracy Evaluation
 

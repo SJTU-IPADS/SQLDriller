@@ -69,10 +69,10 @@ def evaluate(args, seed=0):
         total_correct_instance_cnt += correct_cnt
 
     print("Instance count: %d, correctly execute count: %d" % (total_instance_cnt, total_correct_instance_cnt))
-    print("Instance exec accuracy on %s %s set: %f" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
+    print("Instance exec accuracy on %s %s set: %.3f" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
     with open(os.path.join(args.save_dir, "sql_exec_accuracy.txt"), "w") as f:
         f.write("Instance count: %d, correctly execute count: %d\n" % (total_instance_cnt, total_correct_instance_cnt))
-        f.write("Instance exec accuracy on %s %s set: %f\n" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
+        f.write("Instance exec accuracy on %s %s set: %.3f\n" % (args.benchmark, args.dataset_type, total_correct_instance_cnt / total_instance_cnt))
 
 
 if __name__ == '__main__':

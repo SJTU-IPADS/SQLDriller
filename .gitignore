@@ -15,7 +15,7 @@ fig/
 models/
 third_party/ce_gen/database/
 third_party/ce_gen/microbench/
-
+third_party/test-suite-accuracy/
 
 temp*.*
 statistics*.py
