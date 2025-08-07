@@ -1,6 +1,6 @@
 import argparse
 import datetime
-import json, os
+import json, os, time
 import math
 import traceback
 from tqdm import tqdm
@@ -286,9 +286,19 @@ def evaluate(args):
         partition_size = math.floor(len(dataset_items) / args.partition_num)
         start_id = partition_size * args.partition_id
         end_id = partition_size * (args.partition_id + 1) if args.partition_id + 1 < partition_size else -1
-    if args.start_id >= 0 or args.end_id >= 0:
+    if args.start_id >= 0:
         start_id = args.start_id
+    if args.end_id >= 0:
         end_id = args.end_id
+
+    total_case_num = len(candidate_items)
+    if start_id >= 0 and end_id >= 0:
+        total_case_num = end_id - start_id + 1
+    elif start_id >= 0:
+        total_case_num = len(candidate_items) - start_id
+    elif end_id >= 0:
+        total_case_num = end_id + 1
+    print("Total number of cases: %d" % total_case_num)
 
     fixed_dataset_items = []
     for _, item in tqdm(enumerate(candidate_items)):
@@ -320,6 +330,7 @@ def evaluate(args):
                 json.dump(fixed_dataset_items, f, indent=2)
 
     # After all partitions are processed, combine results if all records are present
+    time.sleep(10)
     if args.partition_num > 0:
         total_records = len(dataset_items)
         total_gold_lines, total_dataset_items = 0, 0

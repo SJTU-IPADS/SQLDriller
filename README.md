@@ -153,6 +153,8 @@ You can also experiment by changing the 2nd parameter to other LLMs mentioned ab
 ### 3. Dataset Refine and Model Accuracy Evaluation
 
 #### 3.1 Dataset Refine
+
+##### 3.1.1 SQLDriller itself
 Run the following command to ***detect and fix*** errors in the datasets.
 ```shell
 ./click_to_run/dataset_refine.sh spider train
@@ -161,12 +163,23 @@ Run the following command to ***detect and fix*** errors in the datasets.
 - The 1st parameter represents the benchmark name (Options: `spider`, `bird`). 
 - The 2nd parameter represents the dataset split (Options: `train`, `dev`, `test`). We here only fix the train set. The dev and test set have been manually checked for accuracy evaluation as mentioned in the paper. 
 
-Rrun the following command to do the same thing using LLM consistency-based baseline:
+This script will setup 8 processes to run in parallel (taking about 10~15 hours to finish). You can view the progress of each process by running the following command whenever you want:
+```shell
+./click_to_run/dataset_refine_view_progress.sh {spider/bird} train
+```
+If this script outputs that some processes are somehow aborted and need to be resumed, you can resume them by running the recommended command it outputs. Example command:
+```shell
+./click_to_run/dataset_refine.sh {spider/bird} train --resume {partition_id}
+```
+
+##### 3.1.2 LLM Consistency Baseline
+Run the following command to do the same thing using LLM consistency-based baseline:
 ```shell
 ./click_to_run/dataset_refine_baseline.sh spider train
 ./click_to_run/dataset_refine_baseline.sh bird train
 ```
 
+##### 3.1.3 Evaluate Them All
 Then run the following command to evaluate the effectiveness of SQLDriller and the baseline on error detection and fixing:
 ```shell
 ./click_to_run/dataset_refine_eval.sh spider
