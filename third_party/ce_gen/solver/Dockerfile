@@ -7,11 +7,11 @@ RUN python3 -m venv venv
 
 ENV PATH="/venv/bin:$PATH"
 
-COPY VeriEQL/requirements.txt .
+COPY verieql/requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY VeriEQL /verieql
+COPY verieql /verieql
 
 WORKDIR /verieql
 

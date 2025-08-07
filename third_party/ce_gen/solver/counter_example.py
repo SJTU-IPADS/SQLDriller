@@ -2,7 +2,7 @@ import random
 import sqlglot
 import copy
 from third_party.ce_gen.solver.process_sql import find_col_related_literals, get_type_of_col, DataType
-from third_party.ce_gen.solver.VeriEQL.app import VerieqlApp
+from third_party.ce_gen.solver.app import VerieqlApp
 from sqlglot.optimizer.scope import build_scope
 from sqlglot.optimizer.qualify import qualify
 from utils.llm_utils import gpt_reply_n, GPT_3_5_TURBO
