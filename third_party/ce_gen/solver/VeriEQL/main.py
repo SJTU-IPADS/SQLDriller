@@ -3,7 +3,7 @@
 from environment import Environment
 import argparse
 import ast
-from cli_within_timeout import process_ends_with_max_timeout
+from parallel.cli_within_timeout import process_ends_with_max_timeout
 from multiprocessing import (
     Process,
     Queue,

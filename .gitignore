@@ -12,10 +12,10 @@ hidden_state/
 infer/
 fig/
 
-models/
 third_party/ce_gen/database/
 third_party/ce_gen/microbench/
 third_party/test-suite-accuracy/
+third_party/ce_gen/solver/VeriEQL/VeriEQL/
 
 temp*.*
 statistics*.py
