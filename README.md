@@ -1,6 +1,6 @@
 # SQLDRILLER: Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency
 
-SQLDRILLER is a Text-to-SQL translation checking tool. 
+SQLDRILLER is a Text-to-SQL translation correctness checking tool. 
 It introduces and applies **Execution Consistency** to automatically discover and fix errors in Text-to-SQL datasets, and in Text-to-SQL model inference results to improve model accuracy. 
 It is presented in the paper "Automated Validating and Fixing of Text-to-SQL Translation with Execution Consistency" (SIGMOD '25, [paper link](https://dl.acm.org/doi/10.1145/3725271)).
 
@@ -23,9 +23,9 @@ Then, run the following commands to set up:
 ```shell
 # Create and activate Python environment
 conda create -n SQLDriller python=3.10
-conda activate SQLDriller
-# If this failed, try this instead:
-#source activate SQLDriller
+source activate SQLDriller
+# If this failed, try this cmd instead:
+# `conda activate SQLDriller`
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
@@ -51,16 +51,16 @@ chmod 755 ./click_to_run/*.sh
 Create an `.env` file in the root path of this repo, replace the placeholder below to add your own api key information into the file:
 ```shell
 touch .env
-echo "OPENAI_API_KEY = {your-api-key}" >> .env
-echo "OPENAI_API_BASE = {your-api-url}" >> .env
+echo 'OPENAI_API_KEY = "{your-api-key}"' >> .env
+echo 'OPENAI_API_BASE = "{your-api-url}"' >> .env
 ```
 
 ### 3. Resource Downloading:
 We have prepared the following resources for experiments, download them into project root dir `./`:
-- Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1n3Z2uwCLqO8apglKT_ylyizpwSM2cupl/view?usp=sharing).
+- Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1FuK0PCCccmjyJQAiE-nlyIKZ2NMmL61y/view?usp=sharing).
 - Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1x4PpI-DYwO-JDA7B1ztJGWF8nE859-G9/view?usp=sharing).
 - Download the sqlite files of each schema of each benchmark:
-  - [Spider link](https://drive.google.com/file/d/1-64iuFrEKt9hm3zHMyJNnuhtkdgdLsR4/view?usp=sharing), [BIRD link](https://drive.google.com/file/d/16-3hnWEsXpofwVLmhoS85w3bH_G1xiqV/view?usp=sharing), [Beaver link](https://drive.google.com/file/d/15hesi2DYKT1FjtD_QM6Uay41tpkES0aK/view?usp=sharing)
+  - [Spider link](https://drive.google.com/file/d/1-D-B389hBsr8ygzpoP5rr2_g8OohTsVS/view?usp=sharing), [BIRD link](https://drive.google.com/file/d/1XOXkmph5NYdMFkVLTC2BKASRfbIf4a2G/view?usp=sharing), [Beaver link](https://drive.google.com/file/d/1omf0uDAtXztwJceBPGMQC5PfdWkB-qN3/view?usp=sharing)
 
 Unzip them by:
 ```shell
@@ -204,19 +204,21 @@ Run the following command to ***use SQLDriller to improve model inference accura
 ./click_to_run/inference_optimize.sh spider test dail
 ./click_to_run/inference_optimize.sh spider test din
 ./click_to_run/inference_optimize.sh spider test resd
+./click_to_run/inference_optimize.sh spider test graphix-T5
 
 ./click_to_run/inference_optimize.sh bird dev sftcodes
 ./click_to_run/inference_optimize.sh bird dev codes
 ```
 - The 1st parameter represents the benchmark name (Options: `spider`, `bird`). 
 - The 2nd parameter represents the dataset split. `test` set for Spider and `dev` set for BIRD.
-- The 3rd parameter represents the model. We evaluate 5 models in this step, each model providing a file w/ multiple prediction candidates for each test case.
+- The 3rd parameter represents the model. Each evaluated model has a file w/ multiple prediction candidates for each test case.
 
 Run the following command to do the same thing using LLM consistency-based baseline:
 ```shell
 ./click_to_run/inference_optimize_baseline.sh spider test dail
 ./click_to_run/inference_optimize_baseline.sh spider test din
 ./click_to_run/inference_optimize_baseline.sh spider test resd
+./click_to_run/inference_optimize_baseline.sh spider test graphix-T5
 
 ./click_to_run/inference_optimize_baseline.sh bird dev sftcodes
 ./click_to_run/inference_optimize_baseline.sh bird dev codes
