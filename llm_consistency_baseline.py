@@ -179,8 +179,10 @@ def evaluate(args):
             log_exec_ce(log_dir, gold, [], {})
             with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'a') as f:
                 if args.contain_gold:
+                    # Refine dataset
                     f.write("%d\t%s\t%s\n" % (case_id, gold, "-"))
                 else:
+                    # Model inference
                     f.write("sql placeholder" + "\n")
             continue
 

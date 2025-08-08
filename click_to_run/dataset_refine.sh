@@ -22,6 +22,10 @@ save_dir="./results/dataset_refine/${benchmark}_${dataset_type}/SQLDriller"
 save_ce_dir="${save_dir}/ce"
 log_dir="${save_dir}/log"
 
+mkdir -p "${save_dir}"
+mkdir -p "${save_ce_dir}"
+mkdir -p "${log_dir}"
+
 if [ $# -ge 3 ] && [ "$3" == "--resume" ] && [ $# -ge 4 ]; then
     resume_partition_id=$4
     modified_gold_file="${save_dir}/modified_gold_${resume_partition_id}.tsv"

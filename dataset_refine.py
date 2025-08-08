@@ -25,8 +25,7 @@ def ask_gpt_for_exec_res(nlq: str,
                          order_matters_option: bool = False,
                          column_slim_option: bool = False,
                          evidence=None) -> list:
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
+    os.makedirs(log_dir, exist_ok=True)
 
     gpt_ce_res = []
     for ce_path in ce_paths:
@@ -55,8 +54,8 @@ def log_gpt_reply(log_dir,
                   prompt,
                   reply_list):
     log_subdir = os.path.join(log_dir, "log")
-    if not os.path.exists(log_subdir):
-        os.makedirs(log_subdir)
+    os.makedirs(log_subdir, exist_ok=True)
+
     with open(os.path.join(log_subdir, f"exec_ce{instance_id}.log"), "w") as f:
         f.write("----------CURRENT_PROMPT----------\n" + prompt + "\n")
         for i in range(len(reply_list)):
@@ -93,7 +92,7 @@ def get_pred_scores(all_preds: list[str], all_ce_paths: list[str], pred_ce_res_l
         pred_ce_res = pred_ce_res_list[pred]
         score = 0
         for j in range(len(all_ce_paths)):
-            if gpt_ce_res[i] is None:
+            if gpt_ce_res[j] is None:
                 continue
             if EXEC_EVAL.result_eq(pred_ce_res[all_ce_paths[j]], gpt_ce_res[j], order_matters=order_matters_option):
                 score += 1
@@ -247,8 +246,8 @@ def log_exec_ce(log_dir,
                 gold=None,
                 gold_ce_res_list=None,
                 gold_score=-1):
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
+    os.makedirs(log_dir, exist_ok=True)
+
     ce_res_json = []
     gpt_res = {}
     for i in range(len(ce_paths)):
@@ -277,19 +276,23 @@ def evaluate(args):
         candidate_items = json.load(f)
     assert len(dataset_items) == len(candidate_items)
 
-    if not os.path.exists(args.save_dir):
-        os.makedirs(args.save_dir)
-        os.makedirs(os.path.join(args.save_dir, "exec_res"))
+    # dataset_items = dataset_items[:17]
+    # candidate_items = candidate_items[:17]
+
+    os.makedirs(args.save_dir, exist_ok=True)
+    os.makedirs(args.save_ce_dir, exist_ok=True)
+    os.makedirs(os.path.join(args.save_dir, "exec_res"), exist_ok=True)
 
     start_id, end_id = -1, -1
     if args.partition_num > 0:
         partition_size = math.floor(len(dataset_items) / args.partition_num)
         start_id = partition_size * args.partition_id
-        end_id = partition_size * (args.partition_id + 1) if args.partition_id + 1 < partition_size else -1
+        end_id = partition_size * (args.partition_id + 1) - 1 if args.partition_id + 1 < args.partition_num else -1
     if args.start_id >= 0:
         start_id = args.start_id
     if args.end_id >= 0:
         end_id = args.end_id
+    print("start_id: %d, end_id: %d" % (start_id, end_id))
 
     total_case_num = len(candidate_items)
     if start_id >= 0 and end_id >= 0:

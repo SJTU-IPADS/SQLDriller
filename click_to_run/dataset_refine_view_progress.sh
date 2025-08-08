@@ -18,7 +18,7 @@ missing_partitions=()
 running_partitions=()
 
 for i in $(seq 0 $((${expected_processes}-1))); do
-    if ps aux | grep "dataset_refine.py" | grep -v grep | grep -q "partition_id ${i}"; then
+    if ps aux | grep "dataset_refine.py" | grep -v grep | grep -- "--benchmark ${benchmark}" | grep -- "--dataset_type ${dataset_type}" | grep -q "partition_id ${i}"; then        
         running_partitions+=($i)
     else
         missing_partitions+=($i)
