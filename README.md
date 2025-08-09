@@ -32,11 +32,13 @@ pip install -r requirements.txt
 # Download nltk lib
 python nltk_downloader.py
 
-# Setup docker container for VeriEQL solver
+# Setup docker container for VeriEQL solver 
+# (add little modifications to the original code in 2 files)
 export CURRENT_PATH=$(pwd)
 cd ./third_party/ce_gen/solver/
 git clone git@github.com:VeriEQL/VeriEQL.git verieql
-cp ./main.py ./verieql/main.py
+cp ./modification/main.py ./verieql/main.py
+cp ./modification/cli_within_timeout.py ./verieql/parallel/cli_within_timeout.py
 sh verieql.sh
 cd $CURRENT_PATH
 

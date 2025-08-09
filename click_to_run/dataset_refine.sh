@@ -57,7 +57,7 @@ if [ $# -ge 3 ] && [ "$3" == "--resume" ] && [ $# -ge 4 ]; then
         --modified_gold_save_file "modified_gold_${resume_partition_id}.tsv" \
         --modified_dataset_save_file "${dataset_type}_${resume_partition_id}.json" \
         --start_id ${start_id} \
-        >>"${log_dir}/log_${resume_partition_id}" 2>&1 &
+        >>"${log_dir}/log_partition_${resume_partition_id}" 2>&1 &
     echo "[Note] Resume process started for partition $resume_partition_id. Check log at ${log_dir}/log_${resume_partition_id}"
     exit 0
 fi
@@ -79,7 +79,7 @@ for i in $(seq 0 $((${partition_num}-1))); do
         --save_ce_dir ${save_ce_dir} \
         --modified_gold_save_file "modified_gold_${i}.tsv" \
         --modified_dataset_save_file "${dataset_type}_${i}.json" \
-        >"${log_dir}/log_${i}" 2>&1 &
+        >"${log_dir}/log_partition_${i}" 2>&1 &
 done
 
 echo "[Note] Results will be saved in ${save_dir} after the ${partition_num} processes finish."

@@ -276,8 +276,8 @@ def evaluate(args):
         candidate_items = json.load(f)
     assert len(dataset_items) == len(candidate_items)
 
-    dataset_items = dataset_items[:8]
-    candidate_items = candidate_items[:8]
+    # dataset_items = dataset_items[:8]
+    # candidate_items = candidate_items[:8]
 
     os.makedirs(args.save_dir, exist_ok=True)
     os.makedirs(args.save_ce_dir, exist_ok=True)
@@ -377,6 +377,7 @@ def evaluate(args):
                 lines = f.readlines()
                 for line in lines:
                     case_id, exec_consistent_flag, gold, replaced_gold = line.strip().split("\t")
+                    case_id = int(case_id)
                     if replaced_gold != "-":
                         fixed_dataset_items[case_id]['query' if 'query' in dict(fixed_dataset_items[case_id]).keys() else 'SQL'] = replaced_gold
 
