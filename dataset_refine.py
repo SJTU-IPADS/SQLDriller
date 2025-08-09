@@ -276,8 +276,8 @@ def evaluate(args):
         candidate_items = json.load(f)
     assert len(dataset_items) == len(candidate_items)
 
-    # dataset_items = dataset_items[:17]
-    # candidate_items = candidate_items[:17]
+    dataset_items = dataset_items[:8]
+    candidate_items = candidate_items[:8]
 
     os.makedirs(args.save_dir, exist_ok=True)
     os.makedirs(args.save_ce_dir, exist_ok=True)
@@ -303,7 +303,7 @@ def evaluate(args):
         total_case_num = end_id + 1
     print("Total number of cases: %d" % total_case_num)
 
-    fixed_dataset_items = []
+    # fixed_dataset_items = []
     for _, item in tqdm(enumerate(candidate_items)):
         case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
         if (start_id >= 0 and case_id < start_id) or (end_id >= 0 and case_id > end_id):
@@ -323,53 +323,65 @@ def evaluate(args):
                       % (case_id, exec_consistent_flag, gold, replaced_gold if replaced_gold is not None else "-")
             f.write(content + "\n")
 
-        original_case_item = dataset_items[case_id]
-        fixed_case_item = original_case_item.copy()
-        fixed_case_item['query' if 'query' in dict(original_case_item).keys() else 'SQL'] = \
-            replaced_gold if replaced_gold is not None else gold
-        fixed_dataset_items.append(fixed_case_item)
-        if case_id % 10 == 0:  # dump results for each 10 cases as checkpoint
-            with open(os.path.join(args.save_dir, args.modified_dataset_save_file), 'w') as f:
-                json.dump(fixed_dataset_items, f, indent=2)
+        # original_case_item = dataset_items[case_id]
+        # fixed_case_item = original_case_item.copy()
+        # fixed_case_item['query' if 'query' in dict(original_case_item).keys() else 'SQL'] = \
+        #     replaced_gold if replaced_gold is not None else gold
+        # fixed_dataset_items.append(fixed_case_item)
+        # if case_id % 10 == 0:  # dump results for each 10 cases as checkpoint
+        #     with open(os.path.join(args.save_dir, args.modified_dataset_save_file), 'w') as f:
+        #         json.dump(fixed_dataset_items, f, indent=2)
 
     # After all partitions are processed, combine results if all records are present
-    time.sleep(10)
+    time.sleep(5)
     if args.partition_num > 0:
         total_records = len(dataset_items)
-        total_gold_lines, total_dataset_items = 0, 0
+        total_gold_lines = 0
+        # total_dataset_items = 0
 
-        gold_files, dataset_files = [], []
+        gold_files = []
+        # dataset_files = []
         for i in range(args.partition_num):
             gold_files.append(os.path.join(args.save_dir, f"modified_gold_{i}.tsv"))
-            dataset_files.append(os.path.join(args.save_dir, f"{args.dataset_type}_{i}.json"))
+            # dataset_files.append(os.path.join(args.save_dir, f"{args.dataset_type}_{i}.json"))
 
         for gold_file in gold_files:
             if os.path.exists(gold_file):
                 with open(gold_file, "r") as f:
                     lines = f.readlines()
                     total_gold_lines += len(lines)
-        for dataset_file in dataset_files:
-            if os.path.exists(dataset_file):
-                with open(dataset_file, "r") as f:
-                    items = json.load(f)
-                    total_dataset_items += len(items)
+        # for dataset_file in dataset_files:
+        #     if os.path.exists(dataset_file):
+        #         with open(dataset_file, "r") as f:
+        #             items = json.load(f)
+        #             total_dataset_items += len(items)
 
         # If all records are present, combine them in order of partition_id
-        if total_gold_lines == total_records and total_dataset_items == total_records:
+        if total_gold_lines == total_records:
+            # and total_dataset_items == total_records:
             print("Combine partitioned files together...")
             with open(os.path.join(args.save_dir, "modified_gold.tsv"), "w") as out_gold:
                 for gold_file in gold_files:
                     if os.path.exists(gold_file):
                         with open(gold_file, "r") as f:
                             out_gold.writelines(f.readlines())
-            combined_dataset = []
-            for dataset_file in dataset_files:
-                if os.path.exists(dataset_file):
-                    with open(dataset_file, "r") as f:
-                        items = json.load(f)
-                        combined_dataset.extend(items)
+            # combined_dataset = []
+            # for dataset_file in dataset_files:
+            #     if os.path.exists(dataset_file):
+            #         with open(dataset_file, "r") as f:
+            #             items = json.load(f)
+            #             combined_dataset.extend(items)
+            time.sleep(5)
+            fixed_dataset_items = dataset_items.copy()
+            with open(os.path.join(args.save_dir, "modified_gold.tsv"), "r") as f:
+                lines = f.readlines()
+                for line in lines:
+                    case_id, exec_consistent_flag, gold, replaced_gold = line.strip().split("\t")
+                    if replaced_gold != "-":
+                        fixed_dataset_items[case_id]['query' if 'query' in dict(fixed_dataset_items[case_id]).keys() else 'SQL'] = replaced_gold
+
             with open(os.path.join(args.save_dir, f"{args.dataset_type}.json"), "w") as out_dataset:
-                json.dump(combined_dataset, out_dataset, indent=2)
+                json.dump(fixed_dataset_items, out_dataset, indent=2)
 
 
 if __name__ == '__main__':

@@ -1,3 +1,5 @@
+import traceback
+
 from third_party.ce_gen.solver.prove_api import prove
 from third_party.ce_gen.solver.process_sql import get_schema_constraints
 
@@ -18,6 +20,7 @@ def check_equivalence_by_verieql(gold: str, pred: str, schema_properties: tuple,
         if not eq_tag:
             return False, filter_insert(counter_example)
     except Exception as e:
+        print(traceback.format_exc())
         print("VeriEQL exception: ", e)
     return (True, None)
 
