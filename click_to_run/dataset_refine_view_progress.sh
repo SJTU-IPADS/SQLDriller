@@ -63,7 +63,7 @@ echo "=== Partition Progress ==="
 partitions_to_resume=()
 for i in $(seq 0 $((${expected_processes}-1))); do
     modified_gold_file="./results/dataset_refine/${benchmark}_${dataset_type}/SQLDriller/modified_gold_${i}.tsv"
-    log_file="./results/dataset_refine/${benchmark}_${dataset_type}/SQLDriller/log/log_${i}"
+    log_file="./results/dataset_refine/${benchmark}_${dataset_type}/SQLDriller/log/log_partition_${i}"
 
     # Try to get total_cases for this partition from the log file
     if [ -f "$log_file" ]; then

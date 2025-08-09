@@ -30,7 +30,7 @@ def extract_values_from_sqlite(db: str, table: str, col: str) -> list:
     sqlite_path = f"data/bird/schema_for_sample_values/{db}/{db}.sqlite"
     conn = sqlite3.connect(sqlite_path)
     cursor = conn.cursor()
-    cursor.execute(f"SELECT `{col}` FROM (SELECT DISTINCT `{col}` FROM `{table}`) T ORDER BY RANDOM() LIMIT 20")
+    cursor.execute(f"SELECT `{col}` FROM (SELECT DISTINCT `{col}` FROM (SELECT * FROM `{table}` LIMIT 1000)) T ORDER BY RANDOM() LIMIT 20")
     distinct_col_values = cursor.fetchall()
     col_vals = [col_value[0] for col_value in distinct_col_values if col_value[0] is not None]
     return col_vals
