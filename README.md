@@ -134,20 +134,22 @@ Run the following scripts to perform Spider and BIRD's NL execution tasks on gen
 ```shell
 ./click_to_run/nl_exec.sh spider gpt-4o
 ./click_to_run/nl_exec.sh bird gpt-4o
+
+# You can also try other LLMs, which shows similar accuracy as shown in paper's Table 3.
+./click_to_run/nl_exec.sh spider gpt-4-turbo
+./click_to_run/nl_exec.sh bird gpt-4-turbo
+
+./click_to_run/nl_exec.sh spider o1-preview
+./click_to_run/nl_exec.sh bird o1-preview
 ```
 - The 1st parameter represents the benchmark name (Options: `spider`, `bird`).
 - The 2nd parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1-preview`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
 
-As to evaluating the scalability to enterprise dataset **Beaver** (refer to section 7 `Discussion` in the paper), run:
-```shell
-./click_to_run/nl_exec_enterprise_db.sh gpt-4o
-```
-
 All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/`. Check `nl_exec_accuracy.txt` of each subdirectory and refer to results of **Table 3** in the paper:
 ```
-./results/microbench/{benchmark}_{LLM_name}/
+./results/nl_exec/{benchmark}_{LLM_name}/
 |-- exec_res/                   # Execution logs of each case
-|-- nl_exec_accuracy.txt        # Results of NL exeuction accuracy
+|-- nl_exec_accuracy.txt        # Results of NL exeuction accuracy on this benchmark and LLM
 ```
 Note that the script only evaluates `gpt-4o` by default for time and `$` overhead, because other LLMs show comparable NL execution accuracy (**Table 3** in the paper), while `gpt-4o` has relatively low cost and latency.
 You can also experiment by changing the 2nd parameter to other LLMs mentioned above.
