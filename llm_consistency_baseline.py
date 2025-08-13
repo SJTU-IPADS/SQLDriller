@@ -151,7 +151,7 @@ def evaluate(args):
 
     sampled_case_ids = None
     if args.sample_case_reference_file is not None:
-        sampled_case_records = pd.read_csv(args.groundtruth_file, sep='\t', usecols=['case_id']).to_dict(orient='records')
+        sampled_case_records = pd.read_csv(args.sample_case_reference_file, sep='\t', usecols=['case_id']).to_dict(orient='records')
         sampled_case_ids = sorted([int(record['case_id']) for record in sampled_case_records])
 
     schema_db_dir = METADATA_FILE_PATHS[args.benchmark][refine_steps.original][SCHEMA_DB_DIR]
@@ -216,7 +216,7 @@ if __name__ == '__main__':
     parser.add_argument("--end_id", type=int, default=-1)
 
     parser.add_argument("--sql_candidates_path", type=str, required=True)
-    parser.add_argument("--contain_gold", type=bool, default=False, action="store_true")
+    parser.add_argument("--contain_gold", action="store_true")
     parser.add_argument("--sample_case_reference_file", type=str)
 
     parser.add_argument("--benchmark", type=str, default=benchmark_type.spider)

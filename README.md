@@ -171,7 +171,7 @@ This script will setup 8 processes to run in parallel (taking about 10~15 hours 
 ```shell
 ./click_to_run/dataset_refine_view_progress.sh {spider/bird} train
 ```
-If this script outputs that some processes are somehow aborted and need to be resumed, you can resume them by running the recommended command it outputs. Example command:
+If this script outputs that some processes are somehow aborted and need to be resumed, you can resume them by running the recommended command it outputs. Example like:
 ```shell
 ./click_to_run/dataset_refine.sh {spider/bird} train --resume {partition_id}
 ```

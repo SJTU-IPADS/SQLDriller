@@ -10,7 +10,7 @@ from utils.utils import check_equivalence
 
 
 def preprocess_sampled_cases(args):
-    groundtruth_list = pd.read_csv(args.groundtruth_file, sep='\t',
+    groundtruth_list = pd.read_csv(args.sample_case_reference_file, sep='\t',
                                    usecols=['case_id', 'db_id', 'nlq', 'original gold', 'original gold tag',
                                             'final fixed gold']).to_dict(orient='records')
     groundtruths = {int(record['case_id']): record for record in groundtruth_list}
@@ -33,7 +33,13 @@ def preprocess_sampled_cases(args):
         if case_id in sampled_case_ids:
             sampled_records_baseline.append((case_id, _, gold, fix))
 
-    assert len(sampled_records_SQLDriller) == len(sampled_records_baseline) == len(groundtruths)
+    # if baseline applies on sampled cases but SQLDriller applies on all, align them. 
+    if len(sampled_records_SQLDriller) > len(sampled_records_baseline):
+        sampled_ids = [r[0] for r in sampled_records_baseline]
+        sampled_records_SQLDriller = [r for r in sampled_records_SQLDriller if r[0] in sampled_ids]
+
+    # assert len(sampled_records_SQLDriller) == len(sampled_records_baseline) == len(groundtruths)
+    assert len(sampled_records_SQLDriller) == len(sampled_records_baseline)
 
     return groundtruths, sampled_records_SQLDriller, sampled_records_baseline
 
@@ -134,14 +140,16 @@ def evaluate_fix(args, groundtruths, sampled_records_SQLDriller, sampled_records
             incorrect_unfixed_num, incorrect_fixed_num
 
     print(f"Evaluate SQLDriller error fixing effectiveness in {args.benchmark} {args.dataset_type} set.")
-    tagged_output_file_SQLDriller = args.SQLDriller_modified_gold_file.split('/')[-1].split('.')[0] + '_tagged.tsv'
+    root, ext = os.path.splitext(args.SQLDriller_modified_gold_file)
+    tagged_output_file_SQLDriller = root + '_tagged' + ext
     correct_num, incorrect_num, \
         correct_unfixed_num_SQLDriller, correct_fixed_num_SQLDriller, \
         incorrect_unfixed_num_SQLDriller, incorrect_fixed_num_SQLDriller \
         = tag(groundtruths, sampled_records_SQLDriller, tagged_output_file_SQLDriller)
 
     print(f"Evaluate LLM-Consistency baseline error fixing effectiveness in {args.benchmark} {args.dataset_type} set.")
-    tagged_output_file_baseline = args.baseline_modified_gold_file.split('/')[-1].split('.')[0] + '_tagged.tsv'
+    root, ext = os.path.splitext(args.baseline_modified_gold_file)
+    tagged_output_file_baseline = root + '_tagged' + ext
     _, _, \
         correct_unfixed_num_baseline, correct_fixed_num_baseline, \
         incorrect_unfixed_num_baseline, incorrect_fixed_num_baseline \
@@ -173,7 +181,7 @@ def evaluate(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--groundtruth_file", type=str, required=True)
+    parser.add_argument("--sample_case_reference_file", type=str, required=True)
     parser.add_argument("--fuzz_db_dir", type=str, required=True)
     parser.add_argument("--SQLDriller_modified_gold_file", type=str, required=True)
     parser.add_argument("--baseline_modified_gold_file", type=str, required=True)
@@ -185,7 +193,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     for path_key in vars(args).keys():
-        if path_key in ["groundtruth_file", "fuzz_db_dir", "SQLDriller_modified_gold_file", "baseline_modified_gold_file"]:
+        if path_key in ["sample_case_reference_file", "fuzz_db_dir", "SQLDriller_modified_gold_file", "baseline_modified_gold_file"]:
             if not os.path.exists(vars(args)[path_key]):
                 print(f"args.{path_key}: `{vars(args)[path_key]}` does not exist. Please check carefully.")
                 exit(1)

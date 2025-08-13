@@ -276,8 +276,8 @@ def evaluate(args):
         candidate_items = json.load(f)
     assert len(dataset_items) == len(candidate_items)
 
-    # dataset_items = dataset_items[:8]
-    # candidate_items = candidate_items[:8]
+    # dataset_items = dataset_items[:20]
+    # candidate_items = candidate_items[:20]
 
     os.makedirs(args.save_dir, exist_ok=True)
     os.makedirs(args.save_ce_dir, exist_ok=True)

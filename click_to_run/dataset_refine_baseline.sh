@@ -11,6 +11,7 @@ dataset_type=${2:-train}  # Use second parameter if provided, otherwise default 
 if [[ "$benchmark" != "spider" && "$benchmark" != "bird" ]]; then
     echo "Not supported benchmark. Please specify 'spider' or 'bird' benchmark."
     exit 1
+fi
 
 # only refine sampled cases for comparison
 sql_candidates_path="./prepared/${benchmark}/dataset_refine/sqls/${dataset_type}_sampled_candidates.json"
