@@ -12,6 +12,7 @@ model_name=$3
 if [[ "$dataset_type" != "dev" && "$dataset_type" != "test" ]]; then
     echo "Please specify 'dev' or 'test' dataset for accuracy evaluation."
     exit 1
+fi
 
 if [[ "$benchmark" == "spider" ]]; then
     if [[ "$model_name" == "dail" || "$model_name" == "din" || "$model_name" == "resd" ]]; then

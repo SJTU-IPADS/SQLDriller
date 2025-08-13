@@ -121,7 +121,9 @@ def main(args):
     for item in candidate_prediction_items:
         case_id = item['id']
         if (args.start_id >= 0 and case_id < args.start_id) or (args.end_id >= 0 and case_id > args.end_id):
-            continue  # range of case id: [start_id, end_id]
+            continue
+
+        print("Check model inferences for case %d" % case_id)
 
         pred = select_prediction(item, args)
         # 'result%s_%s.sql' % (args.start_id, args.end_id)
@@ -141,6 +143,7 @@ if __name__ == '__main__':
     parser.add_argument("--sql_equiv_mode", type=str, default=sql_equiv_mode.mixed)
 
     parser.add_argument("--save_dir", type=str, required=True)
+    parser.add_argument("--save_ce_dir", type=str, required=True)
     parser.add_argument("--inference_result_save_file", type=str, default="result.sql")
 
     parser.add_argument("--start_id", type=int, default=-1)
@@ -155,6 +158,7 @@ if __name__ == '__main__':
                 exit(1)
 
     os.makedirs(args.save_dir, exist_ok=True)
+    os.makedirs(args.save_ce_dir, exist_ok=True)
 
     main(args)
     

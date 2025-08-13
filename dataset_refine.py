@@ -279,8 +279,6 @@ def evaluate(args):
     # dataset_items = dataset_items[:20]
     # candidate_items = candidate_items[:20]
 
-    os.makedirs(args.save_dir, exist_ok=True)
-    os.makedirs(args.save_ce_dir, exist_ok=True)
     os.makedirs(os.path.join(args.save_dir, "exec_res"), exist_ok=True)
 
     start_id, end_id = -1, -1

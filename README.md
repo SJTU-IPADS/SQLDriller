@@ -213,8 +213,8 @@ The results are shown in `./results/dataset_refine/{benchmark}_train/`:
 ```
 In `./results/dataset_refine/{benchmark}_train/`, view `statistics.txt` for a summary of effectiveness evaluation (refer to results of **Table 5 and 6** in the paper).
 
-Then, `./results/dataset_refine/{benchmark}_train/SQLDriller/train.json` can be used to fine-tune existing models.
-We temporarily omit such scripts of model re-tuning and re-inference in this repo. Refer to the repo of each developed model, and put refined train set file into their repos instead.
+Then, `./results/dataset_refine/{benchmark}_train/SQLDriller/train.json` can be used to fine-tune existing Text-to-SQL models.
+
 
 #### 3.2 Model Accuracy Evaluation
 

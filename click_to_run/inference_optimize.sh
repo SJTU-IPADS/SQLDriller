@@ -12,7 +12,7 @@ model_name=$3
 if [[ "$dataset_type" != "dev" && "$dataset_type" != "test" ]]; then
     echo "Please specify 'dev' or 'test' dataset for accuracy evaluation."
     exit 1
-
+fi
 
 if [[ "$benchmark" == "spider" ]]; then
     if [[ "$model_name" == "dail" || "$model_name" == "din" || "$model_name" == "resd" ]]; then
@@ -42,6 +42,7 @@ fi
 sql_candidates_path="./prepared/${benchmark}/accuracy/pred/${dataset_type}/multi_pred/${model_name}_refined_train.json"
 counterexample_db_dir="./dbs/fuzz/${benchmark}/${dataset_type}/cea/${model_name}_refined_train"
 save_dir="./results/inference/${model_name}"
+save_ce_dir="${save_dir}/ce"
 
 python inference_optimize.py \
     --test_dataset_file_path ${test_dataset_file_path} \
@@ -51,6 +52,7 @@ python inference_optimize.py \
     --dataset_type ${dataset_type} \
     --sql_equiv_mode "mixed" \
     --save_dir ${save_dir} \
+    --save_ce_dir ${save_ce_dir} \
     --inference_result_save_file "${model_name}_opt_SQLDriller.sql"
 
 echo "[Done] Results are saved in ${save_dir}/${inference_result_save_file} ."

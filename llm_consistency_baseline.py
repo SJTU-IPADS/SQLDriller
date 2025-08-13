@@ -145,9 +145,7 @@ def evaluate(args):
     with open(args.sql_candidates_path) as f:
         candidate_items = json.load(f)
 
-    if not os.path.exists(args.save_dir):
-        os.makedirs(args.save_dir)
-        os.makedirs(os.path.join(args.save_dir, "exec_res"))
+    os.makedirs(os.path.join(args.save_dir, "llmconsis_res"), exist_ok=True)
 
     sampled_case_ids = None
     if args.sample_case_reference_file is not None:
@@ -174,7 +172,7 @@ def evaluate(args):
 
         print("Check LLM consistency baseline for case %d" % case_id)
 
-        log_dir = os.path.join(args.save_dir, "exec_res", str(case_id))
+        log_dir = os.path.join(args.save_dir, "llmconsis_res", str(case_id))
         if len(infer_predictions) == 0:
             log_exec_ce(log_dir, gold, [], {})
             with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'a') as f:
@@ -227,7 +225,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     for path_key in vars(args).keys():
-        if path_key in ["sql_candidates_path", "sample_case_reference_file"]:
+        if path_key in ["sql_candidates_path"]:
             if not os.path.exists(vars(args)[path_key]):
                 print(f"args.{path_key}: `{vars(args)[path_key]}` does not exist. Please check carefully.")
                 exit(1)
