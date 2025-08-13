@@ -62,7 +62,7 @@ echo 'OPENAI_API_BASE = "{your-api-url}"' >> .env
 ### 3. Resource Downloading:
 We have prepared the following resources for experiments, download them into project root dir `./`:
 - Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1FuK0PCCccmjyJQAiE-nlyIKZ2NMmL61y/view?usp=sharing).
-- Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1x4PpI-DYwO-JDA7B1ztJGWF8nE859-G9/view?usp=sharing).
+- Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1Rz9DncpVgikcJ2KotWXXR6OPh-TMa2hA/view?usp=sharing).
 - Download the sqlite files of each schema of each benchmark:
   - [Spider link](https://drive.google.com/file/d/1-D-B389hBsr8ygzpoP5rr2_g8OohTsVS/view?usp=sharing), [BIRD link](https://drive.google.com/file/d/1XOXkmph5NYdMFkVLTC2BKASRfbIf4a2G/view?usp=sharing), [Beaver link](https://drive.google.com/file/d/1omf0uDAtXztwJceBPGMQC5PfdWkB-qN3/view?usp=sharing)
 
@@ -243,7 +243,7 @@ Run the following command to do the same thing using LLM consistency-based basel
 ./click_to_run/inference_optimize_baseline.sh bird dev codes
 ```
 
-Then run the following command to conclude the accuracy improvements of all the evaluated models:
+Then run the following command to summarize the accuracy improvements of all the evaluated models:
 ```shell
 ./click_to_run/inference_accuracy_eval.sh
 ``` 

@@ -28,7 +28,7 @@ for model_name in 'dail' 'din' 'resd' 'graphix-T5' 'sftcodes' 'codes'; do
     # step 2: enter and invoke ./third_party/test-suite-accuracy/, use Test-Suite-Accuracy to evaluate model accuracy.
     gold_file="data/${benchmark}/opt/${dataset_type}_gold.sql"
     metadata_file="data/${benchmark}/opt/${dataset_type}.json"
-    db_dir="dbs/fuzz/${benchmark}/${dataset_type}/original"
+    db_dir="dbs/fuzz/${benchmark}/${dataset_type}/accuracy_eval"
     for version_tag in ${original_train_tag} ${refined_train_tag} ${opt_SQLDriller_tag} ${opt_llmconsis_tag}; do
         sql_file="${accuracy_result_dir}/${model_name}_${version_tag}.sql"
         export CURRENT_PATH=$(pwd)

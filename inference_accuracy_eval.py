@@ -28,6 +28,7 @@ def visualize_accuracy_improvement(stats: dict, save_file):
 
         if model == 'graphix-T5':
             accuracy_opt_SQLDriller = accuracy_refined_train
+            accuracy_opt_llmconsis = accuracy_refined_train
 
         level1 = "easy" if benchmark == "Spider" else "simple"
         level2 = "medium" if benchmark == "Spider" else "moderate"
@@ -58,10 +59,14 @@ def visualize_accuracy_breakdown(stats: dict, save_file):
 
     for model in models:
         results = stats[model]
-        accuracy_original_train = results['original_train']['all']
-        accuracy_refined_train = results['refined_train']['all']
-        accuracy_opt_SQLDriller = results['opt_SQLDriller']['all']
-        accuracy_opt_llmconsis = results['opt_llmconsis']['all']
+        accuracy_original_train = results[original_train_tag]['all']
+        accuracy_refined_train = results[refined_train_tag]['all']
+        if model == 'graphix-T5':
+            accuracy_opt_SQLDriller = accuracy_refined_train
+            accuracy_opt_llmconsis = accuracy_refined_train
+        else:
+            accuracy_opt_SQLDriller = results[opt_SQLDriller_tag]['all']
+            accuracy_opt_llmconsis = results[opt_llmconsis_tag]['all']
 
         # accuracy_list_refined_train.append(float(format(accuracy_refined_train - accuracy_original_train, ".1f")))
         accuracy_list_refined_train.append(accuracy_refined_train - accuracy_original_train)
@@ -201,6 +206,10 @@ def get_statistics(res_dir):
     for model in models:
         stats[model] = {}
         for tag in [original_train_tag, refined_train_tag, opt_SQLDriller_tag, opt_llmconsis_tag]:
+            if model == 'graphix-T5' and tag in [opt_SQLDriller_tag, opt_llmconsis_tag]:
+                stats[model][tag] = None
+                continue
+
             with open(os.path.join(res_dir, model, f"{model}_{tag}.tsv"), 'r') as f:
                 contents = f.readlines()
                 stats[model][tag] = eval(contents[-1].strip())
