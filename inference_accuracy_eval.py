@@ -15,9 +15,12 @@ opt_llmconsis_tag = "opt_llmconsis"
 
 
 def visualize_accuracy_improvement(stats: dict, save_file):
+    def pad(word):
+        return word + ' ' * (10 - len(str(word)))
+
     with open(save_file, 'w') as f:
-        f.write("Text-to-SQL model accuracy improvements.")
-        f.write("Model\tDataset\t|\tAccuracy Improvement (%%)\teasy/simple\tmedium/moderate\thard/challenging\textra\n")
+        f.write("Text-to-SQL model accuracy improvements.\n")
+        f.write(f"{pad('Model')}\t{pad('Dataset')}\t|\tAccuracy Improvement (%)\t|\teasy/simple\t|\tmedium/moderate\t|\thard/challenging\t|\textra\n")
 
     for model in models:
         benchmark = "Spider" if model in spider_models else "BIRD"
@@ -35,20 +38,20 @@ def visualize_accuracy_improvement(stats: dict, save_file):
         level3 = "hard" if benchmark == "Spider" else "challenging"
         level4 = "extra"
         with open(save_file, 'a') as f:
-            f.write("%s\t%s\t|" % (model, dataset))
-            f.write("\t%.1f (%.1f -> %.1f)" % (accuracy_opt_SQLDriller['all'] - accuracy_original_train['all'],
+            f.write(f"{pad(model)}\t{pad(dataset)}\t|\t")
+            f.write("%.1f (%.1f -> %.1f)\t|\t" % (accuracy_opt_SQLDriller['all'] - accuracy_original_train['all'],
                                                accuracy_original_train['all'], accuracy_opt_SQLDriller['all']))
-            f.write("\t%.1f (%.1f -> %.1f)" % (accuracy_opt_SQLDriller[level1] - accuracy_original_train[level1],
+            f.write("%.1f (%.1f -> %.1f)\t|\t" % (accuracy_opt_SQLDriller[level1] - accuracy_original_train[level1],
                                                accuracy_original_train[level1], accuracy_opt_SQLDriller[level1]))
-            f.write("\t%.1f (%.1f -> %.1f)" % (accuracy_opt_SQLDriller[level2] - accuracy_original_train[level2],
+            f.write("%.1f (%.1f -> %.1f)\t|\t" % (accuracy_opt_SQLDriller[level2] - accuracy_original_train[level2],
                                                accuracy_original_train[level2], accuracy_opt_SQLDriller[level2]))
-            f.write("\t%.1f (%.1f -> %.1f)" % (accuracy_opt_SQLDriller[level3] - accuracy_original_train[level3],
+            f.write("%.1f (%.1f -> %.1f)\t|\t" % (accuracy_opt_SQLDriller[level3] - accuracy_original_train[level3],
                                                accuracy_original_train[level3], accuracy_opt_SQLDriller[level3]))
             if benchmark == "Spider":
-                f.write("\t%.1f (%.1f -> %.1f)" % (accuracy_opt_SQLDriller[level4] - accuracy_original_train[level4],
+                f.write("%.1f (%.1f -> %.1f)" % (accuracy_opt_SQLDriller[level4] - accuracy_original_train[level4],
                                                    accuracy_original_train[level4], accuracy_opt_SQLDriller[level4]))
             else:
-                f.write("\t/")
+                f.write("/")
             f.write("\n")
 
 
