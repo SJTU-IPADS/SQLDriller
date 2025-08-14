@@ -62,7 +62,7 @@ echo 'OPENAI_API_BASE = "{your-api-url}"' >> .env
 ### 3. Resource Downloading:
 We have prepared the following resources for experiments, download them into project root dir `./`:
 - Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1FuK0PCCccmjyJQAiE-nlyIKZ2NMmL61y/view?usp=sharing).
-- Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1Rz9DncpVgikcJ2KotWXXR6OPh-TMa2hA/view?usp=sharing).
+- Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1k6JTWTWEqgFvF1x1VduWQR26IgTERYv_/view?usp=sharing).
 - Download the sqlite files of each schema of each benchmark:
   - [Spider link](https://drive.google.com/file/d/1-D-B389hBsr8ygzpoP5rr2_g8OohTsVS/view?usp=sharing), [BIRD link](https://drive.google.com/file/d/1XOXkmph5NYdMFkVLTC2BKASRfbIf4a2G/view?usp=sharing), [Beaver link](https://drive.google.com/file/d/1omf0uDAtXztwJceBPGMQC5PfdWkB-qN3/view?usp=sharing)
 
@@ -249,12 +249,23 @@ Then run the following command to summarize the accuracy improvements of all the
 ``` 
 
 In `./results/inference/`, view `accuracy_improvement.tsv` for a summary of accuracy improvements (refer to **Table 4** in the paper) and `Figure11_accuracy_improvement_breakdown.pdf` for accuracy improvement breakdown results (refer to **Figure 11** in the paper).
+View `./results/inference/{model_name}/*.tsv` for accuracy evaluation results of each model (the bottom line of each .tsv file shows overall accuracy result):
+```
+./results/inference/
+|-- {model_name}/   # accuracy results of each model
+  |-- {model_name}_original_train.tsv
+  |-- {model_name}_refined_train.tsv
+  |-- {model_name}_opt_SQLDriller.tsv
+  |-- {model_name}_opt_llmconsis.tsv
+|-- accuracy_improvement.tsv
+|-- Figure11_accuracy_improvement_breakdown.pdf
+```
 
 Note: for each model, it outputs 4 results of model accuracy: 
-- accuracy w/ original train set
-- accuracy w/ refined train set
-- accuracy w/ refined train set and SQLDriller's inference optimization
-- accuracy w/ refined train set and LLM consistency baseline's inference optimization
+- {model_name}_original_train.tsv: accuracy w/ original train set
+- {model_name}_refined_train.tsv: accuracy w/ refined train set
+- {model_name}_opt_SQLDriller.tsv: accuracy w/ refined train set and SQLdriller's optimization of model inference
+- {model_name}_opt_llmconsis.tsv: accuracy w/ refined train set and LLM consistency baseline's optimization of model inference
 
 
 ## Reference
