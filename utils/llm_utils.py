@@ -10,7 +10,7 @@ print("Config openai API KEY!")
 
 GPT_MAX_TRIALS = 5
 
-GPT_O1 = "o1-preview"
+GPT_O1 = "o1"
 GPT_4_TURBO = "gpt-4-turbo"  # gpt-4-turbo-2024-04-09
 GPT_4O = "gpt-4o"  # gpt-4o-2024-08-06
 GPT_3_5_TURBO = "gpt-3.5-turbo"
