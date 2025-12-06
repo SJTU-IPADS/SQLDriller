@@ -14,7 +14,7 @@ GPT_O1 = "o1"
 GPT_4_TURBO = "gpt-4-turbo"  # gpt-4-turbo-2024-04-09
 GPT_4O = "gpt-4o"  # gpt-4o-2024-08-06
 GPT_3_5_TURBO = "gpt-3.5-turbo"
-CLAUDE_3_5 = "claude-3-5"
+CLAUDE_3_5 = "anthropic/claude-3.5-sonnet"
 
 
 def gpt_reply_n(messages, model, n=1, temperature=1.0):

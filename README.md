@@ -139,11 +139,14 @@ Run the following scripts to perform Spider and BIRD's NL execution tasks on gen
 ./click_to_run/nl_exec.sh spider gpt-4-turbo
 ./click_to_run/nl_exec.sh bird gpt-4-turbo
 
-./click_to_run/nl_exec.sh spider o1-preview
-./click_to_run/nl_exec.sh bird o1-preview
+./click_to_run/nl_exec.sh spider o1
+./click_to_run/nl_exec.sh bird o1
+
+./click_to_run/nl_exec.sh spider anthropic/claude-3.5-sonnet
+./click_to_run/nl_exec.sh bird anthropic/claude-3.5-sonnet
 ```
 - The 1st parameter represents the benchmark name (Options: `spider`, `bird`).
-- The 2nd parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1-preview`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
+- The 2nd parameter represents the used LLM (Options: `gpt-4o`, `gpt-4-turbo`, `o1`, `anthropic/claude-3.5-sonnet`). It is set as `gpt-4o` by default due to its comparable performance and low cost and latency.
 
 All the related results are shown in `./results/nl_exec/{benchmark}_{LLM_name}/`. Check `nl_exec_accuracy.txt` of each subdirectory and refer to results of **Table 3** in the paper:
 ```
