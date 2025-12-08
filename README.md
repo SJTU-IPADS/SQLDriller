@@ -64,7 +64,7 @@ We have prepared the following resources for experiments, download them into pro
 - Download the prepared resource files for SQLDriller quick-start and result preview: [link](https://drive.google.com/file/d/1FuK0PCCccmjyJQAiE-nlyIKZ2NMmL61y/view?usp=sharing).
 - Download the prepared generated sqlite files for counter-example generation, accuracy evaluation, and NL execution microbenchmark: [link](https://drive.google.com/file/d/1k6JTWTWEqgFvF1x1VduWQR26IgTERYv_/view?usp=sharing).
 - Download the sqlite files of each schema of each benchmark:
-  - [Spider link](https://drive.google.com/file/d/1-D-B389hBsr8ygzpoP5rr2_g8OohTsVS/view?usp=sharing), [BIRD link](https://drive.google.com/file/d/1XOXkmph5NYdMFkVLTC2BKASRfbIf4a2G/view?usp=sharing), [Beaver link](https://drive.google.com/file/d/1omf0uDAtXztwJceBPGMQC5PfdWkB-qN3/view?usp=sharing)
+  - [Spider link](https://drive.google.com/file/d/1MFwQ-zl3h0H0Ldwf0H2LW2L_IFUxGwME/view?usp=sharing), [BIRD link](https://drive.google.com/file/d/1TzHfOOuNV449kOpGSLL9A3N04txU4oTT/view?usp=sharing), [Beaver link](https://drive.google.com/file/d/1_d96B23k9b0gaz3lnxzS9aL4QWr3iDaZ/view?usp=sharing)
 
 Unzip them by:
 ```shell
