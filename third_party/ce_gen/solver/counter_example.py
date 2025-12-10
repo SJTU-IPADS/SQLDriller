@@ -5,7 +5,7 @@ from third_party.ce_gen.solver.process_sql import find_col_related_literals, get
 from third_party.ce_gen.solver.app import VerieqlApp
 from sqlglot.optimizer.scope import build_scope
 from sqlglot.optimizer.qualify import qualify
-from utils.llm_utils import gpt_reply_n, GPT_3_5_TURBO
+from utils.llm_utils import gpt_reply_n, gpt_reply, GPT_3_5_TURBO
 import sqlite3
 
 generate_values_for_column_prompt_without_sql = \
@@ -58,7 +58,7 @@ def generate_values_for_column(tables: list,
                     if candidate_values is None:
                         prompt_without_sql = generate_values_for_column_prompt_without_sql % (table + str(schema[table]), col)
                         messages_without_sql = [{"role": "user", "content": prompt_without_sql}]
-                        candidate_values_without_sql = gpt_reply_n(messages_without_sql, model=GPT_3_5_TURBO)[0]
+                        candidate_values_without_sql = gpt_reply(messages_without_sql, model=GPT_3_5_TURBO)
                         candidate_values_list_without_sql = eval(candidate_values_without_sql)
                         if get_type_of_col(table, col, schema) in (DataType.INTEGER, DataType.NUMERIC):
                             candidate_values_list_without_sql = [eval(v.lstrip("0") if len(v) > 1 else v ) for v in candidate_values_list_without_sql]
