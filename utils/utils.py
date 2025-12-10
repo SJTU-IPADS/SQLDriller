@@ -8,7 +8,7 @@ from third_party.ce_gen.evaluation import evaluate_exec, exact_match
 from third_party.ce_gen.minimize_ce import minimize_ce
 from third_party.ce_gen.utils import exec_eval as EXEC_EVAL
 from .constants import *
-from .llm_utils import GPT_MAX_TRIALS, GPT_4_TURBO
+from .llm_utils import GPT_MAX_TRIALS, GPT_4_TURBO, GPT_4_1
 from .prompt_utils import exec_ce_by_gpt
 from .sql_utils import is_valid_sql
 
@@ -114,7 +114,7 @@ def get_gpt_nl_res_list(
         nlq,
         evidence=None,
         n=1,
-        gpt_model=GPT_4_TURBO) -> (list[list], list[str]):
+        gpt_model=GPT_4_1) -> (list[list], list[str]):
     trial = 0
     while trial < GPT_MAX_TRIALS:
         trial += 1

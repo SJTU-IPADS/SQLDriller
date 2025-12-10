@@ -4,7 +4,7 @@ from collections import OrderedDict
 import asyncio
 from .sql_utils import get_schema_properties
 from .sqlite_utils import exec_on_db_
-from .llm_utils import gpt_reply_n, GPT_4_TURBO
+from .llm_utils import gpt_reply_n, GPT_4_TURBO, GPT_4_1
 
 '''
 Prompt build-up functions
@@ -132,7 +132,7 @@ def exec_ce_by_gpt(
         nlq: str,
         evidence=None,
         n=1,
-        gpt_model=GPT_4_TURBO) -> (list[list], list[str]):
+        gpt_model=GPT_4_1) -> (list[list], list[str]):
     ce_prompt = encode_ce_prompt(data_info_prompt, nlq, evidence)
     messages = [{"role": "user", "content": ce_prompt}]
     res_list = asyncio.run(gpt_reply_n(messages, model=gpt_model, n=n))
