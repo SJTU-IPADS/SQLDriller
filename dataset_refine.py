@@ -301,11 +301,19 @@ def evaluate(args):
         total_case_num = end_id + 1
     print("Total number of cases: %d" % total_case_num)
 
+
+    with open(os.path.join(args.save_dir, args.modified_gold_save_file), 'r') as f:
+        lines = f.readlines()
+        processed_case_ids = [int(line.strip().split("\t")[0]) for line in lines]
+    
     # fixed_dataset_items = []
     for _, item in tqdm(enumerate(candidate_items)):
         case_id, db_id, nlq, gold = item['id'], item['db_id'], item['nlq'], item['gold']
         if (start_id >= 0 and case_id < start_id) or (end_id >= 0 and case_id > end_id):
             continue  # range of case id: [start_id, end_id]
+
+        if case_id in processed_case_ids:
+            continue  # already processed
 
         print("Check gold error for case %d" % case_id)
 
