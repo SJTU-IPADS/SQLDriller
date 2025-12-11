@@ -49,12 +49,11 @@ def gpt_reply(messages, model, temperature=1.0):
             temperature=temperature,
             n=1
         )
+        res = completions.choices[0].message.content
+        return res
     except Exception as e:
         print("GPT exception: %s" % e)
         return None
-    res = completions.choices[0].message.content
-
-    return res
 
 
 def gpt_reply_n_with_log_prob(messages, model, n=1, temperature=1.0):

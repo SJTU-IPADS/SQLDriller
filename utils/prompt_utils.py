@@ -1,5 +1,6 @@
 import os
 import re
+import math
 from collections import OrderedDict
 import asyncio
 from .sql_utils import get_schema_properties
@@ -140,13 +141,16 @@ def exec_ce_by_gpt(
     records_list = []
     has_exception_count = 0
     for res in res_list:
+        if res is None:
+            has_exception_count += 1
+            continue
         record, has_exception = extract_exec_res_from_gpt_res(res)
         if has_exception:
             has_exception_count += 1
         else:
             records_list.append(record)
 
-    if has_exception_count >= max(1, n//2):
+    if has_exception_count >= max(1, math.ceil(n/2)):
         raise Exception("Has exception in extracting result from GPT response.")
 
     return records_list, res_list
