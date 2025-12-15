@@ -59,7 +59,7 @@ def log_gpt_reply(log_dir,
     with open(os.path.join(log_subdir, f"exec_ce{instance_id}.log"), "w") as f:
         f.write("----------CURRENT_PROMPT----------\n" + prompt + "\n")
         for i in range(len(reply_list)):
-            f.write("----------REPLY %d----------\n" % i + reply_list[i] + "\n")
+            f.write("----------REPLY %d----------\n" % i + str(reply_list[i]) + "\n")
         f.write("----------END----------\n")
 
 
